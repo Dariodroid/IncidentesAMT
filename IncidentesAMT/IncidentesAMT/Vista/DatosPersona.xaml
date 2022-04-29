@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IncidentesAMT.DatosPersona" Title="Regístro de Usuarios">
+    <ContentPage.Content>
+        
+        <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Image Source="https://www.pinclipart.com/picdir/middle/336-3368860_xamarin-xamarin-forms-logo-png-clipart.png" Grid.Column="0" Grid.Row="0"/>
+            </Grid>
+            
+
+            <Label Text="Agencia Metropolitana de Tránsito" HorizontalOptions="Center" FontSize="Medium"/>
+            <Entry x:Name="txtCedula" Keyboard="Numeric" Placeholder="Cédula"/>
+            <Entry x:Name="txtNombres" Placeholder="Nombres"/>
+            <Entry x:Name="txtApellidos" Placeholder="Apellidos"/>
+            <Entry x:Name="txtCorreo" Placeholder="Correo"/>
+            <Entry x:Name="txtCelular" Keyboard="Numeric" Placeholder="Celular"/>
+
+            <Button x:Name="btnSiguiente" Text="Siguiente" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnSiguiente_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

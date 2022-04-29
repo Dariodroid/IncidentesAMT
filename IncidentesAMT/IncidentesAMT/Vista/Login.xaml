@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IncidentesAMT.Login" Title="Inicio de sesión">
+    <ContentPage.Content>
+        <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
+                <Image Source="https://www.pinclipart.com/picdir/middle/336-3368860_xamarin-xamarin-forms-logo-png-clipart.png"/>
+                <Label Text="Agencia Metropolitana de Tránsito" HorizontalOptions="Center" FontSize="Medium"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                
+                <Entry x:Name="txtUser" Grid.Column="0" Grid.Row="2" Placeholder="Usuario"/>
+                <Entry x:Name="txtPassword" Grid.Column="0" Grid.Row="3" Placeholder="Password"/>
+
+            </Grid>
+            <Button x:Name="btnLogin" Text="Iniciar sesion" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnLogin_Clicked"/>
+            <Label Text="No dispone de una cuenta ?" HorizontalOptions="Center" FontSize="Small"/>
+            <Button x:Name="btnCrearCunenta" 
+                    Text="Crear cuenta" 
+                    BackgroundColor="Transparent" 
+                    HorizontalOptions="Center" 
+                    TextColor="#2196F3" 
+                    FontSize="Micro"
+                    Clicked="btnCrearCunenta_Clicked"
+                    />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

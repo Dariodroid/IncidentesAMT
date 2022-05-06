@@ -29,10 +29,11 @@
 
                 <CheckBox x:Name="chkTerminosyCond" Grid.Row="5" Grid.Column="0"/>
                 <Label Text="Terminos y condicónes" VerticalOptions="Center" Grid.Row="5" Grid.Column="1"/>
-            <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0" BackgroundColor="#2196F3" CornerRadius="50"/>
+                <Label x:Name="lblPath" Text="{Binding PathFoto}" Grid.ColumnSpan="2" IsVisible="false"></Label>
+                <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" TextTransform="None" Grid.Row="3" Command="{Binding CapturarCommand}" Clicked="btnAddFoto_Clicked" Grid.ColumnSpan="2" Grid.Column="0" BackgroundColor="#2196F3" CornerRadius="50"/>
             </Grid>
 
-            <Button x:Name="btnRegistrar" Text="Registrarse" BackgroundColor="#2196F3" CornerRadius="50"/>
+            <Button x:Name="btnRegistrar" Text="Registrarse" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnRegistrar_Clicked"/>
 
         </StackLayout>
     </ContentPage.Content>

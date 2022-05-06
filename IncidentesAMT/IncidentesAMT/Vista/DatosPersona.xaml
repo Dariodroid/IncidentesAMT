@@ -24,7 +24,7 @@
             <Entry x:Name="txtCorreo" Placeholder="Correo"/>
             <Entry x:Name="txtCelular" Keyboard="Numeric" Placeholder="Celular"/>
 
-            <Button x:Name="btnSiguiente" Text="Siguiente" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnSiguiente_Clicked"/>
+            <Button x:Name="btnSiguiente" Text="Siguiente" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnSiguiente_Clicked"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

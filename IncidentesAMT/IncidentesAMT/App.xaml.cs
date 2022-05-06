@@ -1,6 +1,7 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using IncidentesAMT.Helpers;
 
 namespace IncidentesAMT
 {
@@ -9,7 +10,9 @@ namespace IncidentesAMT
         public App()
         {
             InitializeComponent();
-
+            
+            new GeoLocation().getLocationGPS();
+            new NetworkState().iHaveInternet();
             MainPage = new NavigationPage(new Login());
         }
 
@@ -24,5 +27,8 @@ namespace IncidentesAMT
         protected override void OnResume()
         {
         }
+
+
+
     }
 }

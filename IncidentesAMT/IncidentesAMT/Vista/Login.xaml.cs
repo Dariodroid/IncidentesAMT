@@ -18,9 +18,9 @@ namespace IncidentesAMT
             InitializeComponent();
         }
 
-        private void btnLogin_Clicked(object sender, EventArgs e)
+        private async void btnLogin_Clicked(object sender, EventArgs e)
         {
-            
+            await Navigation.PushAsync(new Menu());
         }
 
         private async void btnCrearCunenta_Clicked(object sender, EventArgs e)

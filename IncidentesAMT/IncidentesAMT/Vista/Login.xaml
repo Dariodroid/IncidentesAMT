@@ -23,10 +23,11 @@
                 <Entry x:Name="txtPassword" Grid.Column="0" Grid.Row="3" Placeholder="Password"/>
 
             </Grid>
-            <Button x:Name="btnLogin" Text="Iniciar sesion" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnLogin_Clicked"/>
+            <Button x:Name="btnLogin" Text="Iniciar sesion" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnLogin_Clicked"/>
             <Label Text="No dispone de una cuenta ?" HorizontalOptions="Center" FontSize="Small"/>
             <Button x:Name="btnCrearCunenta" 
                     Text="Crear cuenta" 
+                    TextTransform="None"
                     BackgroundColor="Transparent" 
                     HorizontalOptions="Center" 
                     TextColor="#2196F3" 

@@ -16,6 +16,7 @@ namespace MvvmGuia.VistaModelo
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nombre));
         }
+
         private ImageSource foto;
         public ImageSource Foto
         {

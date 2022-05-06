@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             x:Class="IncidentesAMT.Vista.Incidente" Title="Reportar incidente">
+    <ContentPage.Content>
+        <StackLayout>
+            <StackLayout HeightRequest="320">
+                <maps:Map x:Name="MapView"/>
+            </StackLayout>
+            <StackLayout Padding="10">                
+                <Label Text="Calles de referencia:" FontSize="Subtitle"></Label>
+                <Entry x:Name="txtDireccion"></Entry>
+                <Label Text="Descripción:" FontSize="Subtitle"></Label>
+                <Editor x:Name="txtDescripsion" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120"></Editor>
+
+                <Button Text="Añadir fotos" TextTransform="None" CornerRadius="50" BackgroundColor="#2196F3" Margin="10" HorizontalOptions="Center" Command="{Binding CapturarCommand}"></Button>
+                <Button Text="Registrar" TextTransform="None" CornerRadius="50" Margin="20" BackgroundColor="#ff0000" Clicked="Button_Clicked"></Button>
+               
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

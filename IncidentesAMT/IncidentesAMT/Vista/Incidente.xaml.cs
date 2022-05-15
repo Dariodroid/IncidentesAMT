@@ -10,23 +10,22 @@ using IncidentesAMT.Helpers;
 using Xamarin.Forms.GoogleMaps;
 using IncidentesAMT.Modelo;
 using IncidentesAMT.VistaModelo;
+using System.Net.Http;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace IncidentesAMT.Vista
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Incidente : ContentPage
     {
-        //private string _direccion;
-        //private double _latitud;
-        //private double _longitud;
-        //private string _persona;
-        //private string _fotoUno;
-        //private string _fotoDos;
-
-
         GeoLocation geoLocation = new GeoLocation();
-        public Incidente()
+        string _idPersona;
+        string _idIncidente;
+        public Incidente(string idPersona, string idIncidente)//falta pasar el tipo de incidente al constructor
         {
+            _idIncidente = idIncidente; 
+            _idPersona = idPersona;
             InitializeComponent();
             configMap();
             moveToActualPosition();
@@ -53,18 +52,40 @@ namespace IncidentesAMT.Vista
             });
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
-            IncidenteModel incidente = new IncidenteModel()
+            try
             {
-                direccion = txtDireccion.Text,
-                latitud = GeoLocation.lat,
-                longitud = GeoLocation.lng,
-                persona = "idpersona",
-                fotoUno = "foto1",
-                fotoDos = "foto2"
+                IncidenteModel incidente = new IncidenteModel()
+                {
+                    direccion = txtDireccion.Text,
+                    latitud = GeoLocation.lat,
+                    longitud = GeoLocation.lng,
+                    persona = _idPersona,
+                    fotoUno = ConvertImgBase64.ConvertImgToBase64(lblPath.Text),
+                    fotoDos = "hjjdsksdiffdjjfj",
+                    tipoIncidente = _idIncidente
+                };
 
-            };
+                Uri RequestUri = new Uri("http://192.168.16.33:3000/incidentes/");
+                var client = new HttpClient();
+                var json = JsonConvert.SerializeObject(incidente);
+                var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(RequestUri, contentJson);
+                if (response.StatusCode == HttpStatusCode.Created)
+                {
+                    await DisplayAlert("Mensaje", "Incidente Registrado correctamente", "Ok");
+                }
+                else
+                {
+                    await DisplayAlert("Error", response.StatusCode.ToString(), "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "ok");
+            }
+
         }
     }
 }

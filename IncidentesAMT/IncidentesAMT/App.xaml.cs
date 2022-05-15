@@ -10,7 +10,7 @@ namespace IncidentesAMT
         public App()
         {
             InitializeComponent();
-            
+
             new GeoLocation().getLocationGPS();
             new NetworkState().iHaveInternet();
             MainPage = new NavigationPage(new Login());

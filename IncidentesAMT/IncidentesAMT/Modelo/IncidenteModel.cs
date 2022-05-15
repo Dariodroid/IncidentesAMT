@@ -12,5 +12,6 @@ namespace IncidentesAMT.Modelo
         public string persona { get; set; }
         public string fotoUno { get; set; }
         public string fotoDos { get; set; }
+        public string tipoIncidente { get; set; }
     }
 }

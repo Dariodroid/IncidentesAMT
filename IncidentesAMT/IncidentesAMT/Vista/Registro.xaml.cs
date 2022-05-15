@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net;
 using System.IO;
 using IncidentesAMT.VistaModelo;
+using IncidentesAMT.Helpers;
 
 namespace IncidentesAMT
 {
@@ -40,7 +41,7 @@ namespace IncidentesAMT
         {
             try
             {
-                _path = ConvertImgToBase64(lblPath.Text);
+                _path = ConvertImgBase64.ConvertImgToBase64(lblPath.Text);
                 _archivo = _path;
 
                 PersonaModel persona = new PersonaModel
@@ -56,7 +57,7 @@ namespace IncidentesAMT
 
                 };
 
-                Uri RequestUri = new Uri("http://192.168.16.35:3000/personas/createPersona");
+                Uri RequestUri = new Uri("http://192.168.16.33:3000/personas/createPersona");
                 var client = new HttpClient();
                 var json = JsonConvert.SerializeObject(persona);
                 var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -75,14 +76,7 @@ namespace IncidentesAMT
                await DisplayAlert("Error",ex.Message, "Cerrar");
             }
            
-        }
-
-        private string ConvertImgToBase64(string path)
-        {
-            byte[] ImageData = File.ReadAllBytes(path);
-            string base64String = Convert.ToBase64String(ImageData);
-            return base64String;
-        }
+        }        
 
         private void btnAddFoto_Clicked(object sender, EventArgs e)
         { 

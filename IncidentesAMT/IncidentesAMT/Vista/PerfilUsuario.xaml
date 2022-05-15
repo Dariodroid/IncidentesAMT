@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IncidentesAMT.Vista.PerfilUsuario" Title="Perfil de usuario">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BorderColor="Gray"
+                   CornerRadius="5"
+                   Padding="20">
+                <StackLayout>
+                    <Label Text="Usuario Test"
+                        FontSize="Medium"
+                        FontAttributes="Bold" />
+                    <BoxView Color="Gray"
+                        HeightRequest="2"
+                        HorizontalOptions="Fill" />
+                    <Label Text="0991094096"/>
+                    <Label Text="test@test.com"/>
+                </StackLayout>
+            </Frame>
+
+            <StackLayout Margin="9">
+                <Button x:Name="btnDatosPersonales" Text="Datos personales" Clicked="btnDatosPersonales_Clicked" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                <Button Text="Incidentes registrados" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                <Button Text="Acuerdo de responsabilidad" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                <Button x:Name="btnCerrarSesion" Text="Cerrar sesión" Clicked="btnCerrarSesion_Clicked" TextTransform="None" HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Blue"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

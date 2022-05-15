@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="IncidentesAMT.Login" Title="Inicio de sesión">
+             x:Class="IncidentesAMT.Login" Title="Inicio de sesión"  NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
                 <Image Source="https://www.pinclipart.com/picdir/middle/336-3368860_xamarin-xamarin-forms-logo-png-clipart.png"/>
@@ -16,22 +16,27 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
+
+                <Entry x:Name="txtUser" Grid.ColumnSpan="2" Grid.Row="2" Placeholder="Usuario"/>
+                <Entry x:Name="txtPassword" IsPassword="True" Grid.ColumnSpan="2" Grid.Row="3" Placeholder="Password"/>
                 
-                <Entry x:Name="txtUser" Grid.Column="0" Grid.Row="2" Placeholder="Usuario"/>
-                <Entry x:Name="txtPassword" Grid.Column="0" Grid.Row="3" Placeholder="Password"/>
+                <Switch x:Name="RememberStw" Grid.Column="0" Grid.Row="4" HorizontalOptions="End" ThumbColor="HotPink" OnColor="Pink"/>
+                <Label Text="Recordar usuario" Grid.Column="0" Grid.Row="4" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
 
             </Grid>
             <Button x:Name="btnLogin" Text="Iniciar sesion" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnLogin_Clicked"/>
             <Label Text="No dispone de una cuenta ?" HorizontalOptions="Center" FontSize="Small"/>
             <Button x:Name="btnCrearCunenta" 
+                    Padding="0,0,0,30" 
                     Text="Crear cuenta" 
                     TextTransform="None"
                     BackgroundColor="Transparent" 
                     HorizontalOptions="Center" 
                     TextColor="#2196F3" 
-                    FontSize="Micro"
+                    FontSize="Small"
                     Clicked="btnCrearCunenta_Clicked"
                     />
 

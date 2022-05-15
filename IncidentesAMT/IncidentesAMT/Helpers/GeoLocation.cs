@@ -16,8 +16,12 @@ namespace IncidentesAMT.Helpers
         {
             try
             {
-                var request = new GeolocationRequest(GeolocationAccuracy.Medium);
-                var location = await Geolocation.GetLocationAsync(request);
+                var request = new GeolocationRequest(GeolocationAccuracy.Best);
+                var location = await Geolocation.GetLocationAsync(new GeolocationRequest()
+                {
+                    DesiredAccuracy = GeolocationAccuracy.Best,
+                    Timeout = TimeSpan.FromSeconds(30)
+                });
                 if (location != null)
                 {
                     lat = location.Latitude;    

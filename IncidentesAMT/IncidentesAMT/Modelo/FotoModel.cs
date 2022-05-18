@@ -7,21 +7,14 @@ using Xamarin.Forms;
 
 namespace IncidentesAMT.Modelo
 {
-    public class FotoModel : INotifyPropertyChanged
+    public class FotoModel
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPorpertyChanged([CallerMemberName] string nombre = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nombre));
-        }
-
         private ImageSource _foto;
 
         public ImageSource Foto
         {
             get { return _foto; }
-            set { _foto = value; OnPorpertyChanged(); }
+            set { _foto = value;}
         }
 
         private string _pathFoto;
@@ -29,7 +22,7 @@ namespace IncidentesAMT.Modelo
         public string PathFoto
         {
             get { return _pathFoto; }
-            set { _pathFoto = value; OnPorpertyChanged(); }
+            set { _pathFoto = value; }
         }
 
 

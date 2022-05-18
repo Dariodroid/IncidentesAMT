@@ -109,7 +109,7 @@ namespace IncidentesAMT
             {
                 await DisplayAlert("Error", ex.Message.ToString(), "ok");
             }
-}
+        }
 
         private async void cwIncidentes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

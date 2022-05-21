@@ -20,34 +20,34 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Vista\RegistrarPersona.xaml.cs">
+    <Compile Update="View\RegistrarPersona.xaml.cs">
       <DependentUpon>RegistrarPersona.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Vista\DatosPersonales.xaml">
+    <EmbeddedResource Update="View\DatosPersonales.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Vista\Incidente.xaml">
+    <EmbeddedResource Update="View\Incidente.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Vista\Menu.xaml">
+    <EmbeddedResource Update="View\Menu.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Vista\AcuerdoResposabilidad.xaml">
+    <EmbeddedResource Update="View\AcuerdoResposabilidad.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Vista\RegistrarPersona.xaml">
+    <EmbeddedResource Update="View\RegistrarPersona.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Vista\Login.xaml">
+    <EmbeddedResource Update="View\Login.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Vista\PerfilUsuario.xaml">
+    <EmbeddedResource Update="View\PerfilUsuario.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Vista\Registro.xaml">
+    <EmbeddedResource Update="View\Registro.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -1,8 +1,10 @@
 ﻿using IncidentesAMT.Modelo;
 using IncidentesAMT.Vista;
+using IncidentesAMT.VistaModelo;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -18,15 +20,21 @@ namespace IncidentesAMT
     public partial class Menu : ContentPage
     {
         private string _idUser;
-        private List<CatalogoXIdModelo> catalogoXIdModelo;
-        private List<IncidenteByPersonaModel> incidenteByPersonaModel;
+        private List<CatalogoXIdModel> catalogoXIdModelo;
+        private ObservableCollection<IncidenteByPersonaModel> incidenteByPersonaModel;
+        MenuViewModel MenuViewModel;
         public Menu( string idUser)
         {
+            
+            InitializeComponent(); 
             _idUser = idUser;
-            GetIncidentePersonaById();
-            GetPersonaById();
+           //  MenuViewModel = new MenuViewModel(_idUser);
+
+            BindingContext = new MenuViewModel(_idUser);//esta mal estructurado tu MVVM
+            //GetIncidentePersonaById();
+            //GetPersonaById();
             GetCatalogoXId();
-            InitializeComponent();            
+            //verf();
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -49,41 +57,35 @@ namespace IncidentesAMT
             }
         }//metodo para obtener una persona x su id
 
-        private async void GetIncidentePersonaById()
+        private void verf()
         {
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://192.168.16.33:3000/incidentes/findByIdPersona/" + _idUser);
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accpet", "application/json");
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                string content = await response.Content.ReadAsStringAsync();
-                incidenteByPersonaModel = JsonConvert.DeserializeObject<List<IncidenteByPersonaModel>>(content);
-            }
+            //incidenteByPersonaModel = MenuViewModel.GetIncidentePersonaById(_idUser);
 
             if (incidenteByPersonaModel != null)
             {
                 for (int i = 0; i < incidenteByPersonaModel.Count; i++)
                 {
-                    if(incidenteByPersonaModel[i].estado.ToString() == "GEN") {
+                    if (incidenteByPersonaModel[i].estado.ToString() == "GEN")
+                    {
+                        DisplayAlert("", incidenteByPersonaModel[i].estado.ToString(), "");
                         frmActivos.IsVisible = true;
                         int cont = 0;
-                        cont+=1;
-                        lblIncActivos.Text = $"{cont} Incidente{(cont > 1 ? "s" : "")} activo{(cont > 1 ? "s":"")}";
-                        return;
+                        cont += 1;
+                        lblIncActivos.Text = $"{cont} Incidente{(cont > 1 ? "s" : "")} activo{(cont > 1 ? "s" : "")}";
+                        //return 1;
                     }
 
                     if (incidenteByPersonaModel[i].estado.ToString() == "FAL")
                     {
                         frmFalsos.IsVisible = true;
                         int cont = 0;
-                        cont += 1;                           
+                        cont += 1;
                         lblIncActivos.Text = $"{cont} Incidente{(cont > 1 ? "s" : "")} falso{(cont > 1 ? "s" : "")}";
-                        return;
+                        //return 1;
                     }
+
                 }
+                //return 0;
             }
         }
 
@@ -100,7 +102,7 @@ namespace IncidentesAMT
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
                     string content = await response.Content.ReadAsStringAsync();
-                    catalogoXIdModelo = JsonConvert.DeserializeObject<List<CatalogoXIdModelo>>(content);
+                    catalogoXIdModelo = JsonConvert.DeserializeObject<List<CatalogoXIdModel>>(content);
                     cwIncidentes.ItemsSource = catalogoXIdModelo;
 
                 }
@@ -113,7 +115,7 @@ namespace IncidentesAMT
 
         private async void cwIncidentes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var itemselectd = e.CurrentSelection[0] as CatalogoXIdModelo;
+            var itemselectd = e.CurrentSelection[0] as CatalogoXIdModel;
             if(itemselectd != null)
             {
                 await Navigation.PushAsync(new Incidente(_idUser, itemselectd._id));

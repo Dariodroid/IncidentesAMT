@@ -41,8 +41,8 @@ namespace IncidentesAMT
         {
             try
             {
-                _path = ConvertImgBase64.ConvertImgToBase64(lblPath.Text);
-                _archivo = _path;
+                //_path = ConvertImgBase64.ConvertImgToBase64(lblPath.Text);
+                //_archivo = _path;
 
                 PersonaModel persona = new PersonaModel
                 {
@@ -53,7 +53,7 @@ namespace IncidentesAMT
                     nacionalidad = _nacionalidad,
                     correo = _correo,
                     password = txtConfirmarPassword.Text,
-                    fotoCedula = _archivo
+                    fotoCedula = ConvertImgBase64.ConvertImgToBase64(lblPath.Text)
 
                 };
 

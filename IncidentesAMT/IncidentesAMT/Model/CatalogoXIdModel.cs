@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IncidentesAMT.Modelo
 {
-    public class CatalogoXIdModelo
+    public class CatalogoXIdModel
     {
         public string _id { get; set; }
         public string idPadre { get; set; }

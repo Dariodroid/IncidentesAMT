@@ -16,13 +16,13 @@
 
             <StackLayout Margin="3" Padding="10">
                 <Label Text="Notificaciónes" FontSize="Subtitle" TextTransform="Uppercase" FontAttributes="Bold" Padding="0,0,0,9" ></Label>
-                
-                <Frame x:Name="frmFalsos" IsVisible="false" BorderColor="Chocolate"
+
+                <Frame x:Name="frmFalsos" IsVisible="{Binding FrmFalsos}" BorderColor="Chocolate"
                            CornerRadius="5"
                            Padding="8">
                     <StackLayout>
                         <Label x:Name="lblIncFalsos" 
-                               Text="Incidentes falsos"
+                               Text="{Binding Lblfalso}"
                                FontSize="Medium"
                                HorizontalOptions="Center"
                                FontAttributes="Bold" />
@@ -33,12 +33,12 @@
                     </StackLayout>
                 </Frame>
 
-                <Frame x:Name="frmActivos" IsVisible="false" BorderColor="Chocolate"
+                <Frame x:Name="frmActivos" IsVisible="{Binding FrmActivos}" BorderColor="Chocolate"
                            CornerRadius="5"
                            Padding="8">
                     <StackLayout>
                         <Label x:Name="lblIncActivos" 
-                               Text="Incidentes activos"
+                               Text="{Binding LblIncActivos}"
                                FontSize="Medium"
                                HorizontalOptions="Center"
                                FontAttributes="Bold" />
@@ -52,7 +52,7 @@
                 <BoxView HorizontalOptions="FillAndExpand" WidthRequest="1" Color="Gray" HeightRequest="1" Margin="0,15,0,15"/>
                 <Label Text="Reportar Incidente" FontSize="Subtitle" FontAttributes="Bold" TextTransform="Uppercase" Padding="0,0,0,9"></Label>
 
-                <CollectionView x:Name="cwIncidentes"
+                <CollectionView x:Name="cwIncidentes" 
                     ItemsLayout="VerticalGrid, 2" SelectionMode="Single" SelectionChanged="cwIncidentes_SelectionChanged">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>

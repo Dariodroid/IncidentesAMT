@@ -5,16 +5,33 @@ using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 using IncidentesAMT.Helpers;
+using IncidentesAMT.ViewModel;
 
 namespace IncidentesAMT.VistaModelo
 {
-    public class FotoViewModel:FotoModel
+    public class FotoViewModel:BaseViewModel
     {
         public Command CapturarCommand { get; set; }
 
         public FotoViewModel()
         {
             CapturarCommand = new Command(TomarFoto);
+        }
+
+        private ImageSource _foto;
+
+        public ImageSource Foto
+        {
+            get { return _foto; }
+            set { _foto = value; OnPropertyChanged(); }
+        }
+
+        private string _pathFoto;
+
+        public string PathFoto
+        {
+            get { return _pathFoto; }
+            set { _pathFoto = value; OnPropertyChanged(); }
         }
 
         private async void TomarFoto()

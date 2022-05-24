@@ -1,4 +1,5 @@
-﻿using IncidentesAMT.Modelo;
+﻿using IncidentesAMT.Model;
+using IncidentesAMT.Modelo;
 using IncidentesAMT.ViewModel;
 using Newtonsoft.Json;
 using System;
@@ -18,16 +19,15 @@ namespace IncidentesAMT.VistaModelo
         public MenuViewModel(string idUser)
         {
             GetIncidentePersonaById(idUser);
-            //VerificarNotif();
             FrmFalsos = false;
             FrmActivos = false;
         }
         #region VARIABLES
-        private ObservableCollection<IncidenteByPersonaModel> _incidenteByPersonaModel;
-        string _lblIncActivos;
-        string _lblfalso;
-        bool _frmActivos;
-        bool _frmFalsos;
+            private ObservableCollection<IncidenteByPersonaModel> _incidenteByPersonaModel;
+            string _lblIncActivos;
+            string _lblfalso;
+            bool _frmActivos;
+            bool _frmFalsos;
         #endregion
         #region OBJETOS
         public bool FrmFalsos
@@ -55,6 +55,9 @@ namespace IncidentesAMT.VistaModelo
             get { return _incidenteByPersonaModel; }
             set { _incidenteByPersonaModel = value; OnPropertyChanged(); }
         }
+
+        
+
         #endregion
 
 
@@ -77,34 +80,27 @@ namespace IncidentesAMT.VistaModelo
         }
         private void VerificarNotif()
         {
-            //incidenteByPersonaModel = MenuViewModel.GetIncidentePersonaById(_idUser);
-
+            int contgen = 0;
+            int contfal = 0;
             if (IncidenteByPersonaModel != null)
             {
                 for (int i = 0; i < IncidenteByPersonaModel.Count; i++)
                 {
                     if (IncidenteByPersonaModel[i].estado.ToString() == "GEN")
                     {
-                        // DisplayAlert("", incidenteByPersonaModel[i].estado.ToString(), "");
                         FrmActivos = true;
-                        int cont = 0;
-                        cont += 1;
-                        // son iguales los lblIncactivos o cual es el False
-                        LblIncActivos = $"{cont} Incidente{(cont > 1 ? "s" : "")} activo{(cont > 1 ? "s" : "")}";
-                        //return 1;
+                        contgen += 1;
+                        LblIncActivos = $"{contgen} Incidente{(contgen > 1 ? "s" : "")} activo{(contgen > 1 ? "s" : "")}";
                     }
 
                     if (IncidenteByPersonaModel[i].estado.ToString() == "FAL")
                     {
                         FrmFalsos = true;
-                        int cont = 0;
-                        cont += 1;
-                        Lblfalso = $"{cont} Incidente{(cont > 1 ? "s" : "")} falso{(cont > 1 ? "s" : "")}";
-                        //return 1;
+                        contfal += 1;
+                        Lblfalso = $"{contfal} Incidente{(contfal > 1 ? "s" : "")} falso{(contfal > 1 ? "s" : "")}";
                     }
 
                 }
-                //return 0;
             }
         }
     }

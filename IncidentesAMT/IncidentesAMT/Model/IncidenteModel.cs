@@ -13,5 +13,6 @@ namespace IncidentesAMT.Modelo
         public string fotoUno { get; set; }
         public string fotoDos { get; set; }
         public string tipoIncidente { get; set; }
+        public string descripcion { get; set; }
     }
 }

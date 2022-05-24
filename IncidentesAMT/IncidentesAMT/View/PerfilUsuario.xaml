@@ -21,7 +21,7 @@
 
             <StackLayout Margin="9">
                 <Button x:Name="btnDatosPersonales" Text="Datos personales" Clicked="btnDatosPersonales_Clicked" HeightRequest="60" Margin="10" CornerRadius="50"/>
-                <Button Text="Incidentes registrados" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                <Button x:Name="btnIncidentes" Text="Incidentes registrados" Clicked="btnIncidentes_Clicked" HeightRequest="60" Margin="10" CornerRadius="50"/>
                 <Button Text="Acuerdo de responsabilidad" HeightRequest="60" Margin="10" CornerRadius="50"/>
                 <Button x:Name="btnCerrarSesion" Text="Cerrar sesión" Clicked="btnCerrarSesion_Clicked" TextTransform="None" HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Blue"/>
             </StackLayout>

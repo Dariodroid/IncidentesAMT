@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IncidentesAMT.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,16 @@ namespace IncidentesAMT.Vista
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PerfilUsuario : ContentPage
     {
-        public PerfilUsuario()
+        string _idUser;
+        public PerfilUsuario(string idUser)
         {
             InitializeComponent();
+            _idUser = idUser;
         }
 
         private async void btnDatosPersonales_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new DatosPersonales());
+            await Navigation.PushAsync(new DatosPersonales(_idUser));
         }
 
         private async void btnCerrarSesion_Clicked(object sender, EventArgs e)
@@ -28,6 +31,11 @@ namespace IncidentesAMT.Vista
             Preferences.Clear();
             var login = new Login();
             await Navigation.PushAsync(login,true);
+        }
+
+        private async void btnIncidentes_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new IncidenteByUsuario(_idUser));
         }
     }
 }

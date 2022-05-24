@@ -2,34 +2,53 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IncidentesAMT.Vista.DatosPersonales" Title="Datos personales">
-    <ContentPage.Content>
-        <StackLayout>
-            <StackLayout Padding="40">
-                <Image Source="user.jpg"
-                       WidthRequest="100"   
-                       HeightRequest="100"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center">    
-                    <Image.Clip>
-                        <EllipseGeometry
-                        Center="50,50"
-                        RadiusX="50"
-                        RadiusY="50"/>  
-                    </Image.Clip>
-                </Image>
-                <Label Text="Usuario Test" HorizontalOptions="Center" FontSize="Title"/>
-                <Label Text="9928734859" HorizontalOptions="Center"/>
+   <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Padding="40">
+                    <Image Source="user.jpg"
+                           x:Name="imgUser"
+                           WidthRequest="100"   
+                           HeightRequest="100"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center">
+                        <Image.Clip>
+                            <EllipseGeometry
+                            Center="50,50"
+                            RadiusX="50"
+                            RadiusY="50"/>
+                        </Image.Clip>
+                    </Image>
+                    <Label x:Name="lblName" HorizontalOptions="Center" FontSize="Title">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                                <Binding Path="nombres" />
+                                <Binding Path="apellidos" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
 
-            </StackLayout>
+                    <Label Text="{Binding correo}" HorizontalOptions="Center"/>
+
+                </StackLayout>
                 <!--<BoxView HorizontalOptions="FillAndExpand" WidthRequest="1" Margin="10" Color="Gray" HeightRequest="1" />-->
-            <StackLayout Padding="5,5,5,0">
-                <Entry Placeholder="Usuario"/>
-                    <Entry Placeholder="Celular"/>
-                    <Entry Placeholder="Dirección Domicilio"/>
-                    <Button Text="Foto cédula" HorizontalOptions="Center" CornerRadius="50"/>
-                    <Button Text="Actualizar" HorizontalOptions="Fill" CornerRadius="50"/>                
-                
+                <StackLayout Padding="5,5,5,0">
+                    <Entry x:Name="txtTelefono" Placeholder="Celular" Text="{Binding telefono}"/>
+                    <Entry x:Name="txtDireccion" Placeholder="Dirección Domicilio" Text="{Binding direccion}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="230"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="fotocedula" Source="{Binding PathFoto}" Grid.Row="0" Grid.Column="0"></Image>
+                    </Grid>
+                    <Button x:Name="btnFoto" Text="Foto cédula" Clicked="btnFoto_Clicked" HorizontalOptions="Center" CornerRadius="50"/>
+                    <Button x:Name="btnActualizar" Text="Actualizar" Clicked="btnActualizar_Clicked" HorizontalOptions="Fill" CornerRadius="50"/>
+
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

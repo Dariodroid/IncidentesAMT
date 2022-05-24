@@ -1,4 +1,5 @@
-﻿using IncidentesAMT.Modelo;
+﻿using IncidentesAMT.Model;
+using IncidentesAMT.Modelo;
 using IncidentesAMT.Vista;
 using IncidentesAMT.VistaModelo;
 using Newtonsoft.Json;
@@ -21,74 +22,21 @@ namespace IncidentesAMT
     {
         private string _idUser;
         private List<CatalogoXIdModel> catalogoXIdModelo;
-        private ObservableCollection<IncidenteByPersonaModel> incidenteByPersonaModel;
-        MenuViewModel MenuViewModel;
+
         public Menu( string idUser)
         {
-            
             InitializeComponent(); 
             _idUser = idUser;
-           //  MenuViewModel = new MenuViewModel(_idUser);
 
-            BindingContext = new MenuViewModel(_idUser);//esta mal estructurado tu MVVM
-            //GetIncidentePersonaById();
-            //GetPersonaById();
+            BindingContext = new MenuViewModel(_idUser);
             GetCatalogoXId();
-            //verf();
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new PerfilUsuario());
+            await Navigation.PushAsync(new PerfilUsuario(_idUser));
         }
-
-        private async void GetPersonaById()
-        {
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://192.168.16.33:3000/personas/" + _idUser);
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accpet", "application/json");
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                string content = await response.Content.ReadAsStringAsync();
-                InfoUserModel infoUserModel = JsonConvert.DeserializeObject<InfoUserModel>(content);
-            }
-        }//metodo para obtener una persona x su id
-
-        private void verf()
-        {
-            //incidenteByPersonaModel = MenuViewModel.GetIncidentePersonaById(_idUser);
-
-            if (incidenteByPersonaModel != null)
-            {
-                for (int i = 0; i < incidenteByPersonaModel.Count; i++)
-                {
-                    if (incidenteByPersonaModel[i].estado.ToString() == "GEN")
-                    {
-                        DisplayAlert("", incidenteByPersonaModel[i].estado.ToString(), "");
-                        frmActivos.IsVisible = true;
-                        int cont = 0;
-                        cont += 1;
-                        lblIncActivos.Text = $"{cont} Incidente{(cont > 1 ? "s" : "")} activo{(cont > 1 ? "s" : "")}";
-                        //return 1;
-                    }
-
-                    if (incidenteByPersonaModel[i].estado.ToString() == "FAL")
-                    {
-                        frmFalsos.IsVisible = true;
-                        int cont = 0;
-                        cont += 1;
-                        lblIncActivos.Text = $"{cont} Incidente{(cont > 1 ? "s" : "")} falso{(cont > 1 ? "s" : "")}";
-                        //return 1;
-                    }
-
-                }
-                //return 0;
-            }
-        }
-
+       
         private async void GetCatalogoXId()
         {
             try

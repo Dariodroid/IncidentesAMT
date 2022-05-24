@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IncidentesAMT.View.IncidenteByUsuario" Title="Mis incidentes">
+    <ContentPage.Content>
+        <StackLayout>
+            <CollectionView x:Name="cwIncidentes" ItemsSource="{Binding ls}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.RowSpan="2"
+                               Source="advertencia.png"
+                               Aspect="AspectFill"
+                               HeightRequest="60"
+                               WidthRequest="60" />
+                             <Label Grid.Column="1"
+                               Text="{Binding descripcion}"
+                               FontAttributes="Bold" />
+                             <Label Grid.Row="1"
+                               Grid.Column="1"
+                               Text="{Binding direccion}"
+                               FontAttributes="Italic"
+                               VerticalOptions="End" />
+                            <Label Grid.Column="2"
+                               Text="{Binding estado}"
+                               HorizontalOptions="EndAndExpand"
+                               FontAttributes="Bold" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

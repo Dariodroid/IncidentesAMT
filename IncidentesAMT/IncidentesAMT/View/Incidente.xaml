@@ -4,22 +4,36 @@
              xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              x:Class="IncidentesAMT.Vista.Incidente" Title="Reportar incidente">
     <ContentPage.Content>
+        
         <StackLayout BackgroundColor="White">
             <StackLayout HeightRequest="320">
                 <maps:Map x:Name="MapView"/>
             </StackLayout>
-            <Frame CornerRadius="40" BackgroundColor="OldLace" Padding="5">
-                <StackLayout Padding="10">                
-                    <Label Text="Calles de referencia:" FontSize="Subtitle"></Label>
-                    <Entry x:Name="txtDireccion"></Entry>
-                    <Label Text="Descripción:" FontSize="Subtitle"></Label>
-                    <Editor x:Name="txtDescripsion" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120"></Editor>
-                    <Label x:Name="lblPath" Text="{Binding PathFoto}" Grid.ColumnSpan="2" IsVisible="false"></Label>
-                    <Label x:Name="lblCont" Text="cancelar:"/>
-                    <Button Text="Añadir fotos" TextTransform="None" CornerRadius="50" BackgroundColor="#2196F3" Margin="5" HorizontalOptions="Center" Command="{Binding CapturarCommand}"></Button>
-                    <Button Text="Registrar" TextTransform="None" CornerRadius="50" Margin="20" BackgroundColor="Chocolate" Clicked="Button_Clicked"></Button>
+            <StackLayout Padding="10">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="19"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="foto1" Source="{Binding PathFoto}" HorizontalOptions="FillAndExpand" Grid.Column="0" Grid.Row="0" ></Image>
+                        <Image x:Name="foto2" Source="{Binding PathFoto2}" HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.Row="0" ></Image>
+                        <Label Text="Calles de referencia:" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
+                        <Entry x:Name="txtDireccion" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
+                        <Label Text="Descripción:" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
+                        <Editor x:Name="txtDescripcion" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
+                        <Button Text="Añadir fotos"  TextTransform="None" Grid.Row="5" Grid.Column="0" CornerRadius="50" VerticalOptions="End" BackgroundColor="#2196F3" Command="{Binding CapturarCommand}"></Button>
+                        <Button Text="Registrar"  TextTransform="None" Grid.Row="5" Grid.Column="1" CornerRadius="50" VerticalOptions="End" BackgroundColor="Chocolate" Clicked="Button_Clicked"></Button>
+                    </Grid>
                 </StackLayout>
-            </Frame>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

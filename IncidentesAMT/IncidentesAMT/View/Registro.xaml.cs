@@ -13,6 +13,8 @@ using System.Net;
 using System.IO;
 using IncidentesAMT.VistaModelo;
 using IncidentesAMT.Helpers;
+using IncidentesAMT.Model;
+using System.Collections.ObjectModel;
 
 namespace IncidentesAMT
 {
@@ -26,7 +28,9 @@ namespace IncidentesAMT
         private string _archivo;
         private string _nacionalidad;
         private string _path;
-        public Registro(string identificacion, string nombres, string apellidos, string correo, string nacionalidad)
+        private string _celular;
+        FotoViewModel fotoViewModel;
+        public Registro(string identificacion, string nombres, string apellidos, string correo, string nacionalidad, string celular)
         {
             InitializeComponent();
             _identificacion = identificacion;
@@ -34,27 +38,27 @@ namespace IncidentesAMT
             _apellidos = apellidos;
             _correo = correo;
             _nacionalidad = nacionalidad;
-            BindingContext = new FotoViewModel();
+            _celular = celular;
+            fotoViewModel = new FotoViewModel();
+            BindingContext = fotoViewModel;
+
+
         }
 
         private async void btnRegistrar_Clicked(object sender, EventArgs e)
         {
             try
-            {
-                //_path = ConvertImgBase64.ConvertImgToBase64(lblPath.Text);
-                //_archivo = _path;
-
+            {                
                 PersonaModel persona = new PersonaModel
                 {
-
                     identificacion = _identificacion,
                     nombres = _nombres,
                     apellidos = _apellidos,
                     nacionalidad = _nacionalidad,
                     correo = _correo,
                     password = txtConfirmarPassword.Text,
-                    fotoCedula = ConvertImgBase64.ConvertImgToBase64(lblPath.Text)
-
+                    fotoCedula = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFoto),
+                    celular = _celular
                 };
 
                 Uri RequestUri = new Uri("http://192.168.16.33:3000/personas/createPersona");
@@ -68,7 +72,11 @@ namespace IncidentesAMT
                 }
                 else
                 {
-                    await DisplayAlert("Error", response.StatusCode.ToString(), "Ok");
+                    string content = await response.Content.ReadAsStringAsync();
+                    MessageModel obj = JsonConvert.DeserializeObject<MessageModel>(content);
+                    var messageType = obj.message;
+
+                    await DisplayAlert("Ocurrió un error", messageType[0].ToString(), "Cerrar");
                 }
             }
             catch (Exception ex)

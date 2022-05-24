@@ -22,7 +22,7 @@ namespace IncidentesAMT.Vista
         GeoLocation geoLocation = new GeoLocation();
         string _idPersona;
         string _idIncidente;
-        public Incidente(string idPersona, string idIncidente)//falta pasar el tipo de incidente al constructor
+        public Incidente(string idPersona, string idIncidente)
         {
             _idIncidente = idIncidente; 
             _idPersona = idPersona;
@@ -62,9 +62,10 @@ namespace IncidentesAMT.Vista
                     latitud = GeoLocation.lat,
                     longitud = GeoLocation.lng,
                     persona = _idPersona,
-                    fotoUno = ConvertImgBase64.ConvertImgToBase64(lblPath.Text),
-                    fotoDos = "hjjdsksdiffdjjfj",
-                    tipoIncidente = _idIncidente
+                    fotoUno = ConvertImgBase64.ConvertImgToBase64(foto1.Source.ToString()),
+                    fotoDos = ConvertImgBase64.ConvertImgToBase64(foto2.Source.ToString()),
+                    tipoIncidente = _idIncidente,
+                    descripcion = txtDescripcion.Text
                 };
 
                 Uri RequestUri = new Uri("http://192.168.16.33:3000/incidentes/");

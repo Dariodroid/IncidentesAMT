@@ -19,7 +19,7 @@
                             RadiusY="50"/>
                         </Image.Clip>
                     </Image>
-                    <Label x:Name="lblName" HorizontalOptions="Center" FontSize="Title">
+                    <Label x:Name="lblName" HorizontalOptions="Center" FontSize="Subtitle">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
                                 <Binding Path="nombres" />

@@ -6,16 +6,21 @@
         <StackLayout>
             <Frame BorderColor="Gray"
                    CornerRadius="5"
-                   Padding="20">
+                   Padding="20" Margin="5,5,5,5">
                 <StackLayout>
-                    <Label Text="Usuario Test"
-                        FontSize="Medium"
-                        FontAttributes="Bold" />
+                    <Label x:Name="lblName" HorizontalOptions="Center" FontSize="Title">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                                <Binding Path="nombres" />
+                                <Binding Path="apellidos" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
                     <BoxView Color="Gray"
                         HeightRequest="2"
                         HorizontalOptions="Fill" />
-                    <Label Text="0991094096"/>
-                    <Label Text="test@test.com"/>
+                    <Label Text="{Binding telefono}"/>
+                    <Label Text="{Binding correo}"/>
                 </StackLayout>
             </Frame>
 

@@ -22,6 +22,7 @@ namespace IncidentesAMT.Vista
         GeoLocation geoLocation = new GeoLocation();
         string _idPersona;
         string _idIncidente;
+        FotoViewModel fotoViewModel;
         public Incidente(string idPersona, string idIncidente)
         {
             _idIncidente = idIncidente; 
@@ -29,7 +30,8 @@ namespace IncidentesAMT.Vista
             InitializeComponent();
             configMap();
             moveToActualPosition();
-            BindingContext = new FotoViewModel();
+            fotoViewModel = new FotoViewModel();
+            BindingContext = fotoViewModel;
         }
 
         private void configMap()
@@ -62,8 +64,8 @@ namespace IncidentesAMT.Vista
                     latitud = GeoLocation.lat,
                     longitud = GeoLocation.lng,
                     persona = _idPersona,
-                    fotoUno = ConvertImgBase64.ConvertImgToBase64(foto1.Source.ToString()),
-                    fotoDos = ConvertImgBase64.ConvertImgToBase64(foto2.Source.ToString()),
+                    fotoUno = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFoto),
+                    fotoDos = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFoto2),
                     tipoIncidente = _idIncidente,
                     descripcion = txtDescripcion.Text
                 };

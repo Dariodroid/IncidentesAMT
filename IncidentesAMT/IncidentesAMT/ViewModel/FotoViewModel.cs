@@ -57,11 +57,11 @@ namespace IncidentesAMT.VistaModelo
                     cont += 1;
                     if(cont == 1)
                     {
-                        PathFoto = foto.AlbumPath;
+                        PathFoto = foto.Path;
                     }
                     else
                     {
-                        PathFoto2 = foto.AlbumPath;
+                        PathFoto2 = foto.Path;
                         cont = 0;
                     }
                     Foto = ImageSource.FromStream(() =>

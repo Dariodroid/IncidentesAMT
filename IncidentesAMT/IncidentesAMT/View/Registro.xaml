@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              x:Class="IncidentesAMT.Registro" Title="Confirmación">
     <ContentPage.Content>
         <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
@@ -20,15 +20,8 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="330"/>
                 </Grid.ColumnDefinitions>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="230"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image x:Name="fotocedula" Source="{Binding PathFoto}" Grid.Row="0" Grid.Column="0"></Image>
-                </Grid>
+               
+                    <Image x:Name="fotocedula" Source="{Binding PathFoto}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center"></Image>
 
                 <Entry x:Name="txtPassword" IsPassword="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  Placeholder="Contraseña"/>
                 <Entry x:Name="txtConfirmarPassword" IsPassword="True" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Placeholder="Confirmar Contraseña"/>
@@ -38,8 +31,9 @@
 
                 <CheckBox x:Name="chkTerminosyCond" Grid.Row="5" Grid.Column="0"/>
                 <Label Text="Terminos y condicónes" VerticalOptions="Center" Grid.Row="5" Grid.Column="1"/>
-                <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" TextTransform="None" Grid.Row="3" Margin="0,20,0,0" Command="{Binding CapturarCommand}" Clicked="btnAddFoto_Clicked" Grid.ColumnSpan="2" Grid.Column="0" BackgroundColor="#2196F3" CornerRadius="50"/>
+                <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" TextTransform="None" Grid.Row="3" Margin="0,20,0,0" Clicked="btnAddFoto_Clicked" Grid.ColumnSpan="2" Grid.Column="0" BackgroundColor="#2196F3" CornerRadius="50"/>
                 <Button x:Name="btnRegistrar" Text="Registrarse" TextTransform="None" BackgroundColor="#2196F3" Grid.Row="7" Grid.ColumnSpan="2" CornerRadius="50" Clicked="btnRegistrar_Clicked"/>
+                
             </Grid>
 
 

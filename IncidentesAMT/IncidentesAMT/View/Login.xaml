@@ -4,8 +4,7 @@
              x:Class="IncidentesAMT.Login" Title="Inicio de sesión"  NavigationPage.HasBackButton="False">
     <ContentPage.Content>
         <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
-                <Image Source="https://www.pinclipart.com/picdir/middle/336-3368860_xamarin-xamarin-forms-logo-png-clipart.png"/>
-                <Label Text="Agencia Metropolitana de Tránsito" HorizontalOptions="Center" FontSize="Medium"/>
+            <Image Source="amt4.jpeg"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="90"/>

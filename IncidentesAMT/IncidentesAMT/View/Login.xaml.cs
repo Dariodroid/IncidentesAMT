@@ -33,7 +33,7 @@ namespace IncidentesAMT
                     password = txtPassword.Text.Trim(),
                 };
 
-                Uri RequestUri = new Uri("http://192.168.16.33:3000/auth/login");
+                Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/auth/login");
                 var client = new HttpClient();
                 var json = JsonConvert.SerializeObject(loginModel);
                 var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -58,19 +58,19 @@ namespace IncidentesAMT
             }
             catch (Exception ex)
             {
-                if(txtUser.Text == null && txtPassword.Text == null)
+                if(string.IsNullOrEmpty(txtUser.Text) && string.IsNullOrEmpty(txtPassword.Text ))
                 {
                     await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
                     txtUser.Focus();
                     return;
                 }
-                else if (txtPassword.Text == null)
+                else if (string.IsNullOrEmpty(txtPassword.Text))
                 {
                     await DisplayAlert("Error", "Debe ingresar su contraseña", "Ok");
                     txtPassword.Focus();
                     return;
                 }
-                else if (txtUser.Text == null)
+                else if (string.IsNullOrEmpty(txtUser.Text))
                 {
                     await DisplayAlert("Error", "Debe ingresar un usuario", "Ok");                    
                     txtUser.Focus();
@@ -98,18 +98,6 @@ namespace IncidentesAMT
 
         private async void btnCrearCunenta_Clicked(object sender, EventArgs e)
         {
-            //var request = new HttpRequestMessage();
-            //request.RequestUri = new Uri("http://192.168.16.33:3000/auth/login");
-            //request.Method = HttpMethod.Get;
-            //request.Headers.Add("Accpet", "application/json");
-            //var client = new HttpClient();
-            //HttpResponseMessage response = await client.SendAsync(request);
-            //if (response.StatusCode == HttpStatusCode.OK)
-            //{
-            //    string content = await response.Content.ReadAsStringAsync();
-            //    var resultado = JsonConvert.DeserializeObject(content);
-            //}
-
             await Navigation.PushAsync(new DatosPersona());
         }
     }

@@ -29,8 +29,8 @@ namespace IncidentesAMT.Vista
         {
             Preferences.Remove("UserId");
             Preferences.Clear();
-            var login = new Login();
-            await Navigation.PushAsync(login,true);
+            //var login = new Login();
+            await Navigation.PushAsync(new Login(), true);
         }
 
         private async void btnIncidentes_Clicked(object sender, EventArgs e)

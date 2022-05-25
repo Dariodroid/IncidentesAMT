@@ -20,14 +20,59 @@ namespace IncidentesAMT
 
         private async void btnSiguiente_Clicked(object sender, EventArgs e)
         {
-            if (!Verify_Ci.VerificaIdentificacion(txtCedula.Text))
+            try
             {
-                await DisplayAlert("Ocurrió un error", "La cédula es incorrecta", "Cerrar");
-                txtCedula.Text = string.Empty;
-                txtCedula.Focus();
-                return;
+                if (await VerifyData())
+                {
+                    if (!Verify_Ci.VerificaIdentificacion(txtCedula.Text))
+                    {
+                        await DisplayAlert("Ocurrió un error", "La cédula es incorrecta", "Cerrar");
+                        txtCedula.Text = string.Empty;
+                        txtCedula.Focus();
+                        return;
+                    }
+                    await Navigation.PushAsync(new Registro(txtCedula.Text,txtNombres.Text,txtApellidos.Text,txtCorreo.Text, "62883ca68d0ce7cb7d438059",txtCelular.Text));
+                }
             }
-            await Navigation.PushAsync(new Registro(txtCedula.Text,txtNombres.Text,txtApellidos.Text,txtCorreo.Text, "62883ca68d0ce7cb7d438059",txtCelular.Text));
+            catch (Exception)
+            {
+               
+            }
+        }
+
+        private async Task<bool> VerifyData()
+        {
+            if (string.IsNullOrEmpty(txtCedula.Text))
+            {
+                await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
+                txtCedula.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtNombres.Text))
+            {
+                await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
+                txtNombres.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtApellidos.Text))
+            {
+                await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
+                txtApellidos.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtCorreo.Text))
+            {
+                await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
+                txtCorreo.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtCelular.Text))
+            {
+                await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
+                txtCelular.Focus();
+                return false;
+            }
+            return true;
         }
     }
 }

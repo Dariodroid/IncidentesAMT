@@ -42,7 +42,7 @@ namespace IncidentesAMT
             try
             {
                 var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://192.168.16.33:3000/catalogo/findIdPadre/0");
+                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/0");
                 request.Method = HttpMethod.Get;
                 request.Headers.Add("Accpet", "application/json");
                 var client = new HttpClient();

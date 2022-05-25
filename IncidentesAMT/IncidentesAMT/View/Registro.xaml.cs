@@ -30,6 +30,7 @@ namespace IncidentesAMT
         private string _path;
         private string _celular;
         FotoViewModel fotoViewModel;
+        string foto;
         public Registro(string identificacion, string nombres, string apellidos, string correo, string nacionalidad, string celular)
         {
             InitializeComponent();
@@ -61,7 +62,7 @@ namespace IncidentesAMT
                     celular = _celular
                 };
 
-                Uri RequestUri = new Uri("http://192.168.16.33:3000/personas/createPersona");
+                Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/createPersona");
                 var client = new HttpClient();
                 var json = JsonConvert.SerializeObject(persona);
                 var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -69,6 +70,7 @@ namespace IncidentesAMT
                 if (response.StatusCode == HttpStatusCode.Created)
                 {
                     await DisplayAlert("Mensaje", "Registrado correctamente", "Ok");
+                    await Navigation.PushAsync(new Login(), true);
                 }
                 else
                 {
@@ -87,8 +89,15 @@ namespace IncidentesAMT
         }        
 
         private void btnAddFoto_Clicked(object sender, EventArgs e)
-        { 
-
+        {
+            takefoto();
+        }
+        private async void takefoto()
+        {
+            fotoViewModel = new FotoViewModel();
+            await fotoViewModel.TomarFoto();
+            foto = fotoViewModel.PathFoto;
+            fotocedula.Source = foto;
         }
     }
 }

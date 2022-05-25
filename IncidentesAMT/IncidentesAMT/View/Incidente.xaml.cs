@@ -68,7 +68,7 @@ namespace IncidentesAMT.Vista
                     descripcion = txtDescripcion.Text
                 };
 
-                Uri RequestUri = new Uri("http://192.168.16.33:3000/incidentes/");
+                Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/");
                 var client = new HttpClient();
                 var json = JsonConvert.SerializeObject(incidente);
                 var contentJson = new StringContent(json, Encoding.UTF8, "application/json");

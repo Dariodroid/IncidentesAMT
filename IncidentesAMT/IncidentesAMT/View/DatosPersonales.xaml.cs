@@ -32,7 +32,7 @@ namespace IncidentesAMT.Vista
         private async void GetPersonaById()
         {
             var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://192.168.16.33:3000/personas/" + _idUser);
+            request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
             request.Method = HttpMethod.Get;
             request.Headers.Add("Accpet", "application/json");
             var client = new HttpClient();

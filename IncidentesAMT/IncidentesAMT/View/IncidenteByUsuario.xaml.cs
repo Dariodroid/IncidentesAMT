@@ -38,7 +38,7 @@ namespace IncidentesAMT.View
         public async void GetIncidentePersonaById()
         {
             var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://192.168.16.33:3000/incidentes/findByIdPersona/" + _idUser);
+            request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
             request.Method = HttpMethod.Get;
             request.Headers.Add("Accpet", "application/json");
             var client = new HttpClient();

@@ -20,7 +20,15 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="330"/>
                 </Grid.ColumnDefinitions>
-
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="230"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="fotocedula" Source="{Binding PathFoto}" Grid.Row="0" Grid.Column="0"></Image>
+                </Grid>
 
                 <Entry x:Name="txtPassword" IsPassword="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  Placeholder="Contraseña"/>
                 <Entry x:Name="txtConfirmarPassword" IsPassword="True" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Placeholder="Confirmar Contraseña"/>

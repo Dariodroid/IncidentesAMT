@@ -21,7 +21,7 @@ namespace IncidentesAMT.ViewModel
         public async Task<ObservableCollection<IncidenteByPersonaModel>> GetIncidentePersonaById(string idUser)
         {
             var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://192.168.16.33:3000/incidentes/findByIdPersona/" + idUser);
+            request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + idUser);
             request.Method = HttpMethod.Get;
             request.Headers.Add("Accpet", "application/json");
             var client = new HttpClient();

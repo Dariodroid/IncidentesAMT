@@ -20,7 +20,7 @@ namespace IncidentesAMT.Model
         public string fotoPerfil { get; set; }
         public string fotoCedula { get; set; }
         public DateTime fechaCreacion { get; set; }
-        public DateTime fechaEdicion { get; set; }
+        //public DateTime fechaEdicion { get; set; }
         public string estado { get; set; }
         public int __v { get; set; }
     }
@@ -32,7 +32,7 @@ namespace IncidentesAMT.Model
         public string nombre { get; set; }
         public string valor { get; set; }
         public DateTime fechaCreacion { get; set; }
-        public object fechaEdicion { get; set; }
+        //public DateTime fechaEdicion { get; set; }
         public string estado { get; set; }
         public int __v { get; set; }
     }

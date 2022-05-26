@@ -59,5 +59,38 @@ namespace IncidentesAMT.Vista
                 BindingContext = infoUserModel;
             }
         }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            sendMail("Acuerdo de responsabilidad", "cuerpo de correo ");
+        }
+
+        private async void sendMail(string subject, string body)
+        {
+            try
+            {
+                SendMailModel sendMail = new SendMailModel()
+                {
+                    to = lblCorreo.Text,
+                    subject = subject,
+                    html = body,
+                };
+
+                Uri RequestUri = new Uri("http://servicios.amt.gob.ec:4001/api/mail/send");
+                var client = new HttpClient();
+                var json = JsonConvert.SerializeObject(sendMail);
+                var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(RequestUri, contentJson);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    await DisplayAlert("Mensaje", "Correo enviado", "Ok");
+                    //await Navigation.PushAsync(new Login(), true);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Cerrar");
+            }
+        }
     }
 }

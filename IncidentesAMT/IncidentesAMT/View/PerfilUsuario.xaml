@@ -20,14 +20,14 @@
                         HeightRequest="2"
                         HorizontalOptions="Fill" />
                     <Label Text="{Binding telefono}"/>
-                    <Label Text="{Binding correo}"/>
+                    <Label x:Name="lblCorreo" Text="{Binding correo}"/>
                 </StackLayout>
             </Frame>
 
             <StackLayout Margin="9">
                 <Button x:Name="btnDatosPersonales" Text="Datos personales" Clicked="btnDatosPersonales_Clicked" HeightRequest="60" Margin="10" CornerRadius="50"/>
                 <Button x:Name="btnIncidentes" Text="Incidentes registrados" Clicked="btnIncidentes_Clicked" HeightRequest="60" Margin="10" CornerRadius="50"/>
-                <Button Text="Acuerdo de responsabilidad" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                <Button Text="Acuerdo de responsabilidad" HeightRequest="60" Margin="10" CornerRadius="50" Clicked="Button_Clicked"/>
                 <Button x:Name="btnCerrarSesion" Text="Cerrar sesión" Clicked="btnCerrarSesion_Clicked" TextTransform="None" HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Blue"/>
             </StackLayout>
         </StackLayout>

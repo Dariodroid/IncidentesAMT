@@ -1,6 +1,4 @@
-﻿using IncidentesAMT.Helpers;
-using IncidentesAMT.ViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +7,14 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace IncidentesAMT
+namespace IncidentesAMT.View
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class DatosPersona : ContentPage
+    public partial class Terminos_y_condiciones : ContentPage
     {
-        public DatosPersona()
+        public Terminos_y_condiciones()
         {
             InitializeComponent();
-            BindingContext = new RegistrarPersonaViewModel(Navigation);
         }
     }
 }

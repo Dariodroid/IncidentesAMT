@@ -1,6 +1,8 @@
-﻿using System;
+﻿using IncidentesAMT.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace IncidentesAMT.Model
 {
@@ -11,9 +13,9 @@ namespace IncidentesAMT.Model
         public string nombres { get; set; }
         public string apellidos { get; set; }
         public Nacionalidad nacionalidad { get; set; }
-        public object direccion { get; set; }
+        public string direccion { get; set; }
         public string correo { get; set; }
-        public object telefono { get; set; }
+        public string telefono { get; set; }
         public string password { get; set; }
         public int strikes { get; set; }
         public string bloqueo { get; set; }
@@ -23,6 +25,7 @@ namespace IncidentesAMT.Model
         //public DateTime fechaEdicion { get; set; }
         public string estado { get; set; }
         public int __v { get; set; }
+      
     }
 
     public class Nacionalidad

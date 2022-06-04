@@ -20,9 +20,5 @@ namespace IncidentesAMT.Model
         public DateTime fechaEdicion { get; set; }
         public string estado { get; set; }
         public int __v { get; set; }
-
-
-
-
     }
 }

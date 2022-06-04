@@ -13,6 +13,7 @@ using IncidentesAMT.VistaModelo;
 using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
+using IncidentesAMT.ViewModel;
 
 namespace IncidentesAMT.Vista
 {
@@ -23,6 +24,7 @@ namespace IncidentesAMT.Vista
         string _idPersona;
         string _idIncidente;
         FotoViewModel fotoViewModel;
+        //ConvertImgBase64 convertImg;
         public Incidente(string idPersona, string idIncidente)
         {
             _idIncidente = idIncidente; 
@@ -31,7 +33,7 @@ namespace IncidentesAMT.Vista
             configMap();
             moveToActualPosition();
             fotoViewModel = new FotoViewModel();
-            BindingContext = fotoViewModel;
+            BindingContext = new IncidenteViewModel(Navigation,_idPersona,_idIncidente);
         }
 
         private void configMap()
@@ -58,6 +60,7 @@ namespace IncidentesAMT.Vista
         {
             try
             {
+                //convertImg = new ConvertImgBase64();
                 IncidenteModel incidente = new IncidenteModel()
                 {
                     direccion = txtDireccion.Text,

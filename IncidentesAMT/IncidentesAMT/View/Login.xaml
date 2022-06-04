@@ -3,42 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IncidentesAMT.Login" Title="Inicio de sesión"  NavigationPage.HasBackButton="False">
     <ContentPage.Content>
-        <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
+        <StackLayout >
             <Image Source="amt4.jpeg"/>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="90"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
 
-                <Entry x:Name="txtUser" Grid.ColumnSpan="2" Grid.Row="2" Placeholder="Correo electrónico"/>
-                <Entry x:Name="txtPassword" IsPassword="True" Grid.ColumnSpan="2" Grid.Row="3" Placeholder="Contraseña"/>
-                
-                <Switch x:Name="RememberStw" Grid.Column="0" Grid.Row="4" HorizontalOptions="End" ThumbColor="HotPink" OnColor="Pink"/>
-                <Label Text="Recordar usuario" Grid.Column="0" Grid.Row="4" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                    <Entry x:Name="txtUser" Text="{Binding User}" Keyboard="Email" Grid.ColumnSpan="2" Grid.Row="2" Placeholder="Correo electrónico"/>
+                    <Entry x:Name="txtPassword" Text="{Binding Password}" IsPassword="True" Grid.ColumnSpan="2" Grid.Row="3" Placeholder="Contraseña"/>
 
-            </Grid>
-            <Button x:Name="btnLogin" Text="Iniciar sesion" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Clicked="btnLogin_Clicked"/>
-            <Label Text="No dispone de una cuenta ?" HorizontalOptions="Center" FontSize="Small"/>
-            <Button x:Name="btnCrearCunenta" 
-                    Padding="0,0,0,30" 
-                    Text="Crear cuenta" 
-                    TextTransform="None"
-                    BackgroundColor="Transparent" 
-                    HorizontalOptions="Center" 
-                    TextColor="#2196F3" 
-                    FontSize="Small"
-                    Clicked="btnCrearCunenta_Clicked"
-                    />
+                    <Switch x:Name="RememberStw" IsToggled="{Binding IsRemember}" Grid.Column="0" Grid.Row="4" HorizontalOptions="End" ThumbColor="HotPink" OnColor="Pink"/>
+                    <Label Text="Recordar usuario" Grid.Column="0" Grid.Row="4" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
 
+                </Grid>
+                <Button x:Name="btnLogin" Text="Iniciar sesion" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Command="{Binding LoginCommand}"/>
+                <Label Text="No dispone de una cuenta ?" HorizontalOptions="Center" FontSize="Small"/>
+                <Button x:Name="btnCrearCunenta" 
+                        Padding="0,0,0,30" 
+                        Text="Crear cuenta" 
+                        Command="{Binding CrearteAccount}"
+                        TextTransform="None"
+                        BackgroundColor="Transparent" 
+                        HorizontalOptions="Center" 
+                        TextColor="#2196F3" 
+                        FontSize="Small" />
+
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -1,12 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="IncidentesAMT.AcuerdoResposabilidad">
+             x:Class="IncidentesAMT.AcuerdoResposabilidad" Title="ACUERDO DE RESPONSABILIDAD">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout VerticalOptions="Center">
+                    <Label Text="&#x0a;&#x0a; EL USUARIO ES RESPONSABLE DE &#x0a;" FontSize="Title" HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
+                <Label Padding="15" Text="&#x0a;1. La credencial lógica entregada de usuario (nombre de usuario y clave de acceso) otorgada, espara   uso   institucional   e   intransferible,   y   su   utilización   es   de   exclusiva   responsabilidad   delservidor.
+                       &#x0a;
+                       &#10;2. El servidor, se compromete a la no divulgación y buen uso de la información facilitada por laInstitución con total confidencialidad. En caso de incumplimiento el Ministerio de Educación sereserva el derecho de iniciar las acciones legales correspondientes a las que hubiera lugar.
+                       &#x0a;
+                       &#10;3. En caso de conocer la divulgación, del nombre de usuario y/o clave de acceso de usuario, elservidor   deberá   comunicar   a   la   Dirección   Nacional   de   Tecnologías   de   la   Información   y Comunicaciones del Ministerio de Educación de manera inmediata."
+                      FontSize="Large"
+                       />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

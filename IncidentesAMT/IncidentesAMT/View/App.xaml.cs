@@ -13,6 +13,7 @@ namespace IncidentesAMT
 
             new GeoLocation().getLocationGPS();
             new NetworkState().iHaveInternet();
+
             MainPage = new NavigationPage(new Login());
         }
 

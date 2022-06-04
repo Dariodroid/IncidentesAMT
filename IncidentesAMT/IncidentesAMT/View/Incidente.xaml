@@ -26,11 +26,11 @@
                         <Image x:Name="foto1" Source="{Binding PathFoto}" HorizontalOptions="FillAndExpand" Grid.Column="0" Grid.Row="0" ></Image>
                         <Image x:Name="foto2" Source="{Binding PathFoto2}" HorizontalOptions="FillAndExpand" Grid.Column="1" Grid.Row="0" ></Image>
                         <Label Text="Calles de referencia:" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
-                        <Entry x:Name="txtDireccion" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
+                        <Entry x:Name="txtDireccion" Text="{Binding Direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
                         <Label Text="Descripción:" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
-                        <Editor x:Name="txtDescripcion" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
+                        <Editor x:Name="txtDescripcion" Text="{Binding Descripcion}" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
                         <Button Text="Añadir fotos"  TextTransform="None" Grid.Row="5" Grid.Column="0" CornerRadius="50" VerticalOptions="End" BackgroundColor="#2196F3" Command="{Binding CapturarCommand}"></Button>
-                        <Button Text="Registrar"  TextTransform="None" Grid.Row="5" Grid.Column="1" CornerRadius="50" VerticalOptions="End" BackgroundColor="Chocolate" Clicked="Button_Clicked"></Button>
+                        <Button Text="Registrar"  TextTransform="None" Grid.Row="5" Grid.Column="1" CornerRadius="50" VerticalOptions="End" BackgroundColor="Chocolate" Command="{Binding ReportarIncidente}"></Button>
                     </Grid>
                 </StackLayout>
             

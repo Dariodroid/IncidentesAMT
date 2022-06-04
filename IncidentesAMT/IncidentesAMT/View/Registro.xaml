@@ -3,40 +3,66 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              x:Class="IncidentesAMT.Registro" Title="Confirmación">
     <ContentPage.Content>
-        <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
-            <Image Source="https://www.pinclipart.com/picdir/middle/336-3368860_xamarin-xamarin-forms-logo-png-clipart.png"/>
-            <Label Text="Agencia Metropolitana de Tránsito" HorizontalOptions="Center" FontSize="Medium"/>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="90"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="60"/>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition Height="80"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="330"/>
-                </Grid.ColumnDefinitions>
-               
-                    <Image x:Name="fotocedula" Source="{Binding PathFoto}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center"></Image>
+        <StackLayout>
+            <Image Source="amt1.jpeg"/>
+            <StackLayout Padding="10" Spacing="10" VerticalOptions="StartAndExpand">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="80"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="330"/>
+                    </Grid.ColumnDefinitions>
 
-                <Entry x:Name="txtPassword" IsPassword="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  Placeholder="Contraseña"/>
-                <Entry x:Name="txtConfirmarPassword" IsPassword="True" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Placeholder="Confirmar Contraseña"/>
+                    <Image x:Name="fotocedula" Source="{Binding FotoCedula}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center"></Image>
 
-                <CheckBox x:Name="chkAcuerdoRespons" Grid.Row="4" Grid.Column="0"/>
-                <Label Text="Acuerdos de resposabilidad" VerticalOptions="Center" Grid.Row="4" Grid.Column="1"/>
+                    <Entry x:Name="txtPassword" Text="{Binding Password}" IsPassword="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  Placeholder="Contraseña"/>
+                    <Entry x:Name="txtConfirmarPassword" Text="{Binding ConfirmPass}" IsPassword="True" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Placeholder="Confirmar Contraseña"/>
 
-                <CheckBox x:Name="chkTerminosyCond" Grid.Row="5" Grid.Column="0"/>
-                <Label Text="Terminos y condicónes" VerticalOptions="Center" Grid.Row="5" Grid.Column="1"/>
-                <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" TextTransform="None" Grid.Row="3" Margin="0,20,0,0" Clicked="btnAddFoto_Clicked" Grid.ColumnSpan="2" Grid.Column="0" BackgroundColor="#2196F3" CornerRadius="50"/>
-                <Button x:Name="btnRegistrar" Text="Registrarse" TextTransform="None" BackgroundColor="#2196F3" Grid.Row="7" Grid.ColumnSpan="2" CornerRadius="50" Clicked="btnRegistrar_Clicked"/>
+                    <CheckBox x:Name="chkAcuerdoRespons" IsChecked="{Binding IsAcuerdo}" Grid.Row="4" Grid.Column="0"/>
+                    <Label Text="Acuerdos de resposabilidad" VerticalOptions="Center" Grid.Row="4" Grid.Column="1">
+
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Acuerdos de resposabilidad" TextDecorations="Underline" TextColor="Blue">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding AcuerdoCommand}" />
+                                    </Span.GestureRecognizers>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+
+                    </Label>
+
+                    <CheckBox x:Name="chkTerminosyCond" IsChecked="{Binding IsTerminos}" Grid.Row="5" Grid.Column="0"/>
+                    <Label Text="Terminos y condicónes" VerticalOptions="Center" Grid.Row="5" Grid.Column="1">
+                        
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Terminos y condicónes" TextDecorations="Underline" TextColor="Blue">
+                                    <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding TerminosCommand}" />
+                                    </Span.GestureRecognizers>
+                                </Span>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        
+                    </Label>
+                    
+                    <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" TextTransform="None" Grid.Row="3" Margin="0,20,0,0" Command="{Binding FotoCommand}" Grid.ColumnSpan="2" Grid.Column="0" BackgroundColor="Beige" CornerRadius="50"/>
+                    <Button x:Name="btnRegistrar" Text="Registrarse" TextTransform="None" BackgroundColor="#2196F3" Grid.Row="7" Grid.ColumnSpan="2" CornerRadius="50" Command="{Binding RegistrarCommand}"/>
                 
-            </Grid>
+                </Grid>
 
 
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

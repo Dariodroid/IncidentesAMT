@@ -19,37 +19,11 @@ namespace IncidentesAMT.View
     public partial class IncidenteByUsuario : ContentPage
     {
         string _idUser;
-        ObservableCollection<IncidenteByPersonaModel> incidenteByUsuarioModel;
-        IncidenteByUsuarioViewModel IncidenteByUsuarioViewModel;
         public IncidenteByUsuario(string idUser)
         {
             _idUser = idUser;
             InitializeComponent();
-            getIncidntes();
-
-        }
-        private async void getIncidntes()
-        {
-            IncidenteByUsuarioViewModel = new IncidenteByUsuarioViewModel();
-            var ls = await IncidenteByUsuarioViewModel.GetIncidentePersonaById(_idUser);
-            cwIncidentes.ItemsSource = ls;
-        }
-
-        public async void GetIncidentePersonaById()
-        {
-            var request = new HttpRequestMessage();
-            request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
-            request.Method = HttpMethod.Get;
-            request.Headers.Add("Accpet", "application/json");
-            var client = new HttpClient();
-            HttpResponseMessage response = await client.SendAsync(request);
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                string content = await response.Content.ReadAsStringAsync();
-                incidenteByUsuarioModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
-                cwIncidentes.ItemsSource = incidenteByUsuarioModel;
-            }
-
+            BindingContext = new IncidenteByUsuarioViewModel(_idUser);
         }
     }
 }

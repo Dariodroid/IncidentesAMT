@@ -4,32 +4,35 @@
              x:Class="IncidentesAMT.Vista.PerfilUsuario" Title="Perfil de usuario">
     <ContentPage.Content>
         <StackLayout>
+            
             <Frame BorderColor="Gray"
                    CornerRadius="5"
-                   Padding="20" Margin="5,5,5,5">
+                   Padding="20" Margin="5,15,5,5">
                 <StackLayout>
                     <Label x:Name="lblName" HorizontalOptions="Center" FontSize="Title">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
-                                <Binding Path="nombres" />
-                                <Binding Path="apellidos" />
+                                <Binding Path="Nombre" />
+                                <Binding Path="Apellido" />
                             </MultiBinding>
                         </Label.Text>
                     </Label>
                     <BoxView Color="Gray"
                         HeightRequest="2"
                         HorizontalOptions="Fill" />
-                    <Label Text="{Binding telefono}"/>
-                    <Label x:Name="lblCorreo" Text="{Binding correo}"/>
+                    <Label Text="{Binding Telefono}"/>
+                    <Label x:Name="lblCorreo" Text="{Binding Correo}"/>
                 </StackLayout>
             </Frame>
 
             <StackLayout Margin="9">
-                <Button x:Name="btnDatosPersonales" Text="Datos personales" Clicked="btnDatosPersonales_Clicked" HeightRequest="60" Margin="10" CornerRadius="50"/>
-                <Button x:Name="btnIncidentes" Text="Incidentes registrados" Clicked="btnIncidentes_Clicked" HeightRequest="60" Margin="10" CornerRadius="50"/>
-                <Button Text="Acuerdo de responsabilidad" HeightRequest="60" Margin="10" CornerRadius="50" Clicked="Button_Clicked"/>
-                <Button x:Name="btnCerrarSesion" Text="Cerrar sesión" Clicked="btnCerrarSesion_Clicked" TextTransform="None" HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Blue"/>
+                <Button x:Name="btnDatosPersonales" BackgroundColor="Coral" Text="Datos personales" Command="{Binding DatosPeronalesCommand}" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                <Button x:Name="btnIncidentes" BackgroundColor="red"  Text="Incidentes registrados" Command="{Binding IncidentesCommand}" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                <Button Text="Acuerdo de responsabilidad" BackgroundColor="#2196F3"  Command="{Binding AcuerdoCommand}" HeightRequest="60" Margin="10" CornerRadius="50" />
+                
+                <Button x:Name="btnCerrarSesion"  Text="Cerrar sesión" Command="{Binding CerrarSesionCommand}" TextTransform="None" HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Blue"/>
             </StackLayout>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

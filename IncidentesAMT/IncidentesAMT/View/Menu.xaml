@@ -12,7 +12,7 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <RefreshView HeightRequest="50" IsRefreshing="{Binding IsRefresh}" Command="{Binding RefreshCommand}">
+        <RefreshView HeightRequest="50" IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
             <ScrollView >
                 <StackLayout HeightRequest="400">
                     <Image Source="amt2.jpeg" HorizontalOptions="CenterAndExpand" WidthRequest="390" Margin="0,0,0,0"/>

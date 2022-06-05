@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             x:Class="IncidentesAMT.View.Detalle_incidente" Title="Detalle del incidente">
+    <ContentPage.Content>
+
+        <StackLayout BackgroundColor="White">
+            <Frame Padding="0" Margin="8,8,8,0" CornerRadius="5" HasShadow="True">
+               
+                    <StackLayout HeightRequest="320">
+                        <maps:Map x:Name="MapView"/>
+                    </StackLayout>
+               
+            </Frame>
+            <StackLayout Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="19"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Frame Grid.Column="1" Grid.Row="0" Padding="0,5,0,5" Margin="0,0,0,0" CornerRadius="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HasShadow="True">
+                        <Image x:Name="foto2" Source="{Binding MyImage2}" HorizontalOptions="FillAndExpand"  ></Image>
+                    </Frame>
+                    <Frame Grid.Column="0" Grid.Row="0" Padding="0,5,0,5" Margin="0,0,0,0" CornerRadius="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HasShadow="True">
+                        <Image x:Name="foto1" Source="{Binding MyImage}" HorizontalOptions="FillAndExpand"  ></Image>
+                    </Frame>
+                    <Label Text="Calles de referencia:" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
+                    <Entry x:Name="txtDireccion" IsReadOnly="True" Text="{Binding direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
+                    <Label Text="Descripción:" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
+                    <Editor x:Name="txtDescripcion" IsReadOnly="True" Text="{Binding descripcion}" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
+                </Grid>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

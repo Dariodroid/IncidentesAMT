@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IncidentesAMT.View.IncidenteByUsuario" Title="Mis incidentes">
     <ContentPage.Content>
-        <StackLayout >
+        <StackLayout>
             <CollectionView x:Name="cwIncidentes" ItemsSource="{Binding IncidenteByUsuarioModel}" Margin="5,10,5,10">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="1" VerticalItemSpacing="10" >
@@ -12,7 +12,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame CornerRadius="10">
+                        <Frame CornerRadius="10" BorderColor="Gray" BackgroundColor="SandyBrown">
                             <StackLayout>
                                 <Grid Padding="10">
                                 <Grid.RowDefinitions>
@@ -24,17 +24,21 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Image Grid.RowSpan="2"
-                                   Source="{Binding MyImage}"
-                                   Aspect="Fill"
-                                   HeightRequest="60"
-                                   WidthRequest="60" />
+                                    <Frame HeightRequest="60" Padding="0" Margin="0,0,0,0" CornerRadius="20" HasShadow="True">
+                                        <StackLayout>
+                                            <Image Grid.RowSpan="2"
+                                           Source="{Binding MyImage}"
+                                           Aspect="Fill"
+                                           HeightRequest="60"
+                                           WidthRequest="60" />
+                                        </StackLayout>
+                                    </Frame>
                                 <Label Grid.Column="1" Grid.ColumnSpan="2"
-                                   Text="{Binding descripcion}"
+                                   Text="{Binding direccion}"
                                    FontAttributes="Bold" />
                                 <Label Grid.Row="1"
                                    Grid.Column="1"
-                                   Text="{Binding direccion}"
+                                   Text="{Binding  descripcion}"
                                    FontAttributes="Italic"
                                    VerticalOptions="End" />
                                 <Label Grid.Column="2"
@@ -45,7 +49,9 @@
                             </StackLayout>
 
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding DetalleCommand}">
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.DetalleCommand, 
+                                    Source={x:Reference cwIncidentes}}" 
+                                    CommandParameter="{Binding .}">
 
                                 </TapGestureRecognizer>
                             </Frame.GestureRecognizers>

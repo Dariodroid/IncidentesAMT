@@ -72,15 +72,6 @@ namespace IncidentesAMT.VistaModelo
             set { _incidentes = value; OnPropertyChanged(); }
         }
 
-        private bool _isRefresh;
-
-        public bool IsRefresh
-        {
-            get => _isRefresh;
-            set => SetProperty(ref _isRefresh, value);
-        }
-
-
         #endregion
 
         public MenuViewModel(INavigation navigation, string idUser)
@@ -100,7 +91,7 @@ namespace IncidentesAMT.VistaModelo
         {
             try
             {
-                IsRefresh = true;
+                IsBusy = true;
                 var request = new HttpRequestMessage();
                 request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
                 request.Method = HttpMethod.Get;
@@ -113,11 +104,12 @@ namespace IncidentesAMT.VistaModelo
                     IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
                     UserDialogs.Instance.HideLoading();
                     VerificarNotif();
-                    IsRefresh = false;
+                    IsBusy = false;
                 }
             }
             catch (Exception ex)
             {
+                IsBusy = false;
                 await DisplayAlert("Error", ex.Message.ToString(), "ok");
             }   
 

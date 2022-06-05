@@ -57,6 +57,8 @@ namespace IncidentesAMT.ViewModel
         #endregion
 
         #region COMMANDS
+
+        public Command RefreshCommand { get; set; }
         public Command IncidentesCommand { get; set; }
         public Command DatosPeronalesCommand { get; set; }
         public Command AcuerdoCommand { get; set; }
@@ -65,6 +67,7 @@ namespace IncidentesAMT.ViewModel
 
         public PerfilUsuarioViewModel(INavigation navigation, string idUser)
         {
+            RefreshCommand = new Command(() => GetPersonaById());
             IncidentesCommand = new Command(() => InicidentesPage());
             DatosPeronalesCommand = new Command(() => DatosPersonalesPage());
             AcuerdoCommand = new Command(() => AcuerdoPage());
@@ -78,7 +81,7 @@ namespace IncidentesAMT.ViewModel
         {
             try
             {
-                UserDialogs.Instance.ShowLoading("Cargando sus datos...");
+                IsBusy = true;
                 var request = new HttpRequestMessage();
                 request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
                 request.Method = HttpMethod.Get;
@@ -93,12 +96,12 @@ namespace IncidentesAMT.ViewModel
                     Apellido = _infoUserModel.apellidos;
                     Telefono = (string)_infoUserModel.telefono;
                     Correo = _infoUserModel.correo;
-                    UserDialogs.Instance.HideLoading();
+                    IsBusy = false;
                 }
             }
             catch (Exception ex)
             {
-                UserDialogs.Instance.HideLoading();
+                IsBusy = false;
                 await DisplayAlert("Error", ex.Message.ToString(), "Cerrar");
             }
 

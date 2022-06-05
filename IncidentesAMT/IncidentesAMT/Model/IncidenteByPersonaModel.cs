@@ -10,7 +10,7 @@ namespace IncidentesAMT.Modelo
     {
         public string _id { get; set; }
         public string direccion { get; set; }
-        public object descripcion { get; set; }
+        public string descripcion { get; set; }
         public float latitud { get; set; }
         public float longitud { get; set; }
         public string tipoIncidente { get; set; }
@@ -25,6 +25,10 @@ namespace IncidentesAMT.Modelo
         public ImageSource MyImage
         {
             get { return ConvertImgBase64.GetImageSourceFromBase64String(fotoUno); }
+        }
+        public ImageSource MyImage2
+        {
+            get { return ConvertImgBase64.GetImageSourceFromBase64String(fotoDos); }
         }
     }
 }

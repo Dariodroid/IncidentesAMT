@@ -12,13 +12,11 @@ namespace IncidentesAMT.VistaModelo
 {
     public class FotoViewModel:BaseViewModel
     {
-        public Command CapturarCommand { get; set; }
         int cont = 0;
 
-        public FotoViewModel()
-        {
-            CapturarCommand = new Command(async () => await TomarFoto());
-        }
+        #region PROPIEDADES
+        public Command CapturarCommand { get; set; }
+
 
         private ImageSource _foto;
 
@@ -42,6 +40,20 @@ namespace IncidentesAMT.VistaModelo
         {
             get { return _pathFoto2; }
             set { _pathFoto2 = value; OnPropertyChanged(); }
+        }
+
+        private string _txtBtnFotoRepInci;
+
+        public string TxtBtnFotoRepInci
+        {
+            get { return _txtBtnFotoRepInci; }
+            set { _txtBtnFotoRepInci = value; OnPropertyChanged(); }
+        }
+        #endregion
+
+        public FotoViewModel()
+        {
+            CapturarCommand = new Command(async () => await TomarFoto());
         }
 
         public async Task TomarFoto()
@@ -72,7 +84,7 @@ namespace IncidentesAMT.VistaModelo
             }
             catch (Exception ex)
             {
-                var x = ex.Message;
+                await DisplayAlert("Error", ex.Message.ToString(), "Cerrar");
             }
         }
     }

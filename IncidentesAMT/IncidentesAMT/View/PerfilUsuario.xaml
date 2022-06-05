@@ -3,9 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IncidentesAMT.Vista.PerfilUsuario" Title="Perfil de usuario">
     <ContentPage.Content>
-        <StackLayout>
+        <RefreshView IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
+            <ScrollView>
+                <StackLayout>
             
             <Frame BorderColor="Gray"
+                   HasShadow="True"
                    CornerRadius="5"
                    Padding="20" Margin="5,15,5,5">
                 <StackLayout>
@@ -33,6 +36,8 @@
                 <Button x:Name="btnCerrarSesion"  Text="Cerrar sesión" Command="{Binding CerrarSesionCommand}" TextTransform="None" HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Blue"/>
             </StackLayout>
             
-        </StackLayout>
+        </StackLayout>                
+            </ScrollView>
+        </RefreshView>
     </ContentPage.Content>
 </ContentPage>

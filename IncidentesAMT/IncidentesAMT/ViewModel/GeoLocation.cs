@@ -1,0 +1,65 @@
+﻿using IncidentesAMT.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+
+namespace IncidentesAMT.Helpers
+{
+    public class GeoLocation : BaseViewModel
+    {
+        public static double lat { get; set; }
+
+        public static double lng { get; set; }
+
+
+        public async Task<bool> getLocationGPS()
+        {
+            try
+            {
+                    var request = new GeolocationRequest(GeolocationAccuracy.Best);
+                    var location = await Geolocation.GetLocationAsync(new GeolocationRequest()
+                    {
+                        DesiredAccuracy = GeolocationAccuracy.Best,
+                        Timeout = TimeSpan.FromSeconds(30)
+                    });
+                    if (location != null)
+                    {
+                        lat = location.Latitude;    
+                        lng = location.Longitude;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                        //var knowLocation = await Geolocation.GetLastKnownLocationAsync();
+                        //lat = knowLocation.Latitude;
+                        //lng = knowLocation.Longitude;
+                    }
+                
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException ex)
+            {
+                await DisplayAlert("Error", "Los servicios de localización no están activos en éste dispositivo, por favor active el GPS", "Cerrar");
+                return false;
+            }
+            catch (PermissionException ex)
+            {
+                // Handle permission exception
+                var key = Preferences.Get("UserId", "");
+                Application.Current.MainPage = new NavigationPage(new Menu(key));
+                await DisplayAlert("Permisos de Ubicación", "No se concedió permiso a la aplicación para usar su ubicación, para poder reportar un incidente debe permitir el acceso a su ubicación en las configuraiónes del dispositivo", "Cerrar");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Unable to get location
+                await DisplayAlert("Error", "No se puede obtener la ubicación", "Cerrar");
+                return false;
+            }
+        }
+    }
+}

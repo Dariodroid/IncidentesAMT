@@ -12,17 +12,25 @@ using Newtonsoft.Json;
 using System.Net;
 using Plugin.Media.Abstractions;
 using Acr.UserDialogs;
+using Xamarin.Forms.GoogleMaps;
+using Xamarin.Essentials;
 
 namespace IncidentesAMT.ViewModel
 {
     public class IncidenteViewModel : BaseViewModel
     {
-        //ConvertImgBase64 convertImg;
-        public Command ReportarIncidente { get; set; }
-        public Command CapturarCommand { get; set; }
+        #region VARIABLES
+        public Xamarin.Forms.GoogleMaps.Map MapView;
+        GeoLocation geoLocation = new GeoLocation();
         int cont = 0;
+        bool geo;
+        #endregion
+
+
 
         #region Propertys
+        public Command ReportarIncidente { get; set; }
+        public Command CapturarCommand { get; set; }
         private string _idPersona { get; set; }
         private string _idIncidente { get; set; }
         public INavigation Navigation { get; set; }
@@ -76,34 +84,54 @@ namespace IncidentesAMT.ViewModel
         }
         #endregion
 
-        public IncidenteViewModel(INavigation navigation, string idPersona, string idIncidente)
+        public IncidenteViewModel(INavigation navigation, string idPersona, string idIncidente, Xamarin.Forms.GoogleMaps.Map Map)
         {
             Navigation = navigation;
             _idPersona = idPersona;
             _idIncidente = idIncidente;
+            VerifyGps();
+            MapView = Map;
             ReportarIncidente = new Command(async () => await Incidente());
             CapturarCommand = new Command(async () => await TomarFoto());
+        }
+
+        private async void VerifyGps()
+        {
+            geo = await new GeoLocation().getLocationGPS();
+            if (geo)
+            {
+                await geoLocation.getLocationGPS();
+                configMap();
+            }
         }
 
         public async Task Incidente()
         {
             try
             {
-                bool cancelReport = false;
-               Time = 10;
-                var message = $"Tiene {Time} segundos para cancelar su reporte";
-                using (var dialog = UserDialogs.Instance.Loading(message, () =>
-                cancelReport = true, "CANCELAR"))
+                VerifyGps();
+                if (!geo)
                 {
-                    for (int i = 0; i <= 10; i++)
+                    return;
+                }
+                if (await VerifyIncidente())
+                {
+                    bool cancelReport = false;
+                    Time = 10;
+                    var message = $"Tiene {Time} segundos para cancelar su reporte";
+                    using (var dialog = UserDialogs.Instance.Loading(message, () =>
+                    cancelReport = true, "CANCELAR"))
                     {
-                        await Task.Delay(1000);
-                        if (!cancelReport)
+                        for (int i = 0; i <= 10; i++)
                         {
-                            dialog.Title = $"Tiene {Time --} segundos para cancelar su reporte";
-                            if (i == 10)
+                            await Task.Delay(1000);
+                            if (!cancelReport)
                             {
-                                await Reportar();
+                                dialog.Title = $"Tiene {Time--} segundos para cancelar su reporte";
+                                if (i == 10)
+                                {
+                                    await Reportar();
+                                }
                             }
                         }
                     }
@@ -111,41 +139,72 @@ namespace IncidentesAMT.ViewModel
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", ex.Message, "ok");
+                await DisplayAlert("Error", ex.Message, "Ok");
             }
         }
 
         private async Task Reportar()
         {
-            //convertImg = new ConvertImgBase64();
-            UserDialogs.Instance.ShowLoading("Reportando incidente espere...");
-            IncidenteModel incidente = new IncidenteModel()
-            {
-                direccion = Direccion,
-                latitud = GeoLocation.lat,
-                longitud = GeoLocation.lng,
-                persona = _idPersona,
-                fotoUno = ConvertImgBase64.ConvertImgToBase64(PathFoto),
-                fotoDos = ConvertImgBase64.ConvertImgToBase64(PathFoto2),
-                tipoIncidente = _idIncidente,
-                descripcion = Descripcion
-            };
+            try
+            {               
+                UserDialogs.Instance.ShowLoading("Reportando incidente espere...");
+                IncidenteModel incidente = new IncidenteModel()
+                {
+                    direccion = Direccion,
+                    latitud = GeoLocation.lat,
+                    longitud = GeoLocation.lng,
+                    persona = _idPersona,
+                    fotoUno = ConvertImgBase64.ConvertImgToBase64(PathFoto),
+                    fotoDos = ConvertImgBase64.ConvertImgToBase64(PathFoto2),
+                    tipoIncidente = _idIncidente,
+                    descripcion = Descripcion
+                };
 
-            Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/");
-            var client = new HttpClient();
-            var json = JsonConvert.SerializeObject(incidente);
-            var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(RequestUri, contentJson);
-            if (response.StatusCode == HttpStatusCode.Created)
+                Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/");
+                var client = new HttpClient();
+                var json = JsonConvert.SerializeObject(incidente);
+                var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(RequestUri, contentJson);
+                if (response.StatusCode == HttpStatusCode.Created)
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await DisplayAlert("Mensaje", "Incidente Registrado correctamente", "Ok");
+                }
+                else
+                {
+                    UserDialogs.Instance.HideLoading();
+                    await DisplayAlert("Error", response.StatusCode.ToString(), "Ok");
+                }            
+            }
+            catch (Exception ex)
             {
                 UserDialogs.Instance.HideLoading();
-                await DisplayAlert("Mensaje", "Incidente Registrado correctamente", "Ok");
+                await DisplayAlert("Error", ex.Message.ToString(), "Cerrar");
+            }           
+        }
+
+        private async Task<bool> VerifyIncidente()
+        {
+            if (string.IsNullOrEmpty(Direccion))
+            {
+                await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(PathFoto))
+            {
+                await DisplayAlert("Error", "Debe enviar una foto", "Ok");
+                return false;
+            }
+            else if (string.IsNullOrEmpty(PathFoto2))
+            {
+                await DisplayAlert("Error", "Debe enviar una foto", "Ok");
+                return false;
             }
             else
             {
-                UserDialogs.Instance.HideLoading();
-                await DisplayAlert("Error", response.StatusCode.ToString(), "Ok");
+                return true;
             }
+
         }
 
         public async Task TomarFoto()
@@ -178,6 +237,27 @@ namespace IncidentesAMT.ViewModel
             {
                 await DisplayAlert("Error", $"Ocurrió un error con la cámara  ${ ex.Message.ToString()}", "Cerrar");
             }
+        }
+
+        private void configMap()
+        {
+            MapView.UiSettings.CompassEnabled = true;
+            MapView.UiSettings.MyLocationButtonEnabled = true;
+            MapView.UiSettings.MapToolbarEnabled = true;
+            MapView.MyLocationEnabled = true;
+            MapView.FlowDirection = FlowDirection.LeftToRight;
+            MapView.MapType = MapType.Street;
+            moveToActualPosition();
+        }
+
+        public void moveToActualPosition()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await geoLocation.getLocationGPS();
+                Position position = new Position(GeoLocation.lat, GeoLocation.lng);
+                MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(250)), true);
+            });
         }
     }
 }

@@ -23,7 +23,7 @@ namespace IncidentesAMT.View
         {
             _idUser = idUser;
             InitializeComponent();
-            BindingContext = new IncidenteByUsuarioViewModel(_idUser);
+            BindingContext = new IncidenteByUsuarioViewModel(Navigation,_idUser);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using IncidentesAMT.Helpers;
 using IncidentesAMT.Modelo;
+using IncidentesAMT.View;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,21 @@ namespace IncidentesAMT.ViewModel
         }
         #endregion
 
-        public IncidenteByUsuarioViewModel(string idUser)
+        public Command DetalleCommand { get; set; }
+        public INavigation Navigation { get; set; } 
+
+        public IncidenteByUsuarioViewModel(INavigation navigation, string idUser)
         {
+            Navigation = navigation;
             GetIncidentePersonaById(idUser);
+            DetalleCommand = new Command<IncidenteByPersonaModel>((I) => DetallePage(I));
         }
+
+        private async void DetallePage(IncidenteByPersonaModel incidenteByPersonaModel)
+        {
+            await Navigation.PushAsync(new Detalle_incidente(incidenteByPersonaModel));
+        }
+
         public async void GetIncidentePersonaById(string idUser)
         {
             try

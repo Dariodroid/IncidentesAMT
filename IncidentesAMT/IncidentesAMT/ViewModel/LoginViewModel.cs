@@ -16,7 +16,6 @@ namespace IncidentesAMT.ViewModel
     public class LoginViewModel : BaseViewModel
     {
         private string _userId;
-        public INavigation Navigation { get; set; }
 
         #region Commands
         public Command LoginCommand { get; set; }
@@ -25,6 +24,8 @@ namespace IncidentesAMT.ViewModel
         #endregion
 
         #region Propertys
+        public INavigation Navigation { get; set; }
+
         private bool _isRemember = false;
 
         public bool IsRemember
@@ -57,6 +58,7 @@ namespace IncidentesAMT.ViewModel
             LoginCommand = new Command(async () => await Login());
             CrearteAccount = new Command(async () => await CreateAccount());
         }
+
         public async Task Login()
         {
             try
@@ -121,7 +123,7 @@ namespace IncidentesAMT.ViewModel
                 if (key != "")
                 {
                     IsRemember = true;
-                    Navigation.PushAsync(new Menu(key), true);
+                    Application.Current.MainPage = new NavigationPage(new Menu(key));
                 }
             }
         }

@@ -22,12 +22,19 @@ namespace IncidentesAMT.Vista
     {
         string _idPersona;
         string _idIncidente;
+        IncidenteViewModel incidenteViewModel;
         public Incidente(string idPersona, string idIncidente)
         {
             _idIncidente = idIncidente; 
             _idPersona = idPersona;
             InitializeComponent();
-            BindingContext = new IncidenteViewModel(Navigation,_idPersona,_idIncidente, MapView);
+            incidenteViewModel = new IncidenteViewModel(Navigation, _idPersona, _idIncidente, MapView);
+            BindingContext = incidenteViewModel;
+        }
+
+        private void SlideToActView_SlideCompleted(object sender, EventArgs e)
+        {
+            incidenteViewModel.Incidente();
         }
     }
 }

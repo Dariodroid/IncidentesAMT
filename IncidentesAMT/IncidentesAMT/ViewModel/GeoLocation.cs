@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
-namespace IncidentesAMT.Helpers
+namespace IncidentesAMT.ViewModel
 {
     public class GeoLocation : BaseViewModel
     {
@@ -44,21 +44,31 @@ namespace IncidentesAMT.Helpers
             catch (FeatureNotEnabledException ex)
             {
                 await DisplayAlert("Error", "Los servicios de localización no están activos en éste dispositivo, por favor active el GPS", "Cerrar");
+                NavegarToMain();
                 return false;
             }
             catch (PermissionException ex)
             {
-                // Handle permission exception
-                var key = Preferences.Get("UserId", "");
-                Application.Current.MainPage = new NavigationPage(new Menu(key));
+                // Handle permission exception               
                 await DisplayAlert("Permisos de Ubicación", "No se concedió permiso a la aplicación para usar su ubicación, para poder reportar un incidente debe permitir el acceso a su ubicación en las configuraiónes del dispositivo", "Cerrar");
+                NavegarToMain();
                 return false;
             }
             catch (Exception ex)
             {
                 // Unable to get location
                 await DisplayAlert("Error", "No se puede obtener la ubicación", "Cerrar");
+                NavegarToMain();
                 return false;
+            }
+        }
+
+        private void NavegarToMain()
+        {
+            var key = Preferences.Get("UserId", "");
+            if (key != "")
+            {
+                Application.Current.MainPage = new NavigationPage(new Menu(key));
             }
         }
     }

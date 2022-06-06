@@ -2,48 +2,76 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
-             x:Class="IncidentesAMT.Vista.Incidente" Title="Reportar incidente">
+             x:Class="IncidentesAMT.Vista.Incidente" Title="Reportar incidente"
+             xmlns:local="clr-namespace:IncidentesAMT.ViewModel">
     <ContentPage.Content>
-        
+
         <StackLayout BackgroundColor="White">
             <Frame Padding="0" Margin="8,5,8,0" CornerRadius="8" HasShadow="True">
 
-                <StackLayout HeightRequest="320">
+                <StackLayout HeightRequest="250">
                     <maps:Map x:Name="MapView"/>
                 </StackLayout>
 
             </Frame>
-            <StackLayout Padding="10">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="120"/>
-                            <RowDefinition Height="19"/>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="50"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+            <StackLayout Padding="5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="120"/>
+                        <RowDefinition Height="19"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="100"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
                     <Frame Grid.Column="0" Grid.Row="0" Padding="0,5,0,5" Margin="0,0,0,0" CornerRadius="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HasShadow="True">
 
                         <Image x:Name="foto1" Source="{Binding PathFoto}" HorizontalOptions="FillAndExpand"  ></Image>
                     </Frame>
                     <Frame Grid.Column="1" Grid.Row="0" Padding="0,5,0,5" Margin="0,0,0,0" CornerRadius="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HasShadow="True">
-                        
-                    <Image x:Name="foto2" Source="{Binding PathFoto2}" HorizontalOptions="FillAndExpand"></Image>
+
+                        <Image x:Name="foto2" Source="{Binding PathFoto2}" HorizontalOptions="FillAndExpand"></Image>
                     </Frame>
-                        <Label Text="Calles de referencia:" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
-                        <Entry x:Name="txtDireccion" Text="{Binding Direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
-                        <Label Text="Descripción:" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
-                        <Editor x:Name="txtDescripcion" Text="{Binding Descripcion}" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
-                        <Button Text="Añadir foto"  TextTransform="None" Grid.Row="5" Grid.Column="0" CornerRadius="50" VerticalOptions="End" BackgroundColor="#2196F3" Command="{Binding CapturarCommand}"></Button>
-                        <Button Text="Registrar"  TextTransform="None" Grid.Row="5" Grid.Column="1" CornerRadius="50" VerticalOptions="End" BackgroundColor="Chocolate" Command="{Binding ReportarIncidente}"></Button>
-                    </Grid>
-                </StackLayout>
-            
+                    <Label Text="Calles de referencia:" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
+                    <Entry x:Name="txtDireccion" Text="{Binding Direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
+                    <Label Text="Descripción:" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
+                    <Editor x:Name="txtDescripcion" Text="{Binding Descripcion}" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="10" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
+
+
+                </Grid>
+                    <Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderColor="Gray" Margin="5,2,5,5" CornerRadius="10" Padding="8" BackgroundColor="Beige">
+                        <StackLayout >
+                        <Button Text="Añadir foto" Margin="0,5,0,0" HeightRequest="40" HorizontalOptions="Center"  TextTransform="None" CornerRadius="50" VerticalOptions="End" BackgroundColor="#2196F3" Command="{Binding CapturarCommand}"></Button>
+                        <!--<Button Text="Registrar"  TextTransform="None" Grid.Row="5" Grid.Column="1" CornerRadius="50" VerticalOptions="End" BackgroundColor="Chocolate" Command="{Binding ReportarIncidente}"></Button>-->
+
+                            <local:SlideToActView HeightRequest="30" SlideCompleted="SlideToActView_SlideCompleted">
+                            <local:SlideToActView.Thumb>
+                                <Frame CornerRadius="50" HasShadow="True" BackgroundColor="Red" Padding="0" BorderColor="Silver">
+                                    <Image Source="fldoub.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" WidthRequest="40" />
+                                </Frame>
+                            </local:SlideToActView.Thumb>
+
+                            <local:SlideToActView.TrackBar>
+                                <Frame CornerRadius="50" HasShadow="True" BackgroundColor="Orange" Padding="0" BorderColor="Brown">
+                                    <Label Text="Desliza para reportar el incidente" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                                </Frame>
+                            </local:SlideToActView.TrackBar>
+
+                            <local:SlideToActView.FillBar>
+                                <Frame CornerRadius="50" HasShadow="True" BackgroundColor="Tomato" Padding="0" BorderColor="Brown">
+                                    <Image Source="flbackgr.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" WidthRequest="40" />
+
+                                </Frame>
+                            </local:SlideToActView.FillBar>
+                        </local:SlideToActView>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

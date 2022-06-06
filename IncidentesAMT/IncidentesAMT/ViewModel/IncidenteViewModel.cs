@@ -26,11 +26,12 @@ namespace IncidentesAMT.ViewModel
         bool geo;
         #endregion
 
-
-
-        #region Propertys
-        public Command ReportarIncidente { get; set; }
+        #region COMANDOS
+        public Command ReportarIncidenteCommand { get; set; }
         public Command CapturarCommand { get; set; }
+        #endregion
+
+        #region PROPIEDADES
         private string _idPersona { get; set; }
         private string _idIncidente { get; set; }
         public INavigation Navigation { get; set; }
@@ -91,7 +92,7 @@ namespace IncidentesAMT.ViewModel
             _idIncidente = idIncidente;
             VerifyGps();
             MapView = Map;
-            ReportarIncidente = new Command(async () => await Incidente());
+            ReportarIncidenteCommand = new Command(async () => await Incidente());
             CapturarCommand = new Command(async () => await TomarFoto());
         }
 
@@ -100,8 +101,8 @@ namespace IncidentesAMT.ViewModel
             geo = await new GeoLocation().getLocationGPS();
             if (geo)
             {
-                await geoLocation.getLocationGPS();
                 configMap();
+                await geoLocation.getLocationGPS();
             }
         }
 
@@ -169,6 +170,12 @@ namespace IncidentesAMT.ViewModel
                 {
                     UserDialogs.Instance.HideLoading();
                     await DisplayAlert("Mensaje", "Incidente Registrado correctamente", "Ok");
+
+                    var key = Preferences.Get("UserId", "");
+                    if (key != "")
+                    {
+                        Application.Current.MainPage = new NavigationPage(new Menu(key));
+                    }
                 }
                 else
                 {
@@ -252,12 +259,12 @@ namespace IncidentesAMT.ViewModel
 
         public void moveToActualPosition()
         {
-            Device.BeginInvokeOnMainThread(async () =>
+            Device.BeginInvokeOnMainThread( () =>
             {
-                await geoLocation.getLocationGPS();
                 Position position = new Position(GeoLocation.lat, GeoLocation.lng);
                 MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(250)), true);
             });
         }
+
     }
 }

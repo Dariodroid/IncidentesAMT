@@ -122,11 +122,11 @@ namespace IncidentesAMT.ViewModel
             await Navigation.PushAsync(new AcuerdoResposabilidad());
         }
 
-        private async void CerrarSesion()
+        private void CerrarSesion()
         {
             Preferences.Remove("UserId");
             Preferences.Clear();
-            await Navigation.PushAsync(new Login(), true);
+            Application.Current.MainPage = new NavigationPage(new Login());
         }
     }
 }

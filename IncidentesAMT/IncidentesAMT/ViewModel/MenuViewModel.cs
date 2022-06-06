@@ -20,19 +20,21 @@ namespace IncidentesAMT.VistaModelo
     public class MenuViewModel : BaseViewModel
     {
         #region COMMANDS
-            public Command RefreshCommand { get; set; }
-            public Command IncidenteSelectCommand { get; set; }
-            public Command PerfilUserCommand { get; set; }
+        public Command RefreshCommand { get; set; }
+        public Command IncidenteSelectCommand { get; set; }
+        public Command PerfilUserCommand { get; set; }
 
         #endregion
 
         #region VARIABLES
         private ObservableCollection<IncidenteByPersonaModel> _incidenteByPersonaModel;
-            string _lblIncActivos;
-            string _lblfalso;
-            bool _frmActivos;
-            bool _frmFalsos;
-            string _idUser;
+        string _lblIncActivos;
+        string _lblfalso;
+        bool _frmActivos;
+        bool _frmFalsos;
+        string _idUser;
+        int contgen = 0;
+        int contfal = 0;
         #endregion
 
         #region OBJETOS
@@ -63,7 +65,7 @@ namespace IncidentesAMT.VistaModelo
             set { _incidenteByPersonaModel = value; OnPropertyChanged(); }
         }
 
-       
+
         private ObservableCollection<CatalogoXIdModel> _incidentes;
 
         public ObservableCollection<CatalogoXIdModel> Incidentes
@@ -77,7 +79,7 @@ namespace IncidentesAMT.VistaModelo
         public MenuViewModel(INavigation navigation, string idUser)
         {
             Navigation = navigation;
-            RefreshCommand = new Command(() =>  GetIncidentePersonaById());
+            RefreshCommand = new Command(() => GetIncidentePersonaById());
             IncidenteSelectCommand = new Command<CatalogoXIdModel>((C) => IncidenteSelect(C));
             PerfilUserCommand = new Command(() => PerfilUser());
             _idUser = idUser;
@@ -111,14 +113,13 @@ namespace IncidentesAMT.VistaModelo
             {
                 IsBusy = false;
                 await DisplayAlert("Error", ex.Message.ToString(), "ok");
-            }   
+            }
 
         }
 
         private void VerificarNotif()
         {
-            int contgen = 0;
-            int contfal = 0;
+
             if (_incidenteByPersonaModel != null)
             {
                 for (int i = 0; i < _incidenteByPersonaModel.Count; i++)
@@ -168,13 +169,21 @@ namespace IncidentesAMT.VistaModelo
 
         private async void IncidenteSelect(CatalogoXIdModel catalogo)
         {
-            await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));
+            if(contfal < 3)
+            {
+                await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));
+            }
+            else
+            {
+                await DisplayAlert("Alerta", "Usuario bloqueado por 180 días, superó el límite de incidentes falsos reportados","Ok");
+                Application.Current.MainPage = new NavigationPage(new AcuerdoResposabilidad());
+            }
         }
 
         private async void PerfilUser()
         {
             await Navigation.PushAsync(new PerfilUsuario(_idUser));
         }
-       
+
     }
 }

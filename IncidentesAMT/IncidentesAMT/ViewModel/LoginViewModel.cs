@@ -85,7 +85,7 @@ namespace IncidentesAMT.ViewModel
                         Preferences.Set("Remember", IsRemember);
                         Preferences.Set("UserId", _userId);
                         UserDialogs.Instance.HideLoading();
-                        await Navigation.PushAsync(new Menu(_userId), true);
+                        Application.Current.MainPage = new NavigationPage(new Menu(_userId));
                     }
                     else
                     {

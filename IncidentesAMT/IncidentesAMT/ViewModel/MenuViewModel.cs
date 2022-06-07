@@ -175,9 +175,18 @@ namespace IncidentesAMT.VistaModelo
 
         private async void IncidenteSelect(CatalogoXIdModel catalogo)
         {
-            if(contfal < 3)
+            if(contfal < 4)
             {
-                await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));
+               var geo = await new GeoLocation().getLocationGPS();
+                if (geo)
+                {
+                    await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));
+                }
+                else
+                {
+                    //await DisplayAlert("Alerta", "GPS o permisos de ubicación desactivados", "Ok");
+                    
+                }
             }
             else
             {

@@ -90,31 +90,16 @@ namespace IncidentesAMT.ViewModel
             Navigation = navigation;
             _idPersona = idPersona;
             _idIncidente = idIncidente;
-            VerifyGps();
             MapView = Map;
+            configMap();
             ReportarIncidenteCommand = new Command(async () => await Incidente());
             CapturarCommand = new Command(async () => await TomarFoto());
-        }
-
-        private async void VerifyGps()
-        {
-            geo = await new GeoLocation().getLocationGPS();
-            if (geo)
-            {
-                configMap();
-                await geoLocation.getLocationGPS();
-            }
         }
 
         public async Task Incidente()
         {
             try
             {
-                VerifyGps();
-                if (!geo)
-                {
-                    return;
-                }
                 if (await VerifyIncidente())
                 {
                     bool cancelReport = false;
@@ -123,6 +108,7 @@ namespace IncidentesAMT.ViewModel
                     using (var dialog = UserDialogs.Instance.Loading(message, () =>
                     cancelReport = true, "CANCELAR"))
                     {
+                        Time--;
                         for (int i = 0; i <= 10; i++)
                         {
                             await Task.Delay(1000);

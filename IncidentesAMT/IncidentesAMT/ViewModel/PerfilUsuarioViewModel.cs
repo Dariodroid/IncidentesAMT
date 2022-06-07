@@ -81,22 +81,25 @@ namespace IncidentesAMT.ViewModel
         {
             try
             {
-                IsBusy = true;
-                var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("Accpet", "application/json");
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if(_infoUserModel == null)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
-                    _infoUserModel = JsonConvert.DeserializeObject<InfoUserByIdModel>(content);
-                    Nombre = _infoUserModel.nombres;
-                    Apellido = _infoUserModel.apellidos;
-                    Telefono = (string)_infoUserModel.telefono;
-                    Correo = _infoUserModel.correo;
-                    IsBusy = false;
+                    IsBusy = true;
+                    var request = new HttpRequestMessage();
+                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    request.Method = HttpMethod.Get;
+                    request.Headers.Add("Accpet", "application/json");
+                    var client = new HttpClient();
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        string content = await response.Content.ReadAsStringAsync();
+                        _infoUserModel = JsonConvert.DeserializeObject<InfoUserByIdModel>(content);
+                        Nombre = _infoUserModel.nombres;
+                        Apellido = _infoUserModel.apellidos;
+                        Telefono = (string)_infoUserModel.telefono;
+                        Correo = _infoUserModel.correo;
+                        IsBusy = false;
+                    }
                 }
             }
             catch (Exception ex)

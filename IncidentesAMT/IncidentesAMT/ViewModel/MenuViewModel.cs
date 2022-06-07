@@ -27,6 +27,7 @@ namespace IncidentesAMT.VistaModelo
         #endregion
 
         #region VARIABLES
+        string content;
         private ObservableCollection<IncidenteByPersonaModel> _incidenteByPersonaModel;
         string _lblIncActivos;
         string _lblfalso;
@@ -92,21 +93,24 @@ namespace IncidentesAMT.VistaModelo
         public async void GetIncidentePersonaById()
         {
             try
-            {
-                IsBusy = true;
-                var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("Accpet", "application/json");
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-                if (response.StatusCode == HttpStatusCode.OK)
+            {                
+                if (IncidenteByPersonaModel == null)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
-                    IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
-                    UserDialogs.Instance.HideLoading();
-                    VerificarNotif();
-                    IsBusy = false;
+                    IsBusy = true;
+                    var request = new HttpRequestMessage();
+                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
+                    request.Method = HttpMethod.Get;
+                    request.Headers.Add("Accpet", "application/json");
+                    var client = new HttpClient();
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        content = await response.Content.ReadAsStringAsync();
+                        IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
+                        UserDialogs.Instance.HideLoading();
+                        VerificarNotif();
+                        IsBusy = false;
+                    }
                 }
             }
             catch (Exception ex)
@@ -119,7 +123,6 @@ namespace IncidentesAMT.VistaModelo
 
         private void VerificarNotif()
         {
-
             if (_incidenteByPersonaModel != null)
             {
                 for (int i = 0; i < _incidenteByPersonaModel.Count; i++)
@@ -146,18 +149,21 @@ namespace IncidentesAMT.VistaModelo
         {
             try
             {
-                UserDialogs.Instance.ShowLoading("Cargando...");
-                var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/628be9a6346e7309b33a5920");
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("Accpet", "application/json");
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if(Incidentes == null)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
-                    Incidentes = JsonConvert.DeserializeObject<ObservableCollection<CatalogoXIdModel>>(content);
-                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.ShowLoading("Cargando...");
+                    var request = new HttpRequestMessage();
+                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/628be9a6346e7309b33a5920");
+                    request.Method = HttpMethod.Get;
+                    request.Headers.Add("Accpet", "application/json");
+                    var client = new HttpClient();
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        string content = await response.Content.ReadAsStringAsync();
+                        Incidentes = JsonConvert.DeserializeObject<ObservableCollection<CatalogoXIdModel>>(content);
+                        UserDialogs.Instance.HideLoading();
+                    }
                 }
             }
             catch (Exception ex)
@@ -184,6 +190,5 @@ namespace IncidentesAMT.VistaModelo
         {
             await Navigation.PushAsync(new PerfilUsuario(_idUser));
         }
-
     }
 }

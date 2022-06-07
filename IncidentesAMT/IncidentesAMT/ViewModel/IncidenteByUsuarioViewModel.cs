@@ -30,8 +30,10 @@ namespace IncidentesAMT.ViewModel
         }
         #endregion
 
+        #region COMANDOS
         public Command DetalleCommand { get; set; }
-        public INavigation Navigation { get; set; } 
+        public INavigation Navigation { get; set; }
+        #endregion
 
         public IncidenteByUsuarioViewModel(INavigation navigation, string idUser)
         {
@@ -49,19 +51,22 @@ namespace IncidentesAMT.ViewModel
         {
             try
             {
-                UserDialogs.Instance.ShowLoading("Cargando...");
-                var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + idUser);
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("Accpet", "application/json");
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if(IncidenteByUsuarioModel == null)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
-                    IncidenteByUsuarioModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
+                    UserDialogs.Instance.ShowLoading("Cargando...");
+                    var request = new HttpRequestMessage();
+                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + idUser);
+                    request.Method = HttpMethod.Get;
+                    request.Headers.Add("Accpet", "application/json");
+                    var client = new HttpClient();
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        string content = await response.Content.ReadAsStringAsync();
+                        IncidenteByUsuarioModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
+                        UserDialogs.Instance.HideLoading();
+                    }
                 }
-                    UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {

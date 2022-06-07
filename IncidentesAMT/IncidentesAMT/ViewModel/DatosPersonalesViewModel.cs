@@ -15,12 +15,16 @@ namespace IncidentesAMT.ViewModel
 {
     public class DatosPersonalesViewModel : BaseViewModel
     {
+        #region VARIABLES
         private string _idUser;
         private InfoUserByIdModel infoUserModel;
         FotoViewModel fotoViewModel;
+        #endregion
 
+        #region COMANDOS
         public Command Fotocommand { get; set; }
         public Command Updatecommand { get; set; }
+        #endregion
 
         #region PROPIEDADES
         public INavigation Navigation { get; set; }
@@ -98,7 +102,6 @@ namespace IncidentesAMT.ViewModel
 
         #endregion
 
-
         public DatosPersonalesViewModel(INavigation navigation, string idUser)
         {
             _idUser = idUser;
@@ -113,25 +116,28 @@ namespace IncidentesAMT.ViewModel
         {
             try
             {
-                UserDialogs.Instance.ShowLoading("Cargando sus datos...");
-                var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("Accpet", "application/json");
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if(infoUserModel == null)
                 {
-                    string content = await response.Content.ReadAsStringAsync();
-                    infoUserModel = JsonConvert.DeserializeObject<InfoUserByIdModel>(content);
-                    Nombre = infoUserModel.nombres;
-                    Apellido = infoUserModel.apellidos;
-                    Telefono = infoUserModel.telefono;
-                    Direccion = infoUserModel.direccion;
-                    Correo = infoUserModel.correo;
-                    FotoCedula = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoCedula);
-                    FotoPerfil = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoPerfil);
-                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.ShowLoading("Cargando sus datos...");
+                    var request = new HttpRequestMessage();
+                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    request.Method = HttpMethod.Get;
+                    request.Headers.Add("Accpet", "application/json");
+                    var client = new HttpClient();
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        string content = await response.Content.ReadAsStringAsync();
+                        infoUserModel = JsonConvert.DeserializeObject<InfoUserByIdModel>(content);
+                        Nombre = infoUserModel.nombres;
+                        Apellido = infoUserModel.apellidos;
+                        Telefono = infoUserModel.telefono;
+                        Direccion = infoUserModel.direccion;
+                        Correo = infoUserModel.correo;
+                        FotoCedula = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoCedula);
+                        FotoPerfil = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoPerfil);
+                        UserDialogs.Instance.HideLoading();
+                    }
                 }
             }
             catch (Exception ex)

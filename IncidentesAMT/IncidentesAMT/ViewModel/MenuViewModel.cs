@@ -175,7 +175,7 @@ namespace IncidentesAMT.VistaModelo
 
         private async void IncidenteSelect(CatalogoXIdModel catalogo)
         {
-            if(contfal < 4)
+            if(contfal < 3)
             {
                var geo = await new GeoLocation().getLocationGPS();
                 if (geo)

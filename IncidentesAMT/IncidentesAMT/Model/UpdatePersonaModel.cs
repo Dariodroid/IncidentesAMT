@@ -8,7 +8,14 @@ namespace IncidentesAMT.Model
     {
         public string telefono { get; set; }
         public string direccion { get; set; }
+
+    }
+    public class Fotoperfil
+    {
+        public string fotoPerfil { get; set; }
+    }
+    public class Fotocedula
+    {
         public string fotoCedula { get; set; }
-        
     }
 }

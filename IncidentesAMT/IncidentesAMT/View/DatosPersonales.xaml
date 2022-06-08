@@ -5,20 +5,60 @@
    <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <StackLayout Padding="30">
-                    <Image Source="{Binding FotoPerfil}"
+                <StackLayout Padding="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Source="{Binding FotoPerfil}"                               
+                           Grid.ColumnSpan="2"
                            x:Name="imgUser"
                            WidthRequest="100"   
                            HeightRequest="100"
                            HorizontalOptions="Center"
                            VerticalOptions="Center">
-                        <Image.Clip>
-                            <EllipseGeometry
-                            Center="50,50"
-                            RadiusX="50"
-                            RadiusY="50"/>
-                        </Image.Clip>
-                    </Image>
+                            <Image.Clip>
+                                <EllipseGeometry
+                                Center="50,50"
+                                RadiusX="50"
+                                RadiusY="50"/>
+                            </Image.Clip>
+                        </Image>
+                        <Frame BackgroundColor="CadetBlue" 
+                               Grid.Column="0" Grid.Row="0" 
+                               Grid.ColumnSpan="2" 
+                               Padding="10" 
+                               CornerRadius="50" 
+                               Margin="90,0,0,0" 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="End" 
+                               HeightRequest="15" 
+                               WidthRequest="15">
+                            <StackLayout >
+                                <Image Source="camara.png"
+                                       x:Name="imgCamara"
+                                       WidthRequest="100"   
+                                       HeightRequest="15"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                                    <Image.Clip>
+                                        <EllipseGeometry
+                                            RadiusX="40"
+                                            RadiusY="40"/>
+                                    </Image.Clip>
+                                </Image>
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding FotoPerfilcommand}">                                    
+                                </TapGestureRecognizer>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </Grid>
+                    
                     <Label x:Name="lblName" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Title">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0} {1}">

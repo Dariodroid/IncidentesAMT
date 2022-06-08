@@ -23,6 +23,9 @@ namespace IncidentesAMT.ViewModel
 
         #region COMANDOS
         public Command Fotocommand { get; set; }
+
+        public Command FotoPerfilcommand { get; set; }
+
         public Command Updatecommand { get; set; }
         #endregion
 
@@ -107,6 +110,7 @@ namespace IncidentesAMT.ViewModel
             _idUser = idUser;
             fotoViewModel = new FotoViewModel();
             Fotocommand = new Command(() => takefoto());
+            FotoPerfilcommand = new Command(() => takeFotoPerfil());
             Updatecommand = new Command(() => UpdatePersona());
             GetPersonaById();
             Navigation = navigation;
@@ -155,15 +159,30 @@ namespace IncidentesAMT.ViewModel
                 UserDialogs.Instance.ShowLoading("Actualizando...");
                 if (!string.IsNullOrEmpty(fotoViewModel.PathFoto))
                 {
-                    UpdatePersonaModel persona = new UpdatePersonaModel
+                    Fotocedula fotoCedula = new Fotocedula
                     {
-                        telefono = Telefono,
-                        direccion = Direccion,
                         fotoCedula = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFoto)
                     };
                     Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
                     var client = new HttpClient();
-                    var json = JsonConvert.SerializeObject(persona);
+                    var json = JsonConvert.SerializeObject(fotoCedula);
+                    var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
+                    var response = await client.PutAsync(RequestUri, contentJson);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
+                        UserDialogs.Instance.HideLoading();
+                    }
+                }
+                if (!string.IsNullOrEmpty(fotoViewModel.PathFotoPerfil))
+                {
+                    Fotoperfil fotoPerfil = new Fotoperfil
+                    {
+                       fotoPerfil = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFotoPerfil.ToString())
+                    };
+                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    var client = new HttpClient();
+                    var json = JsonConvert.SerializeObject(fotoPerfil);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = await client.PutAsync(RequestUri, contentJson);
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -204,6 +223,15 @@ namespace IncidentesAMT.ViewModel
             if(!string.IsNullOrEmpty(fotoViewModel.PathFoto))
             {
                 FotoCedula = fotoViewModel.PathFoto;
+            }
+        }
+
+        private async void takeFotoPerfil()
+        {
+            await fotoViewModel.TomarFotoPerfil();
+            if (!string.IsNullOrEmpty(fotoViewModel.Foto.ToString()))
+            {
+                FotoPerfil = fotoViewModel.PathFotoPerfil;
             }
         }
     }

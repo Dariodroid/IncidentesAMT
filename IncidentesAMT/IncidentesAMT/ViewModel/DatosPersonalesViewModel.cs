@@ -107,8 +107,7 @@ namespace IncidentesAMT.ViewModel
 
         public DatosPersonalesViewModel(INavigation navigation, string idUser)
         {
-            _idUser = idUser;
-            fotoViewModel = new FotoViewModel();
+            _idUser = idUser;            
             Fotocommand = new Command(() => takefoto());
             FotoPerfilcommand = new Command(() => takeFotoPerfil());
             Updatecommand = new Command(() => UpdatePersona());
@@ -219,6 +218,7 @@ namespace IncidentesAMT.ViewModel
 
         private async void takefoto()
         {
+            fotoViewModel = new FotoViewModel();
             await fotoViewModel.TomarFoto();
             if(!string.IsNullOrEmpty(fotoViewModel.PathFoto))
             {
@@ -228,8 +228,9 @@ namespace IncidentesAMT.ViewModel
 
         private async void takeFotoPerfil()
         {
+            fotoViewModel = new FotoViewModel();
             await fotoViewModel.TomarFotoPerfil();
-            if (!string.IsNullOrEmpty(fotoViewModel.Foto.ToString()))
+            if (fotoViewModel.Foto != null)
             {
                 FotoPerfil = fotoViewModel.PathFotoPerfil;
             }

@@ -182,11 +182,6 @@ namespace IncidentesAMT.VistaModelo
                 {
                     await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));
                 }
-                else
-                {
-                    //await DisplayAlert("Alerta", "GPS o permisos de ubicación desactivados", "Ok");
-                    
-                }
             }
             else
             {

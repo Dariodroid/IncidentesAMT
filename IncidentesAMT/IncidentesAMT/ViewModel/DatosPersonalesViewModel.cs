@@ -18,7 +18,7 @@ namespace IncidentesAMT.ViewModel
         #region VARIABLES
         private string _idUser;
         private InfoUserByIdModel infoUserModel;
-        FotoViewModel fotoViewModel;
+        FotoViewModel fotoViewModel = new FotoViewModel();
         #endregion
 
         #region COMANDOS
@@ -107,12 +107,12 @@ namespace IncidentesAMT.ViewModel
 
         public DatosPersonalesViewModel(INavigation navigation, string idUser)
         {
+            Navigation = navigation;
             _idUser = idUser;            
             Fotocommand = new Command(() => takefoto());
             FotoPerfilcommand = new Command(() => takeFotoPerfil());
             Updatecommand = new Command(() => UpdatePersona());
             GetPersonaById();
-            Navigation = navigation;
         }
 
         private async void GetPersonaById()
@@ -218,7 +218,7 @@ namespace IncidentesAMT.ViewModel
 
         private async void takefoto()
         {
-            fotoViewModel = new FotoViewModel();
+            //fotoViewModel = new FotoViewModel();
             await fotoViewModel.TomarFoto();
             if(!string.IsNullOrEmpty(fotoViewModel.PathFoto))
             {

@@ -31,6 +31,7 @@ namespace IncidentesAMT.VistaModelo
         private ObservableCollection<IncidenteByPersonaModel> _incidenteByPersonaModel;
         string _lblIncActivos;
         string _lblfalso;
+        private bool _noInternet;
         bool _frmActivos;
         bool _frmFalsos;
         string _idUser;
@@ -60,13 +61,24 @@ namespace IncidentesAMT.VistaModelo
             get { return _lblIncActivos; }
             set { _lblIncActivos = value; OnPropertyChanged(); }
         }
+        public bool NoInternet
+        {
+            get { return _noInternet; }
+            set { _noInternet = value; OnPropertyChanged(); }
+        }
+        private bool _isConnected;
+
+        public bool IsConnected
+        {
+            get { return _isConnected; }
+            set { _isConnected = value; OnPropertyChanged(); }
+        }
+
         public ObservableCollection<IncidenteByPersonaModel> IncidenteByPersonaModel
         {
             get { return _incidenteByPersonaModel; }
             set { _incidenteByPersonaModel = value; OnPropertyChanged(); }
         }
-
-
         private ObservableCollection<CatalogoXIdModel> _incidentes;
 
         public ObservableCollection<CatalogoXIdModel> Incidentes
@@ -80,38 +92,77 @@ namespace IncidentesAMT.VistaModelo
         public MenuViewModel(INavigation navigation, string idUser)
         {
             Navigation = navigation;
+            _idUser = idUser;            
+            VerifyInternet();
             RefreshCommand = new Command(() => GetIncidentePersonaById());
             IncidenteSelectCommand = new Command<CatalogoXIdModel>((C) => IncidenteSelect(C));
             PerfilUserCommand = new Command(() => PerfilUser());
-            _idUser = idUser;
-            GetIncidentePersonaById();
-            GetCatalogoXId();
-            FrmFalsos = false;
-            FrmActivos = false;
+        }
+
+        private void VerifyInternet()
+        {
+            int cont = 0;
+            var time = TimeSpan.FromSeconds(1);
+            Device.StartTimer(time,  () =>
+            {
+                bool isconected = TestConnection();
+                Device.BeginInvokeOnMainThread( () =>
+                {
+                    if (isconected)
+                    {
+                        NoInternet = false;
+                        IsConnected = true;
+                        if(IsConnected && cont == 0)
+                        {
+                            cont++;
+                            GetIncidentePersonaById();
+                            GetCatalogoXId();
+                        }
+                    }
+                    else
+                    {
+                        NoInternet = true;
+                        IsConnected = false;
+                        cont = 0;
+                    }
+                });
+                return true;              
+            });
+           
+        }
+
+        private bool TestConnection()
+        {
+            if (NetworkState.iHaveInternet())
+            {             
+                return true;
+            }
+            else
+            {                
+                return false;
+            }
         }
 
         public async void GetIncidentePersonaById()
         {
             try
-            {                
-                if (IncidenteByPersonaModel == null)
+            {
+                IsBusy = true;
+                var request = new HttpRequestMessage();
+                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
+                request.Method = HttpMethod.Get;
+                request.Headers.Add("Accpet", "application/json");
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    IsBusy = true;
-                    var request = new HttpRequestMessage();
-                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
-                    request.Method = HttpMethod.Get;
-                    request.Headers.Add("Accpet", "application/json");
-                    var client = new HttpClient();
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        content = await response.Content.ReadAsStringAsync();
-                        IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
-                        UserDialogs.Instance.HideLoading();
-                        VerificarNotif();
-                        IsBusy = false;
-                    }
+                    content = await response.Content.ReadAsStringAsync();
+                    IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
+                    UserDialogs.Instance.HideLoading();
+                    VerificarNotif();
+                    IsBusy = false;
                 }
+               
             }
             catch (Exception ex)
             {
@@ -123,6 +174,8 @@ namespace IncidentesAMT.VistaModelo
 
         private void VerificarNotif()
         {
+            contgen = 0;
+            contfal = 0;
             if (_incidenteByPersonaModel != null)
             {
                 for (int i = 0; i < _incidenteByPersonaModel.Count; i++)
@@ -130,14 +183,14 @@ namespace IncidentesAMT.VistaModelo
                     if (_incidenteByPersonaModel[i].estado.ToString() == "GEN")
                     {
                         FrmActivos = true;
-                        contgen += 1;
+                        contgen ++;
                         LblIncActivos = $"{contgen} Incidente{(contgen > 1 ? "s" : "")} activo{(contgen > 1 ? "s" : "")}";
                     }
 
                     if (_incidenteByPersonaModel[i].estado.ToString() == "CAN")
                     {
                         FrmFalsos = true;
-                        contfal += 1;
+                        contfal ++;
                         Lblfalso = $"{contfal} Incidente{(contfal > 1 ? "s" : "")} falso{(contfal > 1 ? "s" : "")}";
                     }
 
@@ -149,21 +202,18 @@ namespace IncidentesAMT.VistaModelo
         {
             try
             {
-                if(Incidentes == null)
+                UserDialogs.Instance.ShowLoading("Cargando...");
+                var request = new HttpRequestMessage();
+                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/628be9a6346e7309b33a5920");
+                request.Method = HttpMethod.Get;
+                request.Headers.Add("Accpet", "application/json");
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    UserDialogs.Instance.ShowLoading("Cargando...");
-                    var request = new HttpRequestMessage();
-                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/628be9a6346e7309b33a5920");
-                    request.Method = HttpMethod.Get;
-                    request.Headers.Add("Accpet", "application/json");
-                    var client = new HttpClient();
-                    HttpResponseMessage response = await client.SendAsync(request);
-                    if (response.StatusCode == HttpStatusCode.OK)
-                    {
-                        string content = await response.Content.ReadAsStringAsync();
-                        Incidentes = JsonConvert.DeserializeObject<ObservableCollection<CatalogoXIdModel>>(content);
-                        UserDialogs.Instance.HideLoading();
-                    }
+                    string content = await response.Content.ReadAsStringAsync();
+                    Incidentes = JsonConvert.DeserializeObject<ObservableCollection<CatalogoXIdModel>>(content);
+                    UserDialogs.Instance.HideLoading();
                 }
             }
             catch (Exception ex)

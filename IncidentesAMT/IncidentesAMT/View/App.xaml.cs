@@ -11,9 +11,6 @@ namespace IncidentesAMT
         public App()
         {
             InitializeComponent();
-
-            new NetworkState().iHaveInternet();
-
             MainPage = new NavigationPage(new Login());
         }
         protected override void OnStart()

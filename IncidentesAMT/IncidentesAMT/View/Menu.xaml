@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="IncidentesAMT.Menu" Title="Menú prinipal"  NavigationPage.HasBackButton="False" 
-             xmlns:local="clr-namespace:IncidentesAMT.Helpers">
+             x:Class="IncidentesAMT.Menu" Title="Menú prinipal" NavigationPage.HasNavigationBar="{Binding IsConnected}" 
+             xmlns:globals="clr-namespace:IncidentesAMT.View.Globals" >
+
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Perfil"
                  IconImageSource="account.png"
@@ -14,9 +15,16 @@
     <ContentPage.Content>
         <RefreshView HeightRequest="50" IsRefreshing="{Binding IsBusy}" Command="{Binding RefreshCommand}">
             <ScrollView >
-                <StackLayout HeightRequest="400">
-                    <Image Source="amt2.jpeg" HorizontalOptions="CenterAndExpand" WidthRequest="390" Margin="0,0,0,0"/>
-                    <StackLayout Margin="3" Padding="10">
+                <Grid>
+                    <Grid.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#FDE07F" Offset="0.1"/>
+                            <GradientStop Color="#FF7832" Offset="1.0"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                    <StackLayout HeightRequest="400" IsVisible="{Binding IsConnected}">
+                        <Image Source="amt2.jpeg" HorizontalOptions="CenterAndExpand" WidthRequest="390" Margin="0,0,0,0"/>
+                        <StackLayout Margin="3" Padding="10">
                         <Label Text="Notificaciónes" FontSize="Subtitle" TextTransform="Uppercase" FontAttributes="Bold" Padding="0,0,0,9" ></Label>
 
                         <Frame x:Name="frmFalsos" IsVisible="{Binding FrmFalsos}" BorderColor="Chocolate"
@@ -55,7 +63,7 @@
                         <Label Text="Reportar Incidente" FontSize="Subtitle" FontAttributes="Bold" TextTransform="Uppercase" Padding="0,0,0,9"></Label>
 
                         <CollectionView x:Name="cwIncidentes" ItemsLayout="VerticalGrid, 2"  SelectionMode="Single" ItemsSource="{Binding Incidentes}">
-                           
+
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Frame Padding="0,0,0,0"
@@ -94,9 +102,13 @@
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
                         </CollectionView>
-                        
+
                     </StackLayout>
-                </StackLayout>
+                    </StackLayout>
+
+                    <globals:TestInternet IsVisible="{Binding NoInternet}"/>
+
+                </Grid>
             </ScrollView>
         </RefreshView>
     </ContentPage.Content>

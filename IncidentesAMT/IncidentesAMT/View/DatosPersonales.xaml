@@ -58,8 +58,8 @@
                             </Frame.GestureRecognizers>
                         </Frame>
                     </Grid>
-                    
-                    <Label x:Name="lblName" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Title">
+
+                    <Label x:Name="lblName" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Title" TextColor="Black">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
                                 <Binding Path="Nombre" />
@@ -68,7 +68,7 @@
                         </Label.Text>
                     </Label>
 
-                    <Label Text="{Binding Correo}" HorizontalOptions="Center"/>
+                    <Label Text="{Binding Correo}" HorizontalOptions="Center" TextColor="Black"/>
 
                 </StackLayout>
                 <!--<BoxView HorizontalOptions="FillAndExpand" WidthRequest="1" Margin="10" Color="Gray" HeightRequest="1" />-->

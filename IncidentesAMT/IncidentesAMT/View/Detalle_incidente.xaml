@@ -33,9 +33,9 @@
                     <Frame Grid.Column="0" Grid.Row="0" Padding="0,5,0,5" Margin="0,0,0,0" CornerRadius="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HasShadow="True">
                         <Image x:Name="foto1" Source="{Binding MyImage}" HorizontalOptions="FillAndExpand"  ></Image>
                     </Frame>
-                    <Label Text="Calles de referencia:" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
+                    <Label Text="Calles de referencia:" TextColor="Black" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
                     <Entry x:Name="txtDireccion" IsReadOnly="True" Text="{Binding direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
-                    <Label Text="Descripción:" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
+                    <Label Text="Descripción:" TextColor="Black" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
                     <Editor x:Name="txtDescripcion" IsReadOnly="True" Text="{Binding descripcion}" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="120" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
                 </Grid>
             </StackLayout>

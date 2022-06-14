@@ -8,12 +8,11 @@
                 <StackLayout>
             
             <Frame BorderColor="Gray"
-                   BackgroundColor="White"
                    HasShadow="True"
                    CornerRadius="5"
                    Padding="20" Margin="5,15,5,5">
                 <StackLayout>
-                    <Label x:Name="lblName" HorizontalOptions="Center" FontSize="Title">
+                            <Label x:Name="lblName" TextColor="Black" HorizontalOptions="Center" FontSize="Title">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
                                 <Binding Path="Nombre" />
@@ -24,8 +23,8 @@
                     <BoxView Color="Gray"
                         HeightRequest="2"
                         HorizontalOptions="Fill" />
-                    <Label Text="{Binding Telefono}"/>
-                    <Label x:Name="lblCorreo" Text="{Binding Correo}"/>
+                            <Label Text="{Binding Telefono}" TextColor="Black"/>
+                            <Label x:Name="lblCorreo" Text="{Binding Correo}" TextColor="Black"/>
                 </StackLayout>
             </Frame>
 

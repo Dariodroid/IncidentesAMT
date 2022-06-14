@@ -34,14 +34,17 @@
                                         </StackLayout>
                                     </Frame>
                                 <Label Grid.Column="1" Grid.ColumnSpan="2"
+                                       TextColor="Black"
                                    Text="{Binding direccion}"
                                    FontAttributes="Bold" />
                                 <Label Grid.Row="1"
                                    Grid.Column="1"
+                                       TextColor="Black"
                                    Text="{Binding  descripcion}"
                                    FontAttributes="Italic"
                                    VerticalOptions="End" />
                                 <Label Grid.Column="2"
+                                       TextColor="Black"
                                    Text="{Binding estado}"
                                    HorizontalOptions="EndAndExpand"
                                    FontAttributes="Bold" />

@@ -27,7 +27,7 @@
                         <StackLayout Margin="3" Padding="10">
                         <Label Text="Notificaciónes" FontSize="Subtitle" TextTransform="Uppercase" FontAttributes="Bold" Padding="0,0,0,9" ></Label>
 
-                        <Frame x:Name="frmFalsos" IsVisible="{Binding FrmFalsos}" BorderColor="Chocolate"
+                        <Frame x:Name="frmFalsos" IsVisible="{Binding FrmFalsos}" BackgroundColor="White" BorderColor="Chocolate"
                            CornerRadius="5"
                            Padding="8">
                             <StackLayout>
@@ -43,7 +43,7 @@
                             </StackLayout>
                         </Frame>
 
-                        <Frame x:Name="frmActivos" IsVisible="{Binding FrmActivos}" BorderColor="Chocolate"
+                            <Frame x:Name="frmActivos" IsVisible="{Binding FrmActivos}" BackgroundColor="White" BorderColor="Chocolate"
                            CornerRadius="5"
                            Padding="8">
                             <StackLayout>

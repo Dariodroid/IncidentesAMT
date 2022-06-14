@@ -8,6 +8,7 @@
                 <StackLayout>
             
             <Frame BorderColor="Gray"
+                   BackgroundColor="White"
                    HasShadow="True"
                    CornerRadius="5"
                    Padding="20" Margin="5,15,5,5">

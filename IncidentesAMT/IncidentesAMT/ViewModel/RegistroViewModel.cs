@@ -12,11 +12,14 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using ZXing.Mobile;
+using ZXing.Net.Mobile.Forms;
 
 namespace IncidentesAMT.ViewModel
 {
     public class RegistroViewModel : BaseViewModel
     {
+        bool verifcado = false;
         #region PROPIEDDADES
         private string _identificacion;
         private string _nombres;
@@ -84,7 +87,7 @@ namespace IncidentesAMT.ViewModel
         public RegistroViewModel(INavigation navigation, PersonaModel persona)
         {
             Navigation = navigation;
-            _identificacion = persona.identificacion;
+            //_identificacion = persona.identificacion;
             _nombres = persona.nombres;
             _apellidos = persona.apellidos;
             _correo = persona.correo;
@@ -155,6 +158,11 @@ namespace IncidentesAMT.ViewModel
                 await DisplayAlert("Error", "Debe agregar una foto de su cédula", "Cerrar");
                 return false;
             }
+            if (!verifcado)
+            {
+                await DisplayAlert("Error", "Para continuar con el regístro debe verificar su cédula", "Cerrar");
+                return false;
+            }
             else
             {
                 return true;
@@ -165,7 +173,7 @@ namespace IncidentesAMT.ViewModel
         {
             if(!IsAcuerdo || !IsTerminos)
             {
-                await DisplayAlert("Error", "Debe aceptar el Acuerdo de Responsabilidad, Terminos y Condiciónes ", "Cerrar");
+                await DisplayAlert("Error", "Debe aceptar los Terminos y Condiciónes y el Acuerdo de Responsabilidad,  ", "Cerrar");
                 return false;
             }
             else
@@ -196,8 +204,56 @@ namespace IncidentesAMT.ViewModel
         {
             fotoViewModel = new FotoViewModel();
             await fotoViewModel.TomarFoto();
-            foto = fotoViewModel.PathFoto;
-            FotoCedula = foto;
+            FotoCedula = fotoViewModel.PathFoto;            
+            if(!FotoCedula.IsEmpty)
+            {
+                await DisplayAlert("Mensaje", "Se procederá a verificar su cédula", "Ok");
+                await ScannCI();
+            }
+        }
+
+        private async Task ScannCI()
+        {
+            var options = new MobileBarcodeScanningOptions();
+
+            var overlay = new ZXingDefaultOverlay
+            {
+                ShowFlashButton = false,
+                TopText = "Coloca tu cédula frente al dispositivo",
+                BottomText = "El escaneo es automático",
+                Opacity = 0.90,
+            }; overlay.BindingContext = overlay;
+
+            var page = new ZXingScannerPage(options, overlay)
+            {                
+                Title = "Escaneo Cédula",
+                DefaultOverlayShowFlashButton = true,
+            };
+            
+            await Navigation.PushModalAsync(page);           
+           
+            page.OnScanResult += (result) =>
+            {
+                page.IsScanning = false;
+                page.IsAnalyzing = false;
+                verifcado = Verify_Ci.VerificaIdentificacion(result.Text);
+                if(verifcado)
+                {
+                    _identificacion = result.Text;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.PopModalAsync();
+                        await DisplayAlert("Mensaje", "Cédula verificada correctamente", "Ok");
+                        
+                    });
+                }
+                else
+                {
+                    overlay.TopText = "El documento es incorrecto".ToUpper();
+                    overlay.BottomText = "Verifique la iluminación y distancia del documento";
+                    overlay.BindingContext = overlay;
+                }
+            };            
         }
 
         private async void AcuerdoResp()

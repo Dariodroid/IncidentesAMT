@@ -17,7 +17,7 @@
             </Grid>
 
             <StackLayout Padding="10" Spacing="20">                
-                <Entry x:Name="txtCedula" Keyboard="Numeric" Placeholder="Cédula" Text="{Binding Identificacion}"/>
+                <!--<Entry x:Name="txtCedula" Keyboard="Numeric" Placeholder="Cédula" Text="{Binding Identificacion}"/>-->
                 <Entry x:Name="txtNombres" Placeholder="Nombres" Text="{Binding Nombres}"/>
                 <Entry x:Name="txtApellidos" Placeholder="Apellidos" Text="{Binding Apellidos}"/>
                 <Entry x:Name="txtCorreo" Placeholder="Correo" Keyboard="Email" Text="{Binding Correo}"/>

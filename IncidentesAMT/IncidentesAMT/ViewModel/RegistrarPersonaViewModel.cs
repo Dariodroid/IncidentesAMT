@@ -76,11 +76,11 @@ namespace IncidentesAMT.ViewModel
 
         private async void NextPage()
         {
-            if (await VerifyData() && await VerifyCI())
+            if (await VerifyData() /*&& await VerifyCI()*/)
             {
                 PersonaModel persona = new PersonaModel
                 {
-                    identificacion = identificacion,
+                    //identificacion = identificacion,
                     nombres = nombres,
                     apellidos = apellidos,
                     correo = correo,
@@ -92,11 +92,11 @@ namespace IncidentesAMT.ViewModel
 
         private async Task<bool> VerifyData()
         {
-            if (string.IsNullOrEmpty(Identificacion))
-            {
-                await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
-                return false;
-            }
+            //if (string.IsNullOrEmpty(Identificacion))
+            //{
+            //    await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
+            //    return false;
+            //}
             if (string.IsNullOrEmpty(Nombres))
             {
                 await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
@@ -120,17 +120,17 @@ namespace IncidentesAMT.ViewModel
             return true;
         }
 
-        private async Task<bool> VerifyCI()
-        {
-            if (!Verify_Ci.VerificaIdentificacion(Identificacion))
-            {
-                await DisplayAlert("Ocurrió un error", "La cédula es incorrecta", "Cerrar");
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        //private async Task<bool> VerifyCI()
+        //{
+        //    if (!Verify_Ci.VerificaIdentificacion(Identificacion))
+        //    {
+        //        await DisplayAlert("Ocurrió un error", "La cédula es incorrecta", "Cerrar");
+        //        return false;
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+        //}
     }
 }

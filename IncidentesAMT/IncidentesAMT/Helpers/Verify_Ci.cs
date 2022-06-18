@@ -8,31 +8,39 @@ namespace IncidentesAMT.Helpers
     {
         public static bool VerificaIdentificacion(string identificacion)
         {
-            bool estado = false;
-            char[] valced = new char[13];
-            int provincia;
-            if (identificacion.Length >= 10)
+            try
             {
-                valced = identificacion.Trim().ToCharArray();
-                provincia = int.Parse((valced[0].ToString() + valced[1].ToString()));
-                if (provincia > 0 && provincia < 25)
+                bool estado = false;
+                char[] valced = new char[13];
+                int provincia;
+                if (identificacion.Length >= 10)
                 {
-                    if (int.Parse(valced[2].ToString()) < 6)
+                    valced = identificacion.Trim().ToCharArray();
+                    provincia = int.Parse((valced[0].ToString() + valced[1].ToString()));
+                    if (provincia > 0 && provincia < 25)
                     {
-                        estado = VerificaCedula(valced);
-                    }
-                    else if (int.Parse(valced[2].ToString()) == 6)
-                    {
-                        estado = VerificaSectorPublico(valced);
-                    }
-                    else if (int.Parse(valced[2].ToString()) == 9)
-                    {
+                        if (int.Parse(valced[2].ToString()) < 6)
+                        {
+                            estado = VerificaCedula(valced);
+                        }
+                        else if (int.Parse(valced[2].ToString()) == 6)
+                        {
+                            estado = VerificaSectorPublico(valced);
+                        }
+                        else if (int.Parse(valced[2].ToString()) == 9)
+                        {
 
-                        estado = VerificaPersonaJuridica(valced);
+                            estado = VerificaPersonaJuridica(valced);
+                        }
                     }
                 }
+                return estado;
             }
-            return estado;
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
         //el método VerificaIdentificacion recibe como parametro identificacion que sera
         //nuestra cedula/RUC a verificar, tengo una variable estado que es lo que voy a devolver,
@@ -91,85 +99,100 @@ namespace IncidentesAMT.Helpers
         //digito verificador.
         public static bool VerificaPersonaJuridica(char[] validarCedula)
         {
-            int aux = 0, prod, veri;
-            veri = int.Parse(validarCedula[10].ToString()) + int.Parse(validarCedula[11].ToString()) + int.Parse(validarCedula[12].ToString());
-            if (veri > 0)
+            try
             {
-                int[] coeficiente = new int[9] { 4, 3, 2, 7, 6, 5, 4, 3, 2 };
-                for (int i = 0; i < 9; i++)
+                int aux = 0, prod, veri;
+                veri = int.Parse(validarCedula[10].ToString()) + int.Parse(validarCedula[11].ToString()) + int.Parse(validarCedula[12].ToString());
+                if (veri > 0)
                 {
-                    prod = int.Parse(validarCedula[i].ToString()) * coeficiente[i];
-                    aux += prod;
-                }
-                if (aux % 11 == 0)
-                {
-                    veri = 0;
-                }
-                else if (aux % 11 == 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    aux = aux % 11;
-                    veri = 11 - aux;
-                }
+                    int[] coeficiente = new int[9] { 4, 3, 2, 7, 6, 5, 4, 3, 2 };
+                    for (int i = 0; i < 9; i++)
+                    {
+                        prod = int.Parse(validarCedula[i].ToString()) * coeficiente[i];
+                        aux += prod;
+                    }
+                    if (aux % 11 == 0)
+                    {
+                        veri = 0;
+                    }
+                    else if (aux % 11 == 1)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        aux = aux % 11;
+                        veri = 11 - aux;
+                    }
 
-                if (veri == int.Parse(validarCedula[9].ToString()))
-                {
-                    return true;
+                    if (veri == int.Parse(validarCedula[9].ToString()))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
                     return false;
                 }
             }
-            else
+            catch (Exception)
             {
                 return false;
             }
+            
         }
         //En el caso de las personas jurídicas el dígito verificador es el décimo dígito,
         //al igual que la cédula en la imagen pueden ver los coeficientes por los que se debe
         //realizar la multiplicación de los dígitos {4,3,2,7,6,5,4,3,2}.
         public static bool VerificaSectorPublico(char[] validarCedula)
         {
-            int aux = 0, prod, veri;
-            veri = int.Parse(validarCedula[9].ToString()) + int.Parse(validarCedula[10].ToString()) + int.Parse(validarCedula[11].ToString()) + int.Parse(validarCedula[12].ToString());
-            if (veri > 0)
+            try
             {
-                int[] coeficiente = new int[8] { 3, 2, 7, 6, 5, 4, 3, 2 };
+                int aux = 0, prod, veri;
+                veri = int.Parse(validarCedula[9].ToString()) + int.Parse(validarCedula[10].ToString()) + int.Parse(validarCedula[11].ToString()) + int.Parse(validarCedula[12].ToString());
+                if (veri > 0)
+                {
+                    int[] coeficiente = new int[8] { 3, 2, 7, 6, 5, 4, 3, 2 };
 
-                for (int i = 0; i < 8; i++)
-                {
-                    prod = int.Parse(validarCedula[i].ToString()) * coeficiente[i];
-                    aux += prod;
-                }
+                    for (int i = 0; i < 8; i++)
+                    {
+                        prod = int.Parse(validarCedula[i].ToString()) * coeficiente[i];
+                        aux += prod;
+                    }
 
-                if (aux % 11 == 0)
-                {
-                    veri = 0;
-                }
-                else if (aux % 11 == 1)
-                {
-                    return false;
-                }
-                else
-                {
-                    aux = aux % 11;
-                    veri = 11 - aux;
-                }
+                    if (aux % 11 == 0)
+                    {
+                        veri = 0;
+                    }
+                    else if (aux % 11 == 1)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        aux = aux % 11;
+                        veri = 11 - aux;
+                    }
 
-                if (veri == int.Parse(validarCedula[8].ToString()))
-                {
-                    return true;
+                    if (veri == int.Parse(validarCedula[8].ToString()))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
                     return false;
                 }
             }
-            else
+            catch (Exception)
             {
                 return false;
             }

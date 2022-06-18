@@ -55,10 +55,10 @@
                         </Label.FormattedText>
                         
                     </Label>
-                    
-                    <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" TextTransform="None" Grid.Row="3" Margin="0,20,0,0" Command="{Binding FotoCommand}" Grid.ColumnSpan="2" Grid.Column="0" BackgroundColor="Beige" CornerRadius="50"/>
+
+                    <Button x:Name="btnAddFoto" Text="Añadir y verificar foto de cédula" TextTransform="None"  Margin="0,20,0,0" Command="{Binding FotoCommand}" Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="0" BackgroundColor="Beige" CornerRadius="50"/>
                     <Button x:Name="btnRegistrar" Text="Registrarse" TextTransform="None" BackgroundColor="#2196F3" Grid.Row="7" Grid.ColumnSpan="2" CornerRadius="50" Command="{Binding RegistrarCommand}"/>
-                
+                    <ImageButton x:Name="b" Source="camara.png" Grid.Row="3" Grid.Column="1" HorizontalOptions="EndAndExpand" Margin="10,30,30,10"  BackgroundColor="Transparent" Command="{Binding FotoCommand}"></ImageButton>
                 </Grid>
 
 

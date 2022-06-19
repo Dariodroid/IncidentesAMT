@@ -19,7 +19,8 @@ namespace IncidentesAMT.ViewModel
 {
     public class RegistroViewModel : BaseViewModel
     {
-        bool verifcado = false;
+        bool _verifcado = false;
+
         #region PROPIEDDADES
         private string _identificacion;
         private string _nombres;
@@ -84,10 +85,11 @@ namespace IncidentesAMT.ViewModel
         public Command TerminosCommand { get; set; }
         #endregion
 
-        public RegistroViewModel(INavigation navigation, PersonaModel persona)
+        public RegistroViewModel(INavigation navigation, PersonaModel persona, bool verifcado)
         {
+            _verifcado = verifcado;
             Navigation = navigation;
-            //_identificacion = persona.identificacion;
+            _identificacion = persona.identificacion;
             _nombres = persona.nombres;
             _apellidos = persona.apellidos;
             _correo = persona.correo;
@@ -105,7 +107,10 @@ namespace IncidentesAMT.ViewModel
         {
             try
             {
-                
+                if (!_verifcado)
+                {
+                    await DisplayAlert("Alerta !", "No se verificó su cédula, debe actualizar sus datos caso contrario sus incidentes reportados pueden no se atendidos", "Cerrar");                   
+                }
                 if (await VerifyPassword() && await VerifyCheks() && await VerifyFoto())
                 {
                     UserDialogs.Instance.ShowLoading("Registrando...");
@@ -140,27 +145,29 @@ namespace IncidentesAMT.ViewModel
                         var messageType = obj.message;
 
                         UserDialogs.Instance.HideLoading();
-                        await DisplayAlert("Ocurrió un error", messageType[0].ToString(), "Cerrar");
+                        if(messageType != null)
+                        {
+                            await DisplayAlert("Ocurrió un error", messageType[0].ToString(), "Cerrar");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Ocurrió un error", "No se pudo registrar", "Cerrar");
+                        }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 UserDialogs.Instance.HideLoading();
-                await DisplayAlert("Error", ex.Message, "Cerrar");
+                await DisplayAlert("Error", "Ocurrión error al registrar, verifique que está enviando todos los datos", "Cerrar");
             }
         }
 
         private async Task<bool> VerifyFoto()
-        {
-            if (FotoCedula == null)
+        {          
+            if (FotoCedula == null || FotoCedula.IsEmpty)
             {
                 await DisplayAlert("Error", "Debe agregar una foto de su cédula", "Cerrar");
-                return false;
-            }
-            if (!verifcado)
-            {
-                await DisplayAlert("Error", "Para continuar con el regístro debe verificar su cédula", "Cerrar");
                 return false;
             }
             else
@@ -204,57 +211,9 @@ namespace IncidentesAMT.ViewModel
         {
             fotoViewModel = new FotoViewModel();
             await fotoViewModel.TomarFoto();
-            FotoCedula = fotoViewModel.PathFoto;            
-            if(!FotoCedula.IsEmpty)
-            {
-                await DisplayAlert("Mensaje", "Se procederá a verificar su cédula", "Ok");
-                await ScannCI();
-            }
+            FotoCedula = fotoViewModel.PathFoto;
         }
 
-        private async Task ScannCI()
-        {
-            var options = new MobileBarcodeScanningOptions();
-
-            var overlay = new ZXingDefaultOverlay
-            {
-                ShowFlashButton = false,
-                TopText = "Coloca tu cédula frente al dispositivo",
-                BottomText = "El escaneo es automático",
-                Opacity = 0.90,
-            }; overlay.BindingContext = overlay;
-
-            var page = new ZXingScannerPage(options, overlay)
-            {                
-                Title = "Escaneo Cédula",
-                DefaultOverlayShowFlashButton = true,
-            };
-            
-            await Navigation.PushModalAsync(page);           
-           
-            page.OnScanResult += (result) =>
-            {
-                page.IsScanning = false;
-                page.IsAnalyzing = false;
-                verifcado = Verify_Ci.VerificaIdentificacion(result.Text);
-                if(verifcado)
-                {
-                    _identificacion = result.Text;
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await Navigation.PopModalAsync();
-                        await DisplayAlert("Mensaje", "Cédula verificada correctamente", "Ok");
-                        
-                    });
-                }
-                else
-                {
-                    overlay.TopText = "El documento es incorrecto".ToUpper();
-                    overlay.BottomText = "Verifique la iluminación y distancia del documento";
-                    overlay.BindingContext = overlay;
-                }
-            };            
-        }
 
         private async void AcuerdoResp()
         {

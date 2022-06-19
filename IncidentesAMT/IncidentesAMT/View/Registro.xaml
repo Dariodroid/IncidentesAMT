@@ -23,11 +23,11 @@
 
                     <Image x:Name="fotocedula" Source="{Binding FotoCedula}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalOptions="Center"></Image>
 
-                    <Entry x:Name="txtPassword" Text="{Binding Password}" IsPassword="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  Placeholder="Contraseña"/>
-                    <Entry x:Name="txtConfirmarPassword" Text="{Binding ConfirmPass}" IsPassword="True" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Placeholder="Confirmar Contraseña"/>
+                    <Entry x:Name="txtPassword" TextColor="Black" Text="{Binding Password}" IsPassword="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  Placeholder="Contraseña"/>
+                    <Entry x:Name="txtConfirmarPassword" TextColor="Black" Text="{Binding ConfirmPass}" IsPassword="True" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Placeholder="Confirmar Contraseña"/>
 
                     <CheckBox x:Name="chkAcuerdoRespons" IsChecked="{Binding IsAcuerdo}" Grid.Row="4" Grid.Column="0"/>
-                    <Label Text="Acuerdos de resposabilidad" VerticalOptions="Center" Grid.Row="4" Grid.Column="1">
+                    <Label TextColor="Black" Text="Acuerdos de resposabilidad" VerticalOptions="Center" Grid.Row="4" Grid.Column="1">
 
                         <Label.FormattedText>
                             <FormattedString>
@@ -42,7 +42,7 @@
                     </Label>
 
                     <CheckBox x:Name="chkTerminosyCond" IsChecked="{Binding IsTerminos}" Grid.Row="5" Grid.Column="0"/>
-                    <Label Text="Terminos y condicónes" VerticalOptions="Center" Grid.Row="5" Grid.Column="1">
+                    <Label TextColor="Black" Text="Terminos y condicónes" VerticalOptions="Center" Grid.Row="5" Grid.Column="1">
                         
                         <Label.FormattedText>
                             <FormattedString>
@@ -56,9 +56,8 @@
                         
                     </Label>
 
-                    <Button x:Name="btnAddFoto" Text="Añadir y verificar foto de cédula" TextTransform="None"  Margin="0,20,0,0" Command="{Binding FotoCommand}" Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="0" BackgroundColor="Beige" CornerRadius="50"/>
-                    <Button x:Name="btnRegistrar" Text="Registrarse" TextTransform="None" BackgroundColor="#2196F3" Grid.Row="7" Grid.ColumnSpan="2" CornerRadius="50" Command="{Binding RegistrarCommand}"/>
-                    <ImageButton x:Name="b" Source="camara.png" Grid.Row="3" Grid.Column="1" HorizontalOptions="EndAndExpand" Margin="10,30,30,10"  BackgroundColor="Transparent" Command="{Binding FotoCommand}"></ImageButton>
+                    <Button x:Name="btnAddFoto" Text="Añadir foto de cédula" TextColor="Black" TextTransform="None"  Margin="0,20,0,0" Command="{Binding FotoCommand}" Grid.ColumnSpan="2" Grid.Row="3" Grid.Column="0" BackgroundColor="Beige" CornerRadius="50"/>
+                    <Button x:Name="btnRegistrar" Text="Registrarse" TextTransform="None" TextColor="Black" BackgroundColor="#2196F3" Grid.Row="7" Grid.ColumnSpan="2" CornerRadius="50" Command="{Binding RegistrarCommand}"/>
                 </Grid>
 
 

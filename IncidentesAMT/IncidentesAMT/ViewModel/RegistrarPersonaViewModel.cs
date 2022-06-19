@@ -5,14 +5,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using ZXing.Mobile;
+using ZXing.Net.Mobile.Forms;
 
 namespace IncidentesAMT.ViewModel
 {
     public class RegistrarPersonaViewModel : BaseViewModel
     {
+        bool verifcado = false;
+
         #region PROPIEDADES
         INavigation Navigation { get; set; }
         public Command NextPageCommand { get; set; }
+        public Command ScannCommand { get; set; }
 
         private string identificacion;
         private string nombres;
@@ -72,31 +77,36 @@ namespace IncidentesAMT.ViewModel
         {
             Navigation = navigation;
             NextPageCommand = new Command(() => NextPage());
+            ScannCommand = new Command(async() => await ScannCI());
         }
 
         private async void NextPage()
         {
-            if (await VerifyData() /*&& await VerifyCI()*/)
+            if (!verifcado)
+            {
+                await DisplayAlert("Alerta !", "No se realizó el escaneo de cédula; sus incidentes reportados pueden no se atendidos", "Ok");
+            }
+            if (await VerifyData() && await VerifyCI())
             {
                 PersonaModel persona = new PersonaModel
                 {
-                    //identificacion = identificacion,
+                    identificacion = identificacion,
                     nombres = nombres,
                     apellidos = apellidos,
                     correo = correo,
                     celular = celular
                 };
-                await Navigation.PushAsync(new Registro(persona));
+                await Navigation.PushAsync(new Registro(persona, verifcado));
             }
         }
 
         private async Task<bool> VerifyData()
-        {
-            //if (string.IsNullOrEmpty(Identificacion))
-            //{
-            //    await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
-            //    return false;
-            //}
+        {            
+            if (string.IsNullOrEmpty(Identificacion))
+            {
+                await DisplayAlert("Error", "Debe ingresar su cédula", "Ok");
+                return false;
+            }
             if (string.IsNullOrEmpty(Nombres))
             {
                 await DisplayAlert("Error", "Debe llenar todos los campos", "Ok");
@@ -120,17 +130,62 @@ namespace IncidentesAMT.ViewModel
             return true;
         }
 
-        //private async Task<bool> VerifyCI()
-        //{
-        //    if (!Verify_Ci.VerificaIdentificacion(Identificacion))
-        //    {
-        //        await DisplayAlert("Ocurrió un error", "La cédula es incorrecta", "Cerrar");
-        //        return false;
-        //    }
-        //    else
-        //    {
-        //        return true;
-        //    }
-        //}
+        private async Task<bool> VerifyCI()
+        {
+            if (!Verify_Ci.VerificaIdentificacion(Identificacion))
+            {
+                await DisplayAlert("Ocurrió un error", "La cédula es incorrecta", "Cerrar");
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        private async Task ScannCI()
+        {
+            var options = new MobileBarcodeScanningOptions();
+
+            var overlay = new ZXingDefaultOverlay
+            {
+                ShowFlashButton = false,
+                TopText = "Coloca el código de barra de tu cédula frente al dispositivo",
+                BottomText = "El escaneo es automático",
+                Opacity = 0.90,
+            }; overlay.BindingContext = overlay;
+
+            var page = new ZXingScannerPage(options, overlay)
+            {
+                Title = "Escaneo Cédula",
+                DefaultOverlayShowFlashButton = true,
+            };
+
+            await Navigation.PushModalAsync(page);
+
+            page.OnScanResult += (result) =>
+            {
+                page.IsScanning = false;
+                page.IsAnalyzing = false;
+                verifcado = Verify_Ci.VerificaIdentificacion(result.Text);
+                if (verifcado)
+                {
+                    Identificacion = result.Text;
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.PopModalAsync();
+                        await DisplayAlert("Mensaje", "Cédula verificada correctamente", "Ok");
+
+                    });
+                }
+                else
+                {
+                    overlay.TopText = "El documento es incorrecto".ToUpper();
+                    overlay.BottomText = "Verifique la iluminación y distancia del documento";
+                    overlay.BindingContext = overlay;
+                }
+            };
+        }
+
     }
 }

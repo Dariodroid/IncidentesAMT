@@ -22,10 +22,11 @@ namespace IncidentesAMT
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Registro : ContentPage
     {
-        public Registro(PersonaModel persona)
+        public Registro(PersonaModel persona, bool verificado)
         {
+            bool _verificado = verificado;
             InitializeComponent();
-            BindingContext = new RegistroViewModel(Navigation, persona);
+            BindingContext = new RegistroViewModel(Navigation, persona, _verificado);
         }
     }
 }

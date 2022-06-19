@@ -5,26 +5,33 @@
     <ContentPage.Content>
         
         <StackLayout  Spacing="10" VerticalOptions="StartAndExpand">
-            <Grid>
+                <Image Source="amt4.jpeg" Grid.Column="0" Grid.Row="0"/>
+            <Grid Padding="5">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="320"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 
-                <Image Source="amt4.jpeg" Grid.Column="0" Grid.Row="0"/>
+
+               
+                <Entry x:Name="txtCedula" TextColor="Black" MaxLength="10" Keyboard="Numeric" Placeholder="Escanear Cédula" Text="{Binding Identificacion}" Grid.Row="0" Grid.Column="0"/>
+                <Entry x:Name="txtNombres" TextColor="Black" Placeholder="Nombres" Text="{Binding Nombres}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
+                <Entry x:Name="txtApellidos" TextColor="Black" Placeholder="Apellidos" Text="{Binding Apellidos}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+                <Entry x:Name="txtCorreo" TextColor="Black" Placeholder="Correo" Keyboard="Email" Text="{Binding Correo}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+                <Entry x:Name="txtCelular" TextColor="Black" MaxLength="10" Keyboard="Numeric" Placeholder="Celular" Text="{Binding Celular}" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+                <ImageButton x:Name="b" Source="camara.png" Grid.Row="0" Grid.Column="1" HorizontalOptions="EndAndExpand" VerticalOptions="Center" Margin="10,10,10,10"  BackgroundColor="Transparent" Command="{Binding ScannCommand}"></ImageButton>
+                
             </Grid>
-
-            <StackLayout Padding="10" Spacing="20">                
-                <!--<Entry x:Name="txtCedula" Keyboard="Numeric" Placeholder="Cédula" Text="{Binding Identificacion}"/>-->
-                <Entry x:Name="txtNombres" Placeholder="Nombres" Text="{Binding Nombres}"/>
-                <Entry x:Name="txtApellidos" Placeholder="Apellidos" Text="{Binding Apellidos}"/>
-                <Entry x:Name="txtCorreo" Placeholder="Correo" Keyboard="Email" Text="{Binding Correo}"/>
-                <Entry x:Name="txtCelular" Keyboard="Numeric" Placeholder="Celular" Text="{Binding Celular}"/>
-
-                <Button x:Name="btnSiguiente" Text="Siguiente" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Command="{Binding NextPageCommand}"/>
-            </StackLayout>
+                <Button x:Name="btnSiguiente" TextColor="Black" Margin="10" Text="Siguiente" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Command="{Binding NextPageCommand}"/>
+        
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

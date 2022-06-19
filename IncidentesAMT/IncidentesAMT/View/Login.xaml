@@ -28,16 +28,16 @@
                     <Label Text="Recordar usuario" TextColor="Black" Grid.Column="0" Grid.Row="4" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
 
                 </Grid>
-                <Button x:Name="btnLogin" Text="Iniciar sesion" TextTransform="None" BackgroundColor="#2196F3" CornerRadius="50" Command="{Binding LoginCommand}"/>
+                <Button x:Name="btnLogin" Text="Iniciar sesion" TextTransform="None" TextColor="Black" BackgroundColor="#2196F3" CornerRadius="50" Command="{Binding LoginCommand}"/>
                 <Label Text="No dispone de una cuenta ?" TextColor="Black" HorizontalOptions="Center" FontSize="Small"/>
                 <Button x:Name="btnCrearCunenta" 
+                        TextColor="#2196F3"
                         Padding="0,0,0,30" 
                         Text="Crear cuenta" 
                         Command="{Binding CrearteAccount}"
                         TextTransform="None"
                         BackgroundColor="Transparent" 
-                        HorizontalOptions="Center" 
-                        TextColor="#2196F3" 
+                        HorizontalOptions="Center"
                         FontSize="Small" />
 
             </StackLayout>

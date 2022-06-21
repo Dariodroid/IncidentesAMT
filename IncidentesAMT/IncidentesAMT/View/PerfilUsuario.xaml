@@ -29,9 +29,9 @@
             </Frame>
 
             <StackLayout Margin="9">
-                <Button x:Name="btnDatosPersonales" BackgroundColor="Coral" Text="Datos personales" Command="{Binding DatosPeronalesCommand}" HeightRequest="60" Margin="10" CornerRadius="50"/>
-                <Button x:Name="btnIncidentes" BackgroundColor="red"  Text="Incidentes registrados" Command="{Binding IncidentesCommand}" HeightRequest="60" Margin="10" CornerRadius="50"/>
-                <Button Text="Acuerdo de responsabilidad" BackgroundColor="#2196F3"  Command="{Binding AcuerdoCommand}" HeightRequest="60" Margin="10" CornerRadius="50" />
+                        <Button x:Name="btnDatosPersonales" TextColor="Black" BackgroundColor="Coral" Text="Datos personales" Command="{Binding DatosPeronalesCommand}" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                        <Button x:Name="btnIncidentes" TextColor="Black" BackgroundColor="red"  Text="Incidentes registrados" Command="{Binding IncidentesCommand}" HeightRequest="60" Margin="10" CornerRadius="50"/>
+                        <Button Text="Acuerdo de responsabilidad" TextColor="Black" BackgroundColor="#2196F3"  Command="{Binding AcuerdoCommand}" HeightRequest="60" Margin="10" CornerRadius="50" />
                 
                 <Button x:Name="btnCerrarSesion"  Text="Cerrar sesión" Command="{Binding CerrarSesionCommand}" TextTransform="None" HorizontalOptions="Center" BackgroundColor="Transparent" TextColor="Blue"/>
             </StackLayout>

@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using IncidentesAMT.Helpers;
 using IncidentesAMT.Modelo;
 using Newtonsoft.Json;
 using System;
@@ -65,6 +66,7 @@ namespace IncidentesAMT.ViewModel
             {
                 if(await VerifyCred())
                 {
+                    if (!Verify_Email()) { await DisplayAlert("Error", "Ingrese un correo electrónico válido", "Ok"); return; }
                     UserDialogs.Instance.ShowLoading("Autenticando...");
                     LoginModel loginModel = new LoginModel()
                     {
@@ -113,6 +115,11 @@ namespace IncidentesAMT.ViewModel
             {
                 return true;
             }
+        }
+
+        private bool Verify_Email()
+        {
+            return Verify_email.Verify(User);
         }
 
         public void Navegar()

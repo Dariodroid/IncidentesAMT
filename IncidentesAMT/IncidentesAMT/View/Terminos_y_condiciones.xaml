@@ -3,10 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IncidentesAMT.View.Terminos_y_condiciones" Title="Términos y condiciónes">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Terminos y condiciones"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Label Padding="10" TextColor="Black" HorizontalTextAlignment="Center" TextTransform="Uppercase" FontSize="Title" Text="Todo aquel que utilice la aplicación móvil, acepta cumplir con los siguientes términos y condiciónes de uso:&#x0a;"/>
+
+                <Label Padding="10" TextColor="Black" HorizontalTextAlignment="Start"  FontSize="Large" 
+                    
+                    Text="
+                   
+                    &#10;• Toda la información que se solicita e ingresa a esta aplicación es confidencial y será utilizada exclusivamente con el propósito de gestionar la atención de emergencias.&#10;
+                   
+                    &#10;• Queda prohibido el uso del aplicativo para otro propósito que no sea la alerta de emergencias.&#10;
+                   
+                    &#10;• La AMT no es responsable de los costos relacionados a conectividad de datos y acceso a Internet necesarios para el uso del aplicativo.&#10;
+                   
+                    &#10;• La AMT no se responsabiliza por la correcta recepción de la alerta si el teléfono celular del usuario no cumple con los requisitos técnicos mínimos para el funcionamiento del aplicativo, o en caso de que el usuario haga uso de otras aplicaciones de naturaleza similar para la alerición de emergencias.&#10;
+                   
+                    &#10;• La aplicación pertenece exclusivamente a la AMT.&#10;
+                   
+                    &#10;• Queda prohibida su reproducción y modificación parcial o total.&#10;
+                   
+                    &#10;• La AMT se reserva el derecho de modificar o retirar el aplicativo así como los términos y condiciones de uso.&#10;
+                   
+                    &#10;• La violación de cualquiera de estos términos y condiciones, así como el mal uso del aplicativo tendrá como resultado el bloqueo de la aplicación."/>
+            </StackLayout>
+        </ScrollView>
+       
     </ContentPage.Content>
 </ContentPage>

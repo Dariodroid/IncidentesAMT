@@ -84,8 +84,22 @@ namespace IncidentesAMT.ViewModel
         {
             if (!verifcado)
             {
-                await DisplayAlert("Alerta !", "No se realizó el escaneo de cédula; sus incidentes reportados pueden no se atendidos", "Ok");
+                bool opcion = await DisplayAlert("Alerta !", "No se realizó el escaneo de cédula; sus incidentes reportados pueden no se atendidos, ¿ Realizar escaneo para verificar su cédula ?", "Si", "No");
+                if (opcion) { await ScannCI(); }
             }
+
+            if (!Verify_Email())
+            {
+                await DisplayAlert("Error", "Ingrese un correo electrónico válido", "Ok");
+                return;
+            }
+
+            if (celular.Length < 10)
+            {
+                await DisplayAlert("Error", "Ingrese un número celular válido", "Ok");
+                return;
+            }
+            
             if (await VerifyData() && await VerifyCI())
             {
                 PersonaModel persona = new PersonaModel
@@ -98,6 +112,11 @@ namespace IncidentesAMT.ViewModel
                 };
                 await Navigation.PushAsync(new Registro(persona, verifcado));
             }
+        }
+
+        private bool Verify_Email()
+        {
+            return Verify_email.Verify(correo);
         }
 
         private async Task<bool> VerifyData()

@@ -84,8 +84,8 @@
                         </Grid.ColumnDefinitions>
                         <Image x:Name="fotocedula" Source="{Binding FotoCedula}" Grid.Row="0" Grid.Column="0"></Image>
                     </Grid>
-                    <Button x:Name="btnFoto" Text="Foto cédula" BackgroundColor="Beige" Command="{Binding Fotocommand}" HorizontalOptions="Center" CornerRadius="50"/>
-                    <Button x:Name="btnActualizar" Text="Actualizar" BackgroundColor="#2196F3" Command="{Binding Updatecommand}" HorizontalOptions="Fill" CornerRadius="50"/>
+                    <Button x:Name="btnFoto" TextColor="Black" Text="Foto cédula" BackgroundColor="Beige" Command="{Binding Fotocommand}" HorizontalOptions="Center" CornerRadius="50"/>
+                    <Button x:Name="btnActualizar" TextColor="Black" Text="Actualizar" BackgroundColor="#2196F3" Command="{Binding Updatecommand}" HorizontalOptions="Fill" CornerRadius="50"/>
 
                 </StackLayout>
             </StackLayout>

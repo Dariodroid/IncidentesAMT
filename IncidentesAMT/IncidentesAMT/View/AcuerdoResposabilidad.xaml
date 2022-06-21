@@ -5,16 +5,20 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <StackLayout VerticalOptions="Center">
-                    <Label Text="&#x0a;&#x0a; EL USUARIO ES RESPONSABLE DE &#x0a;" FontSize="Title" HorizontalOptions="CenterAndExpand"/>
-                </StackLayout>
-                <Label Padding="15" Text="&#x0a;1. La credencial lógica entregada de usuario (nombre de usuario y clave de acceso) otorgada, espara   uso   institucional   e   intransferible,   y   su   utilización   es   de   exclusiva   responsabilidad   delservidor.
-                       &#x0a;
-                       &#10;2. El servidor, se compromete a la no divulgación y buen uso de la información facilitada por laInstitución con total confidencialidad. En caso de incumplimiento el Ministerio de Educación sereserva el derecho de iniciar las acciones legales correspondientes a las que hubiera lugar.
-                       &#x0a;
-                       &#10;3. En caso de conocer la divulgación, del nombre de usuario y/o clave de acceso de usuario, elservidor   deberá   comunicar   a   la   Dirección   Nacional   de   Tecnologías   de   la   Información   y Comunicaciones del Ministerio de Educación de manera inmediata."
-                      FontSize="Large"
-                       />
+
+
+                <Label Padding="10" TextColor="Black" FontSize="Title" HorizontalTextAlignment="Center" TextTransform="Uppercase" HorizontalOptions="Center" 
+                    Text="El usuario es responsable y se compromete a:"                   
+                    />
+
+
+                <Label TextColor="Black" FontSize="Large" Padding="15" Text="
+                    &#10;• Toda la información ingresada en el registro de la aplicación, los datos proporcionados deben ser verídicos; a fin de brindar una asistencia oportuna.&#10;
+                    
+                    &#x0a;• Cuando se realice alertas desde el atención o gestión de situaciones de emergencia, que no impliquen el desplazamiento de recursos de respuesta para atención de emergencias, efectuadas por el mismo equipo en un número mayor a 3 alertas; se procederá a bloquear el uso del aplicativo durante ciento ochenta (180) días calendario.&#x0a;
+                    
+                    &#x0a;• Al realizar alertas desde el aplicativo en las que se reporte eventos falsos que impliquen desplazamiento innecesario de recursos de respuesta para atención de emergencias, o reincidencia en una afectación leve en un periodo de un año contado a partir de la aplicación de la medida
+                    correspondiente a la afectación leve; se bloqueará la aplicación definitivamente."/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

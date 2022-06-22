@@ -9,7 +9,10 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using ZXing.Mobile;
+using ZXing.Net.Mobile.Forms;
 
 namespace IncidentesAMT.ViewModel
 {
@@ -17,6 +20,7 @@ namespace IncidentesAMT.ViewModel
     {
         #region VARIABLES
         private string _idUser;
+        bool verifcado = false;
         private InfoUserByIdModel infoUserModel;
         FotoViewModel fotoViewModel = new FotoViewModel();
         #endregion
@@ -156,8 +160,14 @@ namespace IncidentesAMT.ViewModel
             try
             {
                 UserDialogs.Instance.ShowLoading("Actualizando...");
-                if (!string.IsNullOrEmpty(fotoViewModel.PathFoto))
+                if (!string.IsNullOrEmpty(fotoViewModel.PathFoto) )
                 {
+                    if (!verifcado) 
+                    {
+                        UserDialogs.Instance.HideLoading();
+                        await DisplayAlert("Mensaje", "Para continuar con la actualiación es necesario verificar su cédula", "Ok"); 
+                        return; 
+                    }
                     Fotocedula fotoCedula = new Fotocedula
                     {
                         fotoCedula = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFoto)
@@ -171,6 +181,7 @@ namespace IncidentesAMT.ViewModel
                     {
                         await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
                         UserDialogs.Instance.HideLoading();
+                        return;
                     }
                 }
                 if (!string.IsNullOrEmpty(fotoViewModel.PathFotoPerfil))
@@ -188,6 +199,7 @@ namespace IncidentesAMT.ViewModel
                     {
                         await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
                         UserDialogs.Instance.HideLoading();
+                        return;
                     }
                 }
                 else
@@ -206,6 +218,7 @@ namespace IncidentesAMT.ViewModel
                     {
                         await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
                         UserDialogs.Instance.HideLoading();
+                        return;
                     }
                 }
             }
@@ -218,12 +231,7 @@ namespace IncidentesAMT.ViewModel
 
         private async void takefoto()
         {
-            //fotoViewModel = new FotoViewModel();
-            await fotoViewModel.TomarFoto();
-            if(!string.IsNullOrEmpty(fotoViewModel.PathFoto))
-            {
-                FotoCedula = fotoViewModel.PathFoto;
-            }
+            await ScannCI();           
         }
 
         private async void takeFotoPerfil()
@@ -234,6 +242,55 @@ namespace IncidentesAMT.ViewModel
             {
                 FotoPerfil = fotoViewModel.PathFotoPerfil;
             }
+        }
+
+        public async Task ScannCI()
+        {
+
+            var options = new MobileBarcodeScanningOptions();
+
+            var overlay = new ZXingDefaultOverlay
+            {
+                ShowFlashButton = false,
+                TopText = "Coloca el código de barra de tu cédula frente al dispositivo",
+                BottomText = "El escaneo es automático, luego de verificar debe añadir una foto de la cédula",
+                Opacity = 0.90,
+            }; overlay.BindingContext = overlay;
+
+            var page = new ZXingScannerPage(options, overlay)
+            {
+                Title = "Escaneo Cédula",
+                DefaultOverlayShowFlashButton = true,
+            };
+
+            await Navigation.PushModalAsync(page);
+
+            page.OnScanResult += (result) =>
+            {
+                page.IsScanning = false;
+                page.IsAnalyzing = false;
+                verifcado = Verify_Ci.VerificaIdentificacion(result.Text);
+                if (verifcado)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Navigation.PopModalAsync();
+                        await DisplayAlert("Mensaje", "Cédula verificada correctamente", "Ok");
+
+                        await fotoViewModel.TomarFoto();
+                        if (!string.IsNullOrEmpty(fotoViewModel.PathFoto))
+                        {
+                            FotoCedula = fotoViewModel.PathFoto;
+                        }
+                    });
+                }
+                else
+                {
+                    overlay.TopText = "El documento es incorrecto".ToUpper();
+                    overlay.BottomText = "Verifique la iluminación y distancia del documento";
+                    overlay.BindingContext = overlay;
+                } 
+            };
         }
     }
 }

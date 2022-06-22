@@ -69,9 +69,7 @@ namespace IncidentesAMT.ViewModel
                 OnPropertyChanged();
             }
         }
-        #endregion
-
-      
+        #endregion      
 
         public RegistrarPersonaViewModel(INavigation navigation)
         {
@@ -162,8 +160,9 @@ namespace IncidentesAMT.ViewModel
             }
         }
 
-        private async Task ScannCI()
+        public async Task ScannCI()
         {
+
             var options = new MobileBarcodeScanningOptions();
 
             var overlay = new ZXingDefaultOverlay
@@ -204,6 +203,7 @@ namespace IncidentesAMT.ViewModel
                     overlay.BindingContext = overlay;
                 }
             };
+
         }
 
     }

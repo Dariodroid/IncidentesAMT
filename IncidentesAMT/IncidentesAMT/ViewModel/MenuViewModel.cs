@@ -228,10 +228,10 @@ namespace IncidentesAMT.VistaModelo
             if(contfal < 4)
             {
                 var geo = await new GeoLocation().getLocationGPS();
-                var outCity = new GeoLocation().InPoligon();
-                if (!outCity)
+                var city = await new GeoLocation().GetAddress();
+                if (city.City != "Quito")
                 {
-                    await DisplayAlert("Alerta !", "Usted está fuera de Quito, no se puede reportar el incidente", "Ok");
+                    await DisplayAlert("Alerta !", $"Usted está en {city.City}, no se puede reportar incidentes fuera de Quito", "Ok");
                     return;
                 }
                 if (geo)

@@ -91,7 +91,7 @@ namespace IncidentesAMT.ViewModel
             _idPersona = idPersona;
             _idIncidente = idIncidente;
             MapView = Map;
-            configMap();
+            configMap();            
             ReportarIncidenteCommand = new Command(async () => await Incidente());
             CapturarCommand = new Command(async () => await TomarFoto());
         }
@@ -241,6 +241,7 @@ namespace IncidentesAMT.ViewModel
             MapView.FlowDirection = FlowDirection.LeftToRight;
             MapView.MapType = MapType.Street;
             moveToActualPosition();
+            GetAddress();
         }
 
         public void moveToActualPosition()
@@ -250,6 +251,12 @@ namespace IncidentesAMT.ViewModel
                 Position position = new Position(GeoLocation.lat, GeoLocation.lng);
                 MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(250)), true);
             });
+        }
+
+        private async void GetAddress()
+        {
+            var Address = await new GeoLocation().GetAddress();
+            Direccion = $"{Address.SubAdminArea}, {Address.SubLocality}";
         }
 
     }

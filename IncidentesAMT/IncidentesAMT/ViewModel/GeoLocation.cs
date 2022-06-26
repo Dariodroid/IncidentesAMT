@@ -1,4 +1,6 @@
-﻿using IncidentesAMT.ViewModel;
+﻿using IncidentesAMT.Helpers;
+using IncidentesAMT.Model;
+using IncidentesAMT.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,6 +16,14 @@ namespace IncidentesAMT.ViewModel
 
         public static double lng { get; set; }
 
+        private LocationAddress _locationAddress;
+
+        public LocationAddress LocationAddress
+        {
+            get { return _locationAddress; }
+            set { _locationAddress = value; OnPropertyChanged(); }
+        }
+
 
         public async Task<bool> getLocationGPS()
         {
@@ -28,11 +38,12 @@ namespace IncidentesAMT.ViewModel
                 });
                 if (location != null)
                 {
-                    lat = location.Latitude;    
-                    lng = location.Longitude;
-                    InPoligon();
+                    lat = /*-0.086342;*/ location.Latitude;
+                    lng = /*-78.433341;*/location.Longitude;
+                    await GetAddress();  
                     return true;
                 }
+                
                 else
                 {
                     return false;
@@ -129,12 +140,13 @@ namespace IncidentesAMT.ViewModel
 
             for (int i = 0; i < poligon.Length; i++)
             {
-                latPolig = poligon[i].Split(':')[0];
-                lngPolig = poligon[i].Split(':')[1];
+                latPolig = poligon[i].Split(':')[0].Replace('.', ',');
+                lngPolig = poligon[i].Split(':')[1].Replace('.', ',');
 
-                if (lat < Convert.ToDouble(latPolig) && lng < Convert.ToDouble(lngPolig))
+                if (lat <= Convert.ToDouble(latPolig))
                 {
-                    isPoligon = false;
+                    if (lng <= Convert.ToDouble(lngPolig))
+                        isPoligon = false;
                 }
                 else
                 {
@@ -142,6 +154,12 @@ namespace IncidentesAMT.ViewModel
                 }
             }
             return isPoligon;
+        }
+
+        public async Task<LocationAddress> GetAddress()
+        {
+            LocationAddress = await LocationService.GetAddress(lat, lng);
+            return LocationAddress;
         }
     }
 }

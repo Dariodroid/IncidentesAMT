@@ -32,6 +32,8 @@ namespace IncidentesAMT.iOS.Dependency
                     Province = placeMark.AdministrativeArea,
                     ZipCode = placeMark.PostalCode,
                     Country = $"{placeMark.Country} ({placeMark.IsoCountryCode})",
+                    SubAdminArea = placeMark.SubAdministrativeArea,
+                    SubLocality = placeMark.SubLocality,
                     Address = new CNPostalAddressFormatter().StringFor(placeMark.PostalAddress)
                 };
 

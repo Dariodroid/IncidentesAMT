@@ -39,8 +39,8 @@ namespace IncidentesAMT.ViewModel
                 });
                 if (location != null)
                 {
-                    lat = /*-0.078414;*/ location.Latitude;
-                    lng = /*-78.451354;*/ location.Longitude;
+                    lat = /*-0.205656;*/ location.Latitude;
+                    lng = /*-78.395168;*/ location.Longitude;
                     await GetAddress();  
                     return true;  
                 }

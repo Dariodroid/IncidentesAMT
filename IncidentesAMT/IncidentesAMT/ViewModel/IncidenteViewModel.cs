@@ -19,6 +19,7 @@ namespace IncidentesAMT.ViewModel
 {
     public class IncidenteViewModel : BaseViewModel
     {
+        Position position;
         #region VARIABLES
         public Xamarin.Forms.GoogleMaps.Map MapView;
         GeoLocation geoLocation = new GeoLocation();
@@ -241,23 +242,33 @@ namespace IncidentesAMT.ViewModel
             MapView.FlowDirection = FlowDirection.LeftToRight;
             MapView.MapType = MapType.Street;
             moveToActualPosition();
-            GetAddress();
         }
 
         public void moveToActualPosition()
         {
-            Device.BeginInvokeOnMainThread( () =>
+            Device.BeginInvokeOnMainThread( async () =>
             {
-                Position position = new Position(GeoLocation.lat, GeoLocation.lng);
+                position = new Position(GeoLocation.lat, GeoLocation.lng);
                 MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(250)), true);
+                adr();
             });
         }
 
-        private async void GetAddress()
+        private async void adr()
         {
-            var Address = await new GeoLocation().GetAddress();
-            Direccion = $"{Address.SubAdminArea}, {Address.SubLocality}";
+            var g = new Geocoder();
+            var ad = await g.GetAddressesForPositionAsync(position);
+            List<string> address = new List<string>();
+            foreach (var item in ad)
+            {
+                address.Add(item);
+            }
+            var c1 = address[0].Split(',');
+            var c2 = address[1].Split(',');
+            var c3 = address[2].Split(',');
+            var c4 = address[3].Split(',');
+            var c5 = address[4].Split(',');
+            Direccion = $"{c5[0].ToString()} - {c4[0].ToString()} - {c1[0].ToString()} - {c2[0].ToString()} - {c3[0].ToString()}";
         }
-
     }
 }

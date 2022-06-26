@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.GoogleMaps;
 
 namespace IncidentesAMT.ViewModel
 {
@@ -23,7 +24,7 @@ namespace IncidentesAMT.ViewModel
             get { return _locationAddress; }
             set { _locationAddress = value; OnPropertyChanged(); }
         }
-
+        
 
         public async Task<bool> getLocationGPS()
         {
@@ -38,10 +39,10 @@ namespace IncidentesAMT.ViewModel
                 });
                 if (location != null)
                 {
-                    lat = /*-0.086342;*/ location.Latitude;
-                    lng = /*-78.433341;*/location.Longitude;
+                    lat = /*-0.078414;*/ location.Latitude;
+                    lng = /*-78.451354;*/ location.Longitude;
                     await GetAddress();  
-                    return true;
+                    return true;  
                 }
                 
                 else

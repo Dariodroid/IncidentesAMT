@@ -26,11 +26,11 @@ namespace IncidentesAMT.Droid.Dependency
             var g = Geocoder.IsPresent;
 
             var addresses = await geoCoder.GetFromLocationAsync(latitude, longitude, 1);
+            
 
             if (addresses.Any())
             {
                 var address = addresses.First();
-
                 var location = new LocationAddress()
                 {
                     Name = address.FeatureName,

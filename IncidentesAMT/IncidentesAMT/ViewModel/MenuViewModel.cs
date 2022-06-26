@@ -225,9 +225,15 @@ namespace IncidentesAMT.VistaModelo
 
         private async void IncidenteSelect(CatalogoXIdModel catalogo)
         {
-            if(contfal < 3)
+            if(contfal < 4)
             {
-               var geo = await new GeoLocation().getLocationGPS();
+                var geo = await new GeoLocation().getLocationGPS();
+                var outCity = new GeoLocation().InPoligon();
+                if (!outCity)
+                {
+                    await DisplayAlert("Alerta !", "Usted está fuera de Quito, no se puede reportar el incidente", "Ok");
+                    return;
+                }
                 if (geo)
                 {
                     await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));

@@ -27,8 +27,7 @@ namespace IncidentesAMT.ViewModel
         
 
         public async Task<bool> getLocationGPS()
-        {
-            
+        {            
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Best);
@@ -39,9 +38,9 @@ namespace IncidentesAMT.ViewModel
                 });
                 if (location != null)
                 {
-                    lat = /*-0.205656;*/ location.Latitude;
-                    lng = /*-78.395168;*/ location.Longitude;
-                    await GetAddress();  
+                    lat = /*-0.409548; */location.Latitude;
+                    lng = /*-78.361242;*/ location.Longitude;
+                    await GetAddress();
                     return true;  
                 }
                 
@@ -73,10 +72,54 @@ namespace IncidentesAMT.ViewModel
                 return false;
             }
         }
+      
+        public async Task<LocationAddress> GetAddress()
+        {
+            LocationAddress = await LocationService.GetAddress(lat, lng);
+            return LocationAddress;
+        }
 
         public bool InPoligon()
+        {            
+            var latLngs = Coords();
+            List<string> vertices_y = new List<string>();
+            List<string> vertices_x = new List<string>();          
+
+            var r = 0;
+            var i = 0;
+            var j = 0;
+            bool c = false;
+            var point = 0;
+
+            for (r = 0; r < latLngs.Count; r++)
+            {
+                vertices_y.Add(latLngs[r].Split(':')[0]);
+                vertices_x.Add(latLngs[r].Split(':')[1]);
+            }
+            var points_polygon = vertices_x.Count;
+            for (i = 0; i < points_polygon; j = i++)
+            {
+                j = points_polygon - 1;
+                point = i;
+                if (point == points_polygon) point = 0;
+
+                var op1 = (Convert.ToDouble(vertices_x[j]) - Convert.ToDouble(vertices_x[point]));
+                var op2 = lat - Convert.ToDouble(vertices_y[point]);
+                var op3 = Convert.ToDouble(vertices_y[j]) - Convert.ToDouble(vertices_y[point]);
+
+                var total = (op1) * (op2) / (op3)+Convert.ToDouble(vertices_x[point]);
+
+                if ((Convert.ToDouble(vertices_y[point]) > lat) != (Convert.ToDouble(vertices_y[j]) > lat) && lng < total)
+                {
+                    c = !c;
+                }
+            }
+            return c;
+        }
+
+        private List<string> Coords()
         {
-            string[] poligon = {
+            List<string> triangleCoords = new List<string>(){
                     "0.021867:  -78.498062",
                     "-0.004002:  -78.528904",
                     "-0.022052:  -78.477204",
@@ -135,32 +178,8 @@ namespace IncidentesAMT.ViewModel
                     "0.016234:    -78.451513",
                     "0.023968:    -78.498461",
             };
-            string latPolig = string.Empty;
-            string lngPolig = string.Empty;
-            bool isPoligon = false;
 
-            for (int i = 0; i < poligon.Length; i++)
-            {
-                latPolig = poligon[i].Split(':')[0].Replace('.', ',');
-                lngPolig = poligon[i].Split(':')[1].Replace('.', ',');
-
-                if (lat <= Convert.ToDouble(latPolig))
-                {
-                    if (lng <= Convert.ToDouble(lngPolig))
-                        isPoligon = false;
-                }
-                else
-                {
-                    isPoligon = true;
-                }
-            }
-            return isPoligon;
-        }
-
-        public async Task<LocationAddress> GetAddress()
-        {
-            LocationAddress = await LocationService.GetAddress(lat, lng);
-            return LocationAddress;
+            return triangleCoords;
         }
     }
 }

@@ -228,21 +228,21 @@ namespace IncidentesAMT.VistaModelo
             if(contfal < 4)
             {
                 var geo = await new GeoLocation().getLocationGPS();
-                var city = await new GeoLocation().GetAddress();
+                //var city = await new GeoLocation().GetAddress();
                 var limits = new GeoLocation().InPoligon();
                 if (geo)
                 {
                     // verifico si el area es diferente al DMQ
-                    if (city.SubAdminArea != "Distrito Metropolitano de Quito")
-                    {
-                        await DisplayAlert("Alerta !", $"Usted está en {city.City}, no se puede reportar incidentes fuera de Quito", "Ok");
-                        return;
-                    }
+                    //if (city.SubAdminArea != "Distrito Metropolitano de Quito")
+                    //{
+                    //    await DisplayAlert("Alerta !", $"Usted está en {city.City}, no se puede reportar incidentes fuera de Quito", "Ok");
+                    //    return;
+                    //}
 
                     // verifico si esta en el poligono y el DMQ
-                    if (!limits && city.SubAdminArea == "Distrito Metropolitano de Quito")                    
+                    if (!limits /*&& city.SubAdminArea == "Distrito Metropolitano de Quito"*/)                    
                     {
-                        await DisplayAlert("Alerta !", $"Usted está en el DQM, pero fuera de los limites designados", "Ok");
+                        await DisplayAlert("Alerta !", $"Usted está fuera de los limites designados", "Ok");
                         return;
                     }
                     await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));

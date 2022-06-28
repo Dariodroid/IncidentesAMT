@@ -179,7 +179,7 @@ namespace IncidentesAMT.ViewModel
                     "0.023968:    -78.498461",
             };
 
-            //Point[] points = new Point()
+            //Point[] points = new Point();
 
             return triangleCoords;
         }

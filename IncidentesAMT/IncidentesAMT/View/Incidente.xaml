@@ -37,9 +37,9 @@
                         <Image x:Name="foto2" Source="{Binding PathFoto2}" HorizontalOptions="FillAndExpand"></Image>
                     </Frame>
                     <Label Text="Calles de referencia:" TextColor="Black" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
-                    <Entry x:Name="txtDireccion" Text="{Binding Direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
+                    <Entry x:Name="txtDireccion" TextColor="Black" Text="{Binding Direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>
                     <Label Text="Descripción:" TextColor="Black" FontSize="Subtitle" Grid.Row="3" Grid.Column="0"></Label>
-                    <Editor x:Name="txtDescripcion" Text="{Binding Descripcion}" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="10" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
+                    <Editor x:Name="txtDescripcion" TextColor="Black" Text="{Binding Descripcion}" Placeholder="Opcional" AutoSize="TextChanges" HeightRequest="10" Grid.Row="4" Grid.ColumnSpan="2"></Editor>
 
 
                 </Grid>

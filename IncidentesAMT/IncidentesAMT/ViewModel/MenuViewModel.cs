@@ -204,7 +204,7 @@ namespace IncidentesAMT.VistaModelo
             {
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/628be9a6346e7309b33a5920");
+                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/62ba9522a5702d2d5d1e813e");
                 request.Method = HttpMethod.Get;
                 request.Headers.Add("Accpet", "application/json");
                 var client = new HttpClient();

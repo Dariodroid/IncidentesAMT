@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using ZXing.Mobile;
 using ZXing.Net.Mobile.Forms;
+using static IncidentesAMT.Model.MessageModel;
 
 namespace IncidentesAMT.ViewModel
 {
@@ -94,7 +95,7 @@ namespace IncidentesAMT.ViewModel
             _apellidos = persona.apellidos;
             _correo = persona.correo;
             _nacionalidad = "62883ca68d0ce7cb7d438059";
-            _celular = persona.celular;
+            _celular = persona.telefono;
             fotoViewModel = new FotoViewModel();
 
             RegistrarCommand = new Command(() => Registrar());
@@ -123,7 +124,7 @@ namespace IncidentesAMT.ViewModel
                         correo = _correo,
                         password = ConfirmPass,
                         fotoCedula = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFoto),
-                        celular = _celular
+                        telefono = _celular
                     };
 
                     Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/createPersona");
@@ -141,13 +142,13 @@ namespace IncidentesAMT.ViewModel
                     else
                     {
                         string content = await response.Content.ReadAsStringAsync();
-                        MessageModel obj = JsonConvert.DeserializeObject<MessageModel>(content);
-                        var messageType = obj.message;
-
+                        Root obj = JsonConvert.DeserializeObject<Root>(content);
+                        var messageType = obj;
+                        
                         UserDialogs.Instance.HideLoading();
-                        if(messageType != null)
+                        if (messageType.@return.code == 11000)
                         {
-                            await DisplayAlert("Ocurrió un error", messageType[0].ToString(), "Cerrar");
+                            await DisplayAlert("Ocurrió un error", "Éste número de cédula ya se encuentra registrado", "Cerrar");
                         }
                         else
                         {

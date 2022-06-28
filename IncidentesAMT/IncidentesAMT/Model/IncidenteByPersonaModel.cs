@@ -1,6 +1,7 @@
 ﻿using IncidentesAMT.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Forms;
 
@@ -29,6 +30,16 @@ namespace IncidentesAMT.Modelo
         public ImageSource MyImage2
         {
             get { return ConvertImgBase64.GetImageSourceFromBase64String(fotoDos); }
+        }        
+
+        public string Estado
+        {
+            get { 
+                if(estado== "GEN")
+                    return estado = "GENERADO";
+                else
+                    return estado = "ACTIVO";
+            }
         }
     }
 }

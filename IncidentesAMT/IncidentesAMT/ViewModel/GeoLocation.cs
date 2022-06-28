@@ -38,8 +38,8 @@ namespace IncidentesAMT.ViewModel
                 });
                 if (location != null)
                 {
-                    lat = /*-0.409548; */location.Latitude;
-                    lng = /*-78.361242;*/ location.Longitude;
+                    lat = /*-0.1328905;*/  location.Latitude;
+                    lng = /*-78.4941563;*/ location.Longitude;
                     await GetAddress();
                     return true;  
                 }
@@ -93,13 +93,12 @@ namespace IncidentesAMT.ViewModel
 
             for (r = 0; r < latLngs.Count; r++)
             {
-                vertices_y.Add(latLngs[r].Split(':')[0]);
-                vertices_x.Add(latLngs[r].Split(':')[1]);
+                vertices_y.Add(latLngs[r].Split(':')[0].Replace(',', '.'));
+                vertices_x.Add(latLngs[r].Split(':')[1].Replace(',', '.'));
             }
             var points_polygon = vertices_x.Count;
-            for (i = 0; i < points_polygon; j = i++)
-            {
-                j = points_polygon - 1;
+            for (i = 0, j = points_polygon - 1; i < points_polygon; j = i++)
+            {                
                 point = i;
                 if (point == points_polygon) point = 0;
 
@@ -119,6 +118,7 @@ namespace IncidentesAMT.ViewModel
 
         private List<string> Coords()
         {
+            //Point point = new ()
             List<string> triangleCoords = new List<string>(){
                     "0.021867:  -78.498062",
                     "-0.004002:  -78.528904",
@@ -178,6 +178,8 @@ namespace IncidentesAMT.ViewModel
                     "0.016234:    -78.451513",
                     "0.023968:    -78.498461",
             };
+
+            //Point[] points = new Point()
 
             return triangleCoords;
         }

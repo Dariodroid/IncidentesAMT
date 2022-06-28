@@ -106,7 +106,7 @@ namespace IncidentesAMT.ViewModel
                     nombres = nombres,
                     apellidos = apellidos,
                     correo = correo,
-                    celular = celular
+                    telefono = celular
                 };
                 await Navigation.PushAsync(new Registro(persona, verifcado));
             }

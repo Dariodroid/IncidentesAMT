@@ -240,7 +240,7 @@ namespace IncidentesAMT.VistaModelo
                     //}
 
                     // verifico si esta en el poligono y el DMQ
-                    if (!limits /*&& city.SubAdminArea == "Distrito Metropolitano de Quito"*/)                    
+                    if (!limits)
                     {
                         await DisplayAlert("Alerta !", $"Usted está fuera de los limites designados", "Ok");
                         return;

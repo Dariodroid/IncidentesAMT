@@ -28,6 +28,31 @@ namespace IncidentesAMT.ViewModel
             get { return _incidenteByUsuarioModel; }
             set { _incidenteByUsuarioModel = value; OnPropertyChanged(); }
         }
+
+        //private ObservableCollection<string> _direccion;
+
+        //public ObservableCollection<string> Direccion
+        //{
+        //    get { return _direccion; }
+        //    set { _direccion = value; OnPropertyChanged(); }
+        //}
+
+        //private ObservableCollection<string> _descripcion;
+
+        //public ObservableCollection<string> Descripcion
+        //{
+        //    get { return _descripcion; }
+        //    set { _descripcion = value; OnPropertyChanged(); }
+        //}
+
+        //private ObservableCollection<string> _estado;
+
+        //public ObservableCollection<string> Estado
+        //{
+        //    get { return _estado; }
+        //    set { _estado = value; OnPropertyChanged(); }
+        //}
+
         #endregion
 
         #region COMANDOS

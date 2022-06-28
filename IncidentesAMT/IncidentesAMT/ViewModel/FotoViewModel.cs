@@ -72,7 +72,7 @@ namespace IncidentesAMT.VistaModelo
             try
             {                
                 var camera = new StoreCameraMediaOptions();
-                camera.PhotoSize = PhotoSize.Full;
+                camera.PhotoSize = PhotoSize.Medium;
                 camera.SaveToAlbum = true;                
                 var foto = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(camera);
                 if (foto != null)
@@ -100,7 +100,7 @@ namespace IncidentesAMT.VistaModelo
             try
             {
                 var camera = new StoreCameraMediaOptions();
-                camera.PhotoSize = PhotoSize.Full;
+                camera.PhotoSize = PhotoSize.Medium;
                 camera.DefaultCamera = CameraDevice.Front;
                 camera.SaveToAlbum = true;
                 var foto = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(camera);

@@ -18,6 +18,7 @@ namespace IncidentesAMT.ViewModel
 {
     public class DatosPersonalesViewModel : BaseViewModel
     {
+        string tel = null; string dir = null;
         #region VARIABLES
         private string _idUser;
         bool verifcado = false;
@@ -144,6 +145,8 @@ namespace IncidentesAMT.ViewModel
                         FotoCedula = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoCedula);
                         FotoPerfil = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoPerfil);
                         UserDialogs.Instance.HideLoading();
+                        tel = Telefono;
+                        dir = Direccion;
                     }
                 }
             }
@@ -158,7 +161,7 @@ namespace IncidentesAMT.ViewModel
         private async void UpdatePersona()
         {
             try
-            {
+            {               
                 UserDialogs.Instance.ShowLoading("Actualizando...");
                 if (!string.IsNullOrEmpty(fotoViewModel.PathFoto) )
                 {
@@ -177,11 +180,9 @@ namespace IncidentesAMT.ViewModel
                     var json = JsonConvert.SerializeObject(fotoCedula);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = await client.PutAsync(RequestUri, contentJson);
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
-                        UserDialogs.Instance.HideLoading();
-                        return;
+                        await DisplayAlert("Mensaje", "Ocurrió un error al actualizar la foto de su cédula", "Ok");
                     }
                 }
                 if (!string.IsNullOrEmpty(fotoViewModel.PathFotoPerfil))
@@ -195,32 +196,30 @@ namespace IncidentesAMT.ViewModel
                     var json = JsonConvert.SerializeObject(fotoPerfil);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = await client.PutAsync(RequestUri, contentJson);
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
-                        UserDialogs.Instance.HideLoading();
-                        return;
+                        await DisplayAlert("Mensaje", "Ocurrió un error al actualizar la foto de perfil", "Ok");
                     }
                 }
-                else
+                if(tel != Telefono || dir != Direccion)
                 {
                     UpdatePersonaModel persona2 = new UpdatePersonaModel
                     {
                         telefono = Telefono,
-                        direccion = Direccion
-                    };
+                        direccion = Direccion                    
+                    };                    
                     Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(persona2);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
                     var response = await client.PutAsync(RequestUri, contentJson);
-                    if (response.StatusCode == HttpStatusCode.OK)
+                    if (response.StatusCode != HttpStatusCode.OK)
                     {
-                        await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
-                        UserDialogs.Instance.HideLoading();
-                        return;
+                        await DisplayAlert("Mensaje", "Ocurrió un error al actualizar sus datos de contacto", "Ok");
                     }
                 }
+                await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
+                UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
             {

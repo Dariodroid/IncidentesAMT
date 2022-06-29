@@ -118,7 +118,6 @@ namespace IncidentesAMT.ViewModel
 
         private List<string> Coords()
         {
-            //Point point = new ()
             List<string> triangleCoords = new List<string>(){
                     "0.021867:  -78.498062",
                     "-0.004002:  -78.528904",
@@ -178,8 +177,6 @@ namespace IncidentesAMT.ViewModel
                     "0.016234:    -78.451513",
                     "0.023968:    -78.498461",
             };
-
-            //Point[] points = new Point();
 
             return triangleCoords;
         }

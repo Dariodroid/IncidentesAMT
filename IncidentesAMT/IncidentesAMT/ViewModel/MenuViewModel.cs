@@ -236,6 +236,7 @@ namespace IncidentesAMT.VistaModelo
                     if (!limits)
                     {
                         await DisplayAlert("Error", $"Usted está fuera de los limites designados", "Ok");
+                        UserDialogs.Instance.HideLoading();
                         return;
                     }
                     UserDialogs.Instance.HideLoading();

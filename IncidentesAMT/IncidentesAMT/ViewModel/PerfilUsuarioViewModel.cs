@@ -85,7 +85,7 @@ namespace IncidentesAMT.ViewModel
                 {
                     IsBusy = true;
                     var request = new HttpRequestMessage();
-                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
                     request.Method = HttpMethod.Get;
                     request.Headers.Add("Accpet", "application/json");
                     var client = new HttpClient();

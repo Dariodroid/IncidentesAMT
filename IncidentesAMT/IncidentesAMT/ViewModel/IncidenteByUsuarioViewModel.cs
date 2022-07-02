@@ -23,35 +23,12 @@ namespace IncidentesAMT.ViewModel
         #endregion
 
         #region PROPIEDADES
+        
         public ObservableCollection<IncidenteByPersonaModel> IncidenteByUsuarioModel
         {
             get { return _incidenteByUsuarioModel; }
             set { _incidenteByUsuarioModel = value; OnPropertyChanged(); }
         }
-
-        //private ObservableCollection<string> _direccion;
-
-        //public ObservableCollection<string> Direccion
-        //{
-        //    get { return _direccion; }
-        //    set { _direccion = value; OnPropertyChanged(); }
-        //}
-
-        //private ObservableCollection<string> _descripcion;
-
-        //public ObservableCollection<string> Descripcion
-        //{
-        //    get { return _descripcion; }
-        //    set { _descripcion = value; OnPropertyChanged(); }
-        //}
-
-        //private ObservableCollection<string> _estado;
-
-        //public ObservableCollection<string> Estado
-        //{
-        //    get { return _estado; }
-        //    set { _estado = value; OnPropertyChanged(); }
-        //}
 
         #endregion
 
@@ -80,7 +57,7 @@ namespace IncidentesAMT.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading("Cargando...");
                     var request = new HttpRequestMessage();
-                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + idUser);
+                    request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + idUser);
                     request.Method = HttpMethod.Get;
                     request.Headers.Add("Accpet", "application/json");
                     var client = new HttpClient();

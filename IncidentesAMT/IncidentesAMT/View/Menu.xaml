@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="IncidentesAMT.Menu" Title="Menú prinipal" NavigationPage.HasNavigationBar="{Binding IsConnected}" 
-             xmlns:globals="clr-namespace:IncidentesAMT.View.Globals" >
+             xmlns:globals="clr-namespace:IncidentesAMT.View.Globals" 
+             xmlns:Trigers="clr-namespace:IncidentesAMT.Trigers.Aniamtions">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Perfil"
@@ -32,16 +33,26 @@
                            Padding="8">
                                 <StackLayout>
                                     <Label x:Name="lblIncFalsos" 
-                                       TextColor="Black"
-                               Text="{Binding Lblfalso}"
-                               FontSize="Medium"
-                               HorizontalOptions="Center"
-                               FontAttributes="Bold" />
+                                           TextColor="Black"
+                                           Text="{Binding Lblfalso}"
+                                           FontSize="Medium"
+                                           HorizontalOptions="Center"
+                                           FontAttributes="Bold" />
                                     <BoxView Color="Gray"
-                                 HeightRequest="2"
-                                 HorizontalOptions="Fill" />
+                                             HeightRequest="2"
+                                             HorizontalOptions="Fill" />
                                     <Label Text="Tu cuenta está próxima a bloquearse" TextColor="Black" HorizontalOptions="Center"/>
                                 </StackLayout>
+                                <Frame.Triggers>
+                                        <MultiTrigger TargetType="Frame">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding StateShake}" Value="true"/>
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.EnterActions>
+                                            <Trigers:Shake/>
+                                        </MultiTrigger.EnterActions>
+                                        </MultiTrigger>
+                                </Frame.Triggers>
                             </Frame>
 
                             <Frame x:Name="frmActivos" IsVisible="{Binding FrmActivos}" BorderColor="Chocolate"
@@ -59,9 +70,20 @@
                                  HorizontalOptions="Fill" />
                                     <Label Text="Tu incidente está siendo atendido" TextColor="Black" HorizontalOptions="Center"/>
                                 </StackLayout>
+                                <Frame.Triggers>
+                                    <MultiTrigger TargetType="Frame">
+                                        <MultiTrigger.Conditions>
+                                            <BindingCondition Binding="{Binding StateShake}" Value="true"/>
+                                        </MultiTrigger.Conditions>
+                                        <MultiTrigger.EnterActions>
+                                            <Trigers:Shake/>
+                                        </MultiTrigger.EnterActions>
+                                    </MultiTrigger>
+                                </Frame.Triggers>
                             </Frame>
 
                             <BoxView HorizontalOptions="FillAndExpand" WidthRequest="1" Color="Gray" HeightRequest="1" Margin="0,15,0,15"/>
+
                             <Label Text="Reportar Incidente" TextColor="Black" FontSize="Subtitle" FontAttributes="Bold" TextTransform="Uppercase" Padding="0,0,0,9"></Label>
 
                             <CollectionView x:Name="cwIncidentes" ItemsLayout="VerticalGrid, 2"  SelectionMode="Single" ItemsSource="{Binding Incidentes}">
@@ -111,6 +133,7 @@
                     </StackLayout>
 
                     <globals:TestInternet IsVisible="{Binding NoInternet}"/>
+                    <globals:TestLocation IsVisible="{Binding TestLocation}"/>
 
                 </Grid>
             </ScrollView>

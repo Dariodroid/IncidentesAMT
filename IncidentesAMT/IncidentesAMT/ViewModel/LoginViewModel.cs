@@ -21,6 +21,7 @@ namespace IncidentesAMT.ViewModel
         #region Commands
         public Command LoginCommand { get; set; }
         public Command CrearteAccount { get; set; }
+        public Command IsPasswordCommand { get; set; }
 
         #endregion
 
@@ -50,6 +51,21 @@ namespace IncidentesAMT.ViewModel
             set { _password = value; OnPropertyChanged(); }
         }
 
+        private bool _showPassword;
+
+        public bool ShowPassword
+        {
+            get { return _showPassword; }
+            set { _showPassword = value; OnPropertyChanged(); }
+        }
+
+        private string _iconPass;
+
+        public string IconPass
+        {
+            get { return _iconPass; }
+            set { _iconPass = value; OnPropertyChanged(); }
+        }
         private string _Password { get; set; }
         #endregion
 
@@ -58,6 +74,8 @@ namespace IncidentesAMT.ViewModel
             Navigation = navigation;
             LoginCommand = new Command(async () => await Login());
             CrearteAccount = new Command(async () => await CreateAccount());
+            IsPassword();
+            IsPasswordCommand = new Command(() => IsPassword());
         }
 
         public async Task Login()
@@ -74,7 +92,7 @@ namespace IncidentesAMT.ViewModel
                         password = Password,
                     };
 
-                    Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/auth/login");
+                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/auth/login");
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(loginModel);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -138,6 +156,20 @@ namespace IncidentesAMT.ViewModel
         public async Task CreateAccount()
         {
             await Navigation.PushAsync(new DatosPersona());
+        }
+
+        private void IsPassword()
+        {
+            if (!ShowPassword)
+            {
+                ShowPassword = true;
+                IconPass = "eye";
+            }
+            else if (ShowPassword)
+            {
+                ShowPassword = false;
+                IconPass = "hide";
+            }
         }
     }
 

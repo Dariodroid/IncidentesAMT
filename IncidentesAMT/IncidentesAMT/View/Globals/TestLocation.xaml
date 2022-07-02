@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="IncidentesAMT.View.Globals.TestLocation"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms">
+  <ContentView.Content>
+        <Frame Opacity="0.85" >
+            <StackLayout VerticalOptions="Center" >
+                <lottie:AnimationView Animation="Testlocation.json" 
+                                      AutoPlay="True"                                  
+                                      HeightRequest="300" 
+                                      WidthRequest="100" 
+                                      RepeatMode="Infinite" 
+                                      VerticalOptions="Center">
+
+                </lottie:AnimationView>
+                <Label Text="Verificando su ubicación..."
+                       FontSize="17"
+                       VerticalOptions="FillAndExpand"
+                       VerticalTextAlignment="Center"
+                       HorizontalOptions="FillAndExpand"
+                       HorizontalTextAlignment="Center"
+                       FontAttributes="Bold"/>
+            </StackLayout>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

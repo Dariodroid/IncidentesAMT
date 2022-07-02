@@ -1,9 +1,16 @@
-﻿using IncidentesAMT.Helpers;
+﻿using Acr.UserDialogs;
+using IncidentesAMT.Helpers;
+using IncidentesAMT.Model;
 using IncidentesAMT.Modelo;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using ZXing.Mobile;
 using ZXing.Net.Mobile.Forms;
@@ -13,6 +20,7 @@ namespace IncidentesAMT.ViewModel
     public class RegistrarPersonaViewModel : BaseViewModel
     {
         bool verifcado = false;
+        DataCiModel.Root dataCiModel;
 
         #region PROPIEDADES
         INavigation Navigation { get; set; }
@@ -188,12 +196,15 @@ namespace IncidentesAMT.ViewModel
                 verifcado = Verify_Ci.VerificaIdentificacion(result.Text);
                 if (verifcado)
                 {
+                    Vibration.Vibrate();
+                    var time = TimeSpan.FromMilliseconds(100);
+                    Vibration.Vibrate(time);
                     Identificacion = result.Text;
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         await Navigation.PopModalAsync();
+                        GetDataCI(Identificacion);
                         await DisplayAlert("Mensaje", "Cédula verificada correctamente", "Ok");
-
                     });
                 }
                 else
@@ -204,6 +215,38 @@ namespace IncidentesAMT.ViewModel
                 }
             };
 
+        }
+
+
+        public async void GetDataCI(string Ci)
+        {
+            try
+            {
+                UserDialogs.Instance.ShowLoading("Cargando sus datos...");
+                var request = new HttpRequestMessage();
+                request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/obtenerDatos/" + Ci);
+                request.Method = HttpMethod.Get;
+                request.Headers.Add("Accpet", "application/json");
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    dataCiModel = JsonConvert.DeserializeObject<DataCiModel.Root>(content);
+                    Nombres = dataCiModel.retorno.nombres;
+                    Apellidos = $"{dataCiModel.retorno.apellido1} {dataCiModel.retorno.apellido2}";
+                    UserDialogs.Instance.HideLoading();
+                }
+                else
+                {
+                    await DisplayAlert("No se encontraron datos", "Ingrese sus datos manualmente", "Ok");
+                }
+            }
+            catch (Exception ex)
+            {
+                UserDialogs.Instance.HideLoading();
+                await DisplayAlert("Error", ex.Message.ToString(), "ok");
+            }
         }
 
     }

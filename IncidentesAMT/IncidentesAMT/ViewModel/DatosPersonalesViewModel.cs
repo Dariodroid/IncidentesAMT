@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using IncidentesAMT.Helpers;
 using IncidentesAMT.Model;
+using IncidentesAMT.View;
 using IncidentesAMT.VistaModelo;
 using Newtonsoft.Json;
 using System;
@@ -10,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using ZXing.Mobile;
 using ZXing.Net.Mobile.Forms;
@@ -18,8 +20,8 @@ namespace IncidentesAMT.ViewModel
 {
     public class DatosPersonalesViewModel : BaseViewModel
     {
-        string tel = null; string dir = null;
         #region VARIABLES
+        string tel = null; string dir = null;
         private string _idUser;
         bool verifcado = false;
         private InfoUserByIdModel infoUserModel;
@@ -32,6 +34,8 @@ namespace IncidentesAMT.ViewModel
         public Command FotoPerfilcommand { get; set; }
 
         public Command Updatecommand { get; set; }
+
+        public Command UpdatePssword { get; set; }
         #endregion
 
         #region PROPIEDADES
@@ -117,6 +121,7 @@ namespace IncidentesAMT.ViewModel
             Fotocommand = new Command(() => takefoto());
             FotoPerfilcommand = new Command(() => takeFotoPerfil());
             Updatecommand = new Command(() => UpdatePersona());
+            UpdatePssword = new Command(() => UpdatePassword());
             GetPersonaById();
         }
 
@@ -128,7 +133,7 @@ namespace IncidentesAMT.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading("Cargando sus datos...");
                     var request = new HttpRequestMessage();
-                    request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
                     request.Method = HttpMethod.Get;
                     request.Headers.Add("Accpet", "application/json");
                     var client = new HttpClient();
@@ -183,7 +188,9 @@ namespace IncidentesAMT.ViewModel
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
                         await DisplayAlert("Mensaje", "Ocurrió un error al actualizar la foto de su cédula", "Ok");
+                        return;
                     }
+                    await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
                 }
                 if (!string.IsNullOrEmpty(fotoViewModel.PathFotoPerfil))
                 {
@@ -199,7 +206,9 @@ namespace IncidentesAMT.ViewModel
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
                         await DisplayAlert("Mensaje", "Ocurrió un error al actualizar la foto de perfil", "Ok");
+                        return;
                     }
+                    await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
                 }
                 if(tel != Telefono || dir != Direccion)
                 {
@@ -216,9 +225,10 @@ namespace IncidentesAMT.ViewModel
                     if (response.StatusCode != HttpStatusCode.OK)
                     {
                         await DisplayAlert("Mensaje", "Ocurrió un error al actualizar sus datos de contacto", "Ok");
+                        return;
                     }
+                    await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
                 }
-                await DisplayAlert("Mensaje", "Actualizado correctamente", "Ok");
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception ex)
@@ -230,7 +240,7 @@ namespace IncidentesAMT.ViewModel
 
         private async void takefoto()
         {
-            await ScannCI();           
+            await ScannCI();
         }
 
         private async void takeFotoPerfil()
@@ -245,17 +255,17 @@ namespace IncidentesAMT.ViewModel
 
         public async Task ScannCI()
         {
-
             var options = new MobileBarcodeScanningOptions();
 
             var overlay = new ZXingDefaultOverlay
             {
-                ShowFlashButton = false,
+                ShowFlashButton = true,
                 TopText = "Coloca el código de barra de tu cédula frente al dispositivo",
                 BottomText = "El escaneo es automático, luego de verificar debe añadir una foto de la cédula",
                 Opacity = 0.90,
-            }; overlay.BindingContext = overlay;
+            };
 
+            overlay.BindingContext = overlay;
             var page = new ZXingScannerPage(options, overlay)
             {
                 Title = "Escaneo Cédula",
@@ -270,9 +280,12 @@ namespace IncidentesAMT.ViewModel
                 page.IsAnalyzing = false;
                 verifcado = Verify_Ci.VerificaIdentificacion(result.Text);
                 if (verifcado)
-                {
+                {  
                     Device.BeginInvokeOnMainThread(async () =>
                     {
+                        Vibration.Vibrate();
+                        var time = TimeSpan.FromMilliseconds(100);
+                        Vibration.Vibrate(time);
                         await Navigation.PopModalAsync();
                         await DisplayAlert("Mensaje", "Cédula verificada correctamente", "Ok");
 
@@ -291,5 +304,19 @@ namespace IncidentesAMT.ViewModel
                 } 
             };
         }
+
+        private async void UpdatePassword()
+        {            
+            InfoUserByIdModel cambiarPasswordModel = new InfoUserByIdModel
+            {
+                telefono = Telefono,
+                correo = Correo,
+                _id = _idUser,
+                nombres = Nombre,
+                apellidos = Apellido,
+            };
+            await Navigation.PushAsync(new CambiarPassword(cambiarPasswordModel, FotoPerfil));
+        }
+
     }
 }

@@ -36,7 +36,7 @@ namespace IncidentesAMT.ViewModel
         private string _idPersona { get; set; }
         private string _idIncidente { get; set; }
         public INavigation Navigation { get; set; }
-
+               
         private int _time;
 
         public int Time
@@ -92,7 +92,7 @@ namespace IncidentesAMT.ViewModel
             _idPersona = idPersona;
             _idIncidente = idIncidente;
             MapView = Map;
-            configMap();            
+            configMap();
             ReportarIncidenteCommand = new Command(async () => await Incidente());
             CapturarCommand = new Command(async () => await TomarFoto());
         }
@@ -148,7 +148,7 @@ namespace IncidentesAMT.ViewModel
                     descripcion = Descripcion
                 };
 
-                Uri RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/");
+                Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/incidentes/");
                 var client = new HttpClient();
                 var json = JsonConvert.SerializeObject(incidente);
                 var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -175,7 +175,7 @@ namespace IncidentesAMT.ViewModel
                 UserDialogs.Instance.HideLoading();
                 await DisplayAlert("Error", ex.Message.ToString(), "Cerrar");
             }           
-        }
+        }       
 
         private async Task<bool> VerifyIncidente()
         {
@@ -270,5 +270,6 @@ namespace IncidentesAMT.ViewModel
             var c5 = address[4].Split(',');
             Direccion = $"{c5[0].ToString()} - {c4[0].ToString()} - {c1[0].ToString()} - {c2[0].ToString()} - {c3[0].ToString()}";
         }
+
     }
 }

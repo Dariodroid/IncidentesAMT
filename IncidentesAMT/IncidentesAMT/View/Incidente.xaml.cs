@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
 using IncidentesAMT.ViewModel;
+using Xamarin.Essentials;
 
 namespace IncidentesAMT.Vista
 {
@@ -36,5 +37,6 @@ namespace IncidentesAMT.Vista
         {
             incidenteViewModel.Incidente();
         }
+       
     }
 }

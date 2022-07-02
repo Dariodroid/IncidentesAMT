@@ -43,15 +43,15 @@
 
 
                 </Grid>
-                    <Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderColor="Gray" Margin="5,2,5,5" CornerRadius="10" Padding="8" BackgroundColor="Beige">
+                    <Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderColor="Gray" Margin="5,2,5,5" CornerRadius="20" Padding="8" BackgroundColor="Beige">
                         <StackLayout >
                         <Button Text="Añadir foto" TextColor="Black" Margin="0,5,0,0" HeightRequest="40" HorizontalOptions="Center"  TextTransform="None" CornerRadius="50" VerticalOptions="End" BackgroundColor="#2196F3" Command="{Binding CapturarCommand}"></Button>
                         <!--<Button Text="Registrar"  TextTransform="None" Grid.Row="5" Grid.Column="1" CornerRadius="50" VerticalOptions="End" BackgroundColor="Chocolate" Command="{Binding ReportarIncidente}"></Button>-->
 
-                            <local:SlideToActView HeightRequest="30" SlideCompleted="SlideToActView_SlideCompleted">
+                            <local:SlideToActView HeightRequest="40" SlideCompleted="SlideToActView_SlideCompleted">
                             <local:SlideToActView.Thumb>
                                 <Frame CornerRadius="50" HasShadow="True" BackgroundColor="Red" Padding="0" BorderColor="Silver">
-                                    <Image Source="fldoub.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" WidthRequest="40" />
+                                    <Image Source="fldoub.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="50" WidthRequest="40" />
                                 </Frame>
                             </local:SlideToActView.Thumb>
 
@@ -63,12 +63,12 @@
 
                             <local:SlideToActView.FillBar>
                                 <Frame CornerRadius="50" HasShadow="True" BackgroundColor="Tomato" Padding="0" BorderColor="Brown">
-                                    <Image Source="flbackgr.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" WidthRequest="40" />
-
+                                    <Image Source="flbackgr.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="40" WidthRequest="40" />                                   
                                 </Frame>
                             </local:SlideToActView.FillBar>
                         </local:SlideToActView>
                     </StackLayout>
+                   
                 </Frame>
             </StackLayout>
 

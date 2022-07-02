@@ -12,7 +12,7 @@
                    CornerRadius="5"
                    Padding="20" Margin="5,15,5,5">
                 <StackLayout>
-                            <Label x:Name="lblName" TextColor="Black" HorizontalOptions="Center" FontSize="Title">
+                        <Label x:Name="lblName" TextColor="Black" HorizontalOptions="Center" FontSize="Title">
                         <Label.Text>
                             <MultiBinding StringFormat="{}{0} {1}">
                                 <Binding Path="Nombre" />

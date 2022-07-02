@@ -27,7 +27,7 @@ namespace IncidentesAMT.ViewModel
         
 
         public async Task<bool> getLocationGPS()
-        {            
+        {
             try
             {
                 var request = new GeolocationRequest(GeolocationAccuracy.Best);
@@ -82,6 +82,7 @@ namespace IncidentesAMT.ViewModel
         public bool InPoligon()
         {            
             var latLngs = Coords();
+
             List<string> vertices_y = new List<string>();
             List<string> vertices_x = new List<string>();          
 

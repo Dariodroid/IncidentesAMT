@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace IncidentesAMT.ViewModel
@@ -66,6 +67,7 @@ namespace IncidentesAMT.ViewModel
             {
                 case GestureStatus.Started:
                     await TrackBar.FadeTo(_fadeEffect, _animLength);
+                    Vibrate();
                     break;
 
                 case GestureStatus.Running:
@@ -85,6 +87,7 @@ namespace IncidentesAMT.ViewModel
                     var posX = Thumb.TranslationX;
                     SetLayoutBounds(FillBar, new Rectangle(0, 0, 0, this.Height));
 
+                    Vibrate();
                     // Reset translation applied during the pan
                     await Task.WhenAll(new Task[]{
                     TrackBar.FadeTo(1, _animLength),
@@ -123,6 +126,13 @@ namespace IncidentesAMT.ViewModel
             SetLayoutBounds(_gestureListener, new Rectangle(0, 0, 1, 1));
             Children.Add(_gestureListener);
 
+        }
+
+        private void Vibrate()
+        {
+            Vibration.Vibrate();
+            var time = TimeSpan.FromMilliseconds(100);
+            Vibration.Vibrate(time);
         }
     }
 }

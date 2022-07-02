@@ -13,6 +13,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace IncidentesAMT.VistaModelo
@@ -37,10 +38,29 @@ namespace IncidentesAMT.VistaModelo
         string _idUser;
         int contgen = 0;
         int contfal = 0;
+        
         #endregion
 
         #region OBJETOS
         public INavigation Navigation { get; set; }
+
+        private bool _stateShake;
+
+        public bool StateShake
+        {
+            get { return _stateShake; }
+            set { _stateShake = value; OnPropertyChanged(); }
+        }
+
+        private bool _testLocation;
+
+        public bool TestLocation
+        {
+            get { return _testLocation; }
+            set { _testLocation = value; OnPropertyChanged(); }
+        }
+
+
         public bool FrmFalsos
         {
             get { return _frmFalsos; }
@@ -96,7 +116,7 @@ namespace IncidentesAMT.VistaModelo
             VerifyInternet();
             RefreshCommand = new Command(() => GetIncidentePersonaById());
             IncidenteSelectCommand = new Command<CatalogoXIdModel>((C) => IncidenteSelect(C));
-            PerfilUserCommand = new Command(() => PerfilUser());
+            PerfilUserCommand = new Command(() => PerfilUser());  
         }
 
         private void VerifyInternet()
@@ -149,7 +169,7 @@ namespace IncidentesAMT.VistaModelo
             {
                 IsBusy = true;
                 var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
+                request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
                 request.Method = HttpMethod.Get;
                 request.Headers.Add("Accpet", "application/json");
                 var client = new HttpClient();
@@ -159,8 +179,8 @@ namespace IncidentesAMT.VistaModelo
                     content = await response.Content.ReadAsStringAsync();
                     IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
                     UserDialogs.Instance.HideLoading();
-                    VerificarNotif();
                     IsBusy = false;
+                    VerificarNotif();                    
                 }
                
             }
@@ -193,8 +213,9 @@ namespace IncidentesAMT.VistaModelo
                         contfal ++;
                         Lblfalso = $"{contfal} Incidente{(contfal > 1 ? "s" : "")} falso{(contfal > 1 ? "s" : "")}";
                     }
-
                 }
+                Vibrate();
+                Shakes();
             }
         }
 
@@ -204,7 +225,7 @@ namespace IncidentesAMT.VistaModelo
             {
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://incidentes-amt.herokuapp.com/catalogo/findIdPadre/62ba9522a5702d2d5d1e813e");
+                request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/catalogo/findIdPadre/62ba9522a5702d2d5d1e813e");
                 request.Method = HttpMethod.Get;
                 request.Headers.Add("Accpet", "application/json");
                 var client = new HttpClient();
@@ -225,21 +246,22 @@ namespace IncidentesAMT.VistaModelo
 
         private async void IncidenteSelect(CatalogoXIdModel catalogo)
         {
-            if(contfal < 4)
+            if(contfal < 3)
             {
-                UserDialogs.Instance.ShowLoading("Verificando ubicación...");
+                TestLocation = true;
                 var geo = await new GeoLocation().getLocationGPS();
-                var limits = new GeoLocation().InPoligon();
                 if (geo)
                 {
+                    var limits = new GeoLocation().InPoligon();
+
                     // verifico si esta en el poligono 
                     if (!limits)
                     {
-                        await DisplayAlert("Error", $"Usted está fuera de los limites designados", "Ok");
-                        UserDialogs.Instance.HideLoading();
+                        await DisplayAlert("Error", "Usted está fuera del área de cobertura de la AMT", "Ok");
+                        TestLocation = false;
                         return;
                     }
-                    UserDialogs.Instance.HideLoading();
+                    TestLocation = false;
                     await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));
                 }
             }
@@ -253,6 +275,19 @@ namespace IncidentesAMT.VistaModelo
         private async void PerfilUser()
         {
             await Navigation.PushAsync(new PerfilUsuario(_idUser));
+        }
+
+        private void Vibrate()
+        {
+            Vibration.Vibrate();
+            var time = TimeSpan.FromMilliseconds(100);
+            Vibration.Vibrate(time);
+        }
+
+        private void Shakes()
+        {
+            StateShake = true;
+            StateShake = false;
         }
     }
 }

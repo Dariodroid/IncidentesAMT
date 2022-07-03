@@ -46,6 +46,7 @@ namespace IncidentesAMT.ViewModel
                 
                 else
                 {
+                    await DisplayAlert("Error", "No se puede obtener la ubicación", "Cerrar");
                     return false;
                     //var knowLocation = await Geolocation.GetLastKnownLocationAsync();
                     //lat = knowLocation.Latitude;

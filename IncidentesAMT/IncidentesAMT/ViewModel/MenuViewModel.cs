@@ -264,6 +264,7 @@ namespace IncidentesAMT.VistaModelo
                     TestLocation = false;
                     await Navigation.PushAsync(new Incidente(_idUser, catalogo._id));
                 }
+                TestLocation = false;
             }
             else
             {

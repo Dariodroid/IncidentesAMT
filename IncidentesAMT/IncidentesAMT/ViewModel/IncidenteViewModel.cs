@@ -19,8 +19,8 @@ namespace IncidentesAMT.ViewModel
 {
     public class IncidenteViewModel : BaseViewModel
     {
-        Position position;
         #region VARIABLES
+        Position position;
         public Xamarin.Forms.GoogleMaps.Map MapView;
         GeoLocation geoLocation = new GeoLocation();
         int cont = 0;
@@ -36,13 +36,13 @@ namespace IncidentesAMT.ViewModel
         private string _idPersona { get; set; }
         private string _idIncidente { get; set; }
         public INavigation Navigation { get; set; }
-               
+
         private int _time;
 
         public int Time
         {
             get { return _time; }
-            set { _time = value;OnPropertyChanged(); }
+            set { _time = value; OnPropertyChanged(); }
         }
 
         private string _direccion;
@@ -134,7 +134,7 @@ namespace IncidentesAMT.ViewModel
         private async Task Reportar()
         {
             try
-            {               
+            {
                 UserDialogs.Instance.ShowLoading("Reportando incidente espere...");
                 IncidenteModel incidente = new IncidenteModel()
                 {
@@ -168,14 +168,14 @@ namespace IncidentesAMT.ViewModel
                 {
                     UserDialogs.Instance.HideLoading();
                     await DisplayAlert("Error", response.StatusCode.ToString(), "Ok");
-                }            
+                }
             }
             catch (Exception ex)
             {
                 UserDialogs.Instance.HideLoading();
                 await DisplayAlert("Error", ex.Message.ToString(), "Cerrar");
-            }           
-        }       
+            }
+        }
 
         private async Task<bool> VerifyIncidente()
         {
@@ -235,23 +235,32 @@ namespace IncidentesAMT.ViewModel
 
         private void configMap()
         {
-            MapView.UiSettings.CompassEnabled = true;
-            MapView.UiSettings.MyLocationButtonEnabled = true;
-            MapView.UiSettings.MapToolbarEnabled = true;
-            MapView.MyLocationEnabled = true;
-            MapView.FlowDirection = FlowDirection.LeftToRight;
-            MapView.MapType = MapType.Street;
-            moveToActualPosition();
+            var time = TimeSpan.FromSeconds(1);
+            Device.StartTimer(time, () =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    MapView.UiSettings.CompassEnabled = true;
+                    MapView.UiSettings.MyLocationButtonEnabled = true;
+                    MapView.UiSettings.MapToolbarEnabled = true;
+                    MapView.MyLocationEnabled = true;
+                    MapView.FlowDirection = FlowDirection.LeftToRight;
+                    MapView.MapType = MapType.Street;
+                    moveToActualPosition();
+                });
+                return true;
+            });
         }
 
         public void moveToActualPosition()
         {
-            Device.BeginInvokeOnMainThread( async () =>
-            {
-                position = new Position(GeoLocation.lat, GeoLocation.lng);
-                MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(250)), true);
-                adr();
-            });
+           Device.BeginInvokeOnMainThread(() =>
+           {
+               _ = geoLocation.getLocationGPS();
+               position = new Position(GeoLocation.lat, GeoLocation.lng);
+               MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(500)), true);
+               adr();
+           });
         }
 
         private async void adr()

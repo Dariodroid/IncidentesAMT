@@ -1,31 +1,48 @@
-﻿using IncidentesAMT.Helpers;
+﻿using Acr.UserDialogs;
+using IncidentesAMT.Helpers;
 using IncidentesAMT.Model;
 using IncidentesAMT.ViewModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
+using static IncidentesAMT.Model.CatalogoModel;
 
 namespace IncidentesAMT.ViewModel
 {
     public class GeoLocation : BaseViewModel
     {
+        #region PROPIEDADES
         public static double lat { get; set; }
 
         public static double lng { get; set; }
 
         private LocationAddress _locationAddress;
 
+        ObservableCollection<ClassCatalogo> _catalogo;
+
+        public ObservableCollection<ClassCatalogo> Catalogo
+        {
+            get { return _catalogo; }
+            set { _catalogo = value; OnPropertyChanged(); }
+        }
         public LocationAddress LocationAddress
         {
             get { return _locationAddress; }
             set { _locationAddress = value; OnPropertyChanged(); }
         }
-        
 
+        #endregion
+        
+        public static bool inPoligon { get; set; }
         public async Task<bool> getLocationGPS()
         {
             try
@@ -46,7 +63,6 @@ namespace IncidentesAMT.ViewModel
                 
                 else
                 {
-                    await DisplayAlert("Error", "No se puede obtener la ubicación", "Cerrar");
                     return false;
                     //var knowLocation = await Geolocation.GetLastKnownLocationAsync();
                     //lat = knowLocation.Latitude;
@@ -80,10 +96,12 @@ namespace IncidentesAMT.ViewModel
             return LocationAddress;
         }
 
-        public bool InPoligon()
-        {            
-            var latLngs = Coords();
+        public async Task<bool> InPoligon()
+        {
+            var res = await Getcatalogo();
+            var latLngs = res;
 
+            List<string> coord = new List<string>();
             List<string> vertices_y = new List<string>();
             List<string> vertices_x = new List<string>();          
 
@@ -92,11 +110,16 @@ namespace IncidentesAMT.ViewModel
             var j = 0;
             bool c = false;
             var point = 0;
-
-            for (r = 0; r < latLngs.Count; r++)
+            for (int d = 0; d < res.Length; d++)
             {
-                vertices_y.Add(latLngs[r].Split(':')[0].Replace(',', '.'));
-                vertices_x.Add(latLngs[r].Split(':')[1].Replace(',', '.'));
+                if(res[d] != "")
+                    coord.Add(res[d]);
+            }
+
+            for (r = 0; r < coord.Count-1; r++)
+            {                
+                vertices_y.Add(coord[r].Split(',')[0].Replace(',', '.'));
+                vertices_x.Add(coord[r].Split(',')[1].Replace(',', '.'));
             }
             var points_polygon = vertices_x.Count;
             for (i = 0, j = points_polygon - 1; i < points_polygon; j = i++)
@@ -115,72 +138,46 @@ namespace IncidentesAMT.ViewModel
                     c = !c;
                 }
             }
+            inPoligon = c;
             return c;
         }
 
-        private List<string> Coords()
+        public async Task<string[]> Getcatalogo()
         {
-            List<string> triangleCoords = new List<string>(){
-                    "0.021867:  -78.498062",
-                    "-0.004002:  -78.528904",
-                    "-0.022052:  -78.477204",
-                    "-0.049494:   -78.495418",
-                    "-0.068423:   -78.495151",
-                    "-0.072269:   -78.488571",
-                    "-0.077411:   -78.496860",
-                    "-0.076052:   -78.503039",
-                    "-0.079910:   -78.504813",
-                    "-0.077833:   -78.527076",
-                    "-0.086549:   -78.534138",
-                    "-0.098271:   -78.538210",
-                    "-0.112385:   -78.535466",
-                    "-0.103252:   -78.517592",
-                    "-0.114625:   -78.511434",
-                    "-0.125179:   -78.531197",
-                    "-0.168452:   -78.501821",
-                    "-0.177036:   -78.519313",
-                    "-0.196053:   -78.520120",
-                    "-0.204454:   -78.510256",
-                    "-0.205502:   -78.515050",
-                    "-0.200393:   -78.524790",
-                    "-0.253077:   -78.555720",
-                    "-0.251722:   -78.565555",
-                    "-0.273532:   -78.586753",
-                    "-0.339329:   -78.582543",
-                    "-0.356277:   -78.545081",
-                    "-0.335837:   -78.527332",
-                    "-0.329631:   -78.521328",
-                    "-0.311251:   -78.517737",
-                    "-0.315934:   -78.505498",
-                    "-0.337317:   -78.502195",
-                    "-0.366427:   -78.476492",
-                    "-0.308421:   -78.445590",
-                    "-0.323721:   -78.412276",
-                    "-0.395314:   -78.377958",
-                    "-0.394251:   -78.355715",
-                    "-0.299326:   -78.380903",
-                    "-0.276968:   -78.441677",
-                    "-0.221079:   -78.457838",
-                    "-0.232989:   -78.452178",
-                    "-0.237597:   -78.442553",
-                    "-0.237732:   -78.388146",
-                    "-0.223983:   -78.367036",
-                    "-0.196423:   -78.376736",
-                    "-0.183168:   -78.412509",
-                    "-0.137784:   -78.409692",
-                    "-0.228110:   -78.352265",
-                    "-0.241182:   -78.336708",
-                    "-0.234154:   -78.325704",
-                    "-0.093299:   -78.274166",
-                    "-0.069019:   -78.286150",
-                    "-0.045729:   -78.335648",
-                    "-0.044439:   -78.430316",
-                    "-0.001763:   -78.427046",
-                    "0.016234:    -78.451513",
-                    "0.023968:    -78.498461",
-            };
+            string[] words = {};
+            try
+            {
+                var request = new HttpRequestMessage();
+                request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/catalogo/");
+                request.Method = HttpMethod.Get;
+                request.Headers.Add("Accpet", "application/json");
+                var client = new HttpClient();
+                HttpResponseMessage response = await client.SendAsync(request);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    Catalogo = JsonConvert.DeserializeObject<ObservableCollection<ClassCatalogo>>(content);
 
-            return triangleCoords;
+                    string result;
+                    for (int i = 0; i < Catalogo.Count - 1; i++)
+                    {
+                        var tipo = Catalogo[i].tipo;
+                        string r = string.Empty;
+                        if (tipo == "Mapa" && Catalogo[i].nombre == "Mapa Restricción Quito")
+                        {
+                            result = Regex.Replace(Catalogo[i].valor, "[\"[lat\":\"lng}\\]]", string.Empty);
+                            words = result.Split('{');
+                        }
+                    }
+                }
+                return words;                   
+            }
+            catch (Exception ex)
+            {
+                UserDialogs.Instance.HideLoading();
+                await DisplayAlert("Error", ex.Message.ToString(), "ok");
+                return words;
+            }
         }
     }
 }

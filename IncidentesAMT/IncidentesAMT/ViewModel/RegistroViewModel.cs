@@ -127,7 +127,7 @@ namespace IncidentesAMT.ViewModel
                         telefono = _celular
                     };
 
-                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/createPersona");
+                    Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/personas/createPersona");
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(persona);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -214,7 +214,6 @@ namespace IncidentesAMT.ViewModel
             await fotoViewModel.TomarFoto();
             FotoCedula = fotoViewModel.PathFoto;
         }
-
 
         private async void AcuerdoResp()
         {

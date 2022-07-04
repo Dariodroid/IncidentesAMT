@@ -169,7 +169,7 @@ namespace IncidentesAMT.VistaModelo
             {
                 IsBusy = true;
                 var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + _idUser);
+                request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/incidentes/findByIdPersona/" + _idUser);
                 request.Method = HttpMethod.Get;
                 request.Headers.Add("Accpet", "application/json");
                 var client = new HttpClient();
@@ -214,8 +214,11 @@ namespace IncidentesAMT.VistaModelo
                         Lblfalso = $"{contfal} Incidente{(contfal > 1 ? "s" : "")} falso{(contfal > 1 ? "s" : "")}";
                     }
                 }
-                Vibrate();
-                Shakes();
+                if (_incidenteByPersonaModel.Count == 1)
+                {
+                    Vibrate();
+                    Shakes();
+                }
             }
         }
 
@@ -225,7 +228,7 @@ namespace IncidentesAMT.VistaModelo
             {
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/catalogo/findIdPadre/62ba9522a5702d2d5d1e813e");
+                request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/catalogo/findIdPadre/62c14930d2543a1ac1d61fbe");
                 request.Method = HttpMethod.Get;
                 request.Headers.Add("Accpet", "application/json");
                 var client = new HttpClient();
@@ -249,10 +252,10 @@ namespace IncidentesAMT.VistaModelo
             if(contfal < 3)
             {
                 TestLocation = true;
-                var geo = await new GeoLocation().getLocationGPS();
-                if (geo)
+                if (await new GeoLocation().getLocationGPS())
                 {
-                    var limits = new GeoLocation().InPoligon();
+                    await new GeoLocation().InPoligon();
+                    bool limits = GeoLocation.inPoligon;
 
                     // verifico si esta en el poligono 
                     if (!limits)

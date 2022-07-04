@@ -217,7 +217,6 @@ namespace IncidentesAMT.ViewModel
 
         }
 
-
         public async void GetDataCI(string Ci)
         {
             try

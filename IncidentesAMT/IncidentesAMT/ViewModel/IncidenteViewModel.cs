@@ -148,7 +148,7 @@ namespace IncidentesAMT.ViewModel
                     descripcion = Descripcion
                 };
 
-                Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/incidentes/");
+                Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/incidentes/");
                 var client = new HttpClient();
                 var json = JsonConvert.SerializeObject(incidente);
                 var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -258,7 +258,7 @@ namespace IncidentesAMT.ViewModel
            {
                _ = geoLocation.getLocationGPS();
                position = new Position(GeoLocation.lat, GeoLocation.lng);
-               MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(500)), true);
+               MapView.MoveToRegion(MapSpan.FromCenterAndRadius(position, Distance.FromMeters(250)), true);
                adr();
            });
         }

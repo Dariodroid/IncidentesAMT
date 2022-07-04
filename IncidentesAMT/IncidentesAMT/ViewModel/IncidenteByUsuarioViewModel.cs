@@ -57,7 +57,7 @@ namespace IncidentesAMT.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading("Cargando...");
                     var request = new HttpRequestMessage();
-                    request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/incidentes/findByIdPersona/" + idUser);
+                    request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/incidentes/findByIdPersona/" + idUser);
                     request.Method = HttpMethod.Get;
                     request.Headers.Add("Accpet", "application/json");
                     var client = new HttpClient();

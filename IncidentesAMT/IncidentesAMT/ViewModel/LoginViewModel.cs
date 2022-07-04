@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using IncidentesAMT.Helpers;
 using IncidentesAMT.Modelo;
+using IncidentesAMT.View;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,15 @@ namespace IncidentesAMT.ViewModel
     {
         private string _userId;
 
-        #region Commands
+        #region COMANDOS
         public Command LoginCommand { get; set; }
         public Command CrearteAccount { get; set; }
         public Command IsPasswordCommand { get; set; }
+        public Command ResetPasswordCommand { get; set; }
 
         #endregion
 
-        #region Propertys
+        #region PROPIEDADES
         public INavigation Navigation { get; set; }
 
         private bool _isRemember = false;
@@ -76,6 +78,7 @@ namespace IncidentesAMT.ViewModel
             CrearteAccount = new Command(async () => await CreateAccount());
             IsPassword();
             IsPasswordCommand = new Command(() => IsPassword());
+            ResetPasswordCommand = new Command(async() => await ResetPassword());
         }
 
         public async Task Login()
@@ -92,7 +95,7 @@ namespace IncidentesAMT.ViewModel
                         password = Password,
                     };
 
-                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/auth/login");
+                    Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/auth/login");
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(loginModel);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -156,6 +159,11 @@ namespace IncidentesAMT.ViewModel
         public async Task CreateAccount()
         {
             await Navigation.PushAsync(new DatosPersona());
+        }
+
+        public async Task ResetPassword()
+        {
+            await Navigation.PushAsync(new RecuperarPassword());
         }
 
         private void IsPassword()

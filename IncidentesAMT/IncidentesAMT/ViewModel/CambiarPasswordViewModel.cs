@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace IncidentesAMT.ViewModel
@@ -19,6 +20,9 @@ namespace IncidentesAMT.ViewModel
         #endregion
 
         #region PROPIEDADES
+
+        public INavigation Navigation { get; set; }
+
 
         private string _oldPassword;
 
@@ -138,12 +142,13 @@ namespace IncidentesAMT.ViewModel
 
         #endregion
 
+        #region COMANDOS
         public Command UpdatePasswordCommand { get; set; }
         public Command IsPasswordOldCommand { get; set; }
         public Command IsPasswordCommand { get; set; }
         public Command IsNewPasswordCommand { get; set; }
+        #endregion
 
-        public INavigation Navigation { get; set; }
         public CambiarPasswordViewModel(INavigation navigation, InfoUserByIdModel cambiarPasswordModel, ImageSource fotoPerfil)
         {
             Navigation = navigation;
@@ -206,16 +211,16 @@ namespace IncidentesAMT.ViewModel
         {
             try
             {
-                if(!await VerifyPassword()) { return; }
-                UserDialogs.Instance.ShowLoading("Actualizando...");
-                if (Password == NewPassword)
-                {                        
+                if(await VerifyPassword()) { 
+                    
+                    UserDialogs.Instance.ShowLoading("Actualizando...");
+
                     CambiarPasswordModel passwordModel = new CambiarPasswordModel
                     {
                         passwordOld = OldPassword,
                         password = NewPassword                        
                     };
-                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/updatePassword/" + _idUser);
+                    Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/personas/updatePassword/" + _idUser);
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(passwordModel);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -224,6 +229,9 @@ namespace IncidentesAMT.ViewModel
                     {
                         UserDialogs.Instance.HideLoading();
                         await DisplayAlert("Mensaje", "Contraseña actualizada correctamete", "Ok");
+                        Preferences.Remove("UserId");
+                        Preferences.Clear();
+                        Application.Current.MainPage = new NavigationPage(new Login());
                     }
                     else
                     {
@@ -231,12 +239,8 @@ namespace IncidentesAMT.ViewModel
                         await DisplayAlert("Error", "Ocurrió un error al actualizar, revise su contraseña actual", "Ok");
                     }
                 }
-                else
-                {
-                    UserDialogs.Instance.HideLoading();
-                    await DisplayAlert("Error", "Las contraseñas no son iguales", "Ok");
-                }
             }
+            
             catch (Exception ex)
             {
                 await DisplayAlert("Error", ex.Message, "Ok");
@@ -245,9 +249,19 @@ namespace IncidentesAMT.ViewModel
 
         private async Task<bool> VerifyPassword()
         {
+            if (Password != NewPassword)
+            {
+                await DisplayAlert("Error", "Las contraseñas no son iguales", "Ok");
+                return false;
+            }
             if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(NewPassword) || string.IsNullOrEmpty(OldPassword))
             {
                 await DisplayAlert("Error", "Debe llenar todos los campos", "Cerrar");
+                return false;
+            }
+            if(NewPassword == OldPassword)
+            {
+                await DisplayAlert("Error", "La nueva contraseña no debe ser igual a la actual", "Cerrar");
                 return false;
             }
 

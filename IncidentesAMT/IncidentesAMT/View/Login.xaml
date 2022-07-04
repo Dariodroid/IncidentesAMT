@@ -12,7 +12,7 @@
                         <RowDefinition Height="90"/>
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="60"/>
-                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="70"/>
                         <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
@@ -24,6 +24,7 @@
                     <Entry x:Name="txtUser" Text="{Binding User}" Keyboard="Email" Grid.ColumnSpan="2" Grid.Row="2" Placeholder="Correo electrónico"/>
                     <Entry x:Name="txtPassword" Text="{Binding Password}" IsPassword="{Binding ShowPassword}" Grid.Column="0" Grid.Row="3" Placeholder="Contraseña"/>
 
+
                     <Switch x:Name="RememberStw" IsToggled="{Binding IsRemember}" Grid.Column="0" Grid.Row="4" HorizontalOptions="Center" ThumbColor="HotPink" OnColor="Pink"/>
                     <Label Text="Recordar usuario" TextColor="Black" Grid.Column="0" Grid.Row="4" HorizontalOptions="Start" VerticalOptions="Center"/>
 
@@ -31,6 +32,19 @@
 
                 </Grid>
                 <Button x:Name="btnLogin" Text="Iniciar sesion" TextTransform="None" TextColor="Black" BackgroundColor="#2196F3" CornerRadius="50" Command="{Binding LoginCommand}"/>
+                <Label HorizontalOptions="Center" VerticalOptions="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Olvidé mi contraseña" TextColor="#2196F3" TextDecorations="Underline"  FontSize="Small">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ResetPasswordCommand}" />
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+
                 <Label Text="No dispone de una cuenta ?" TextColor="Black" HorizontalOptions="Center" FontSize="Small"/>
                 <Button x:Name="btnCrearCunenta" 
                         TextColor="#2196F3"
@@ -41,6 +55,7 @@
                         BackgroundColor="Transparent" 
                         HorizontalOptions="Center"
                         FontSize="Small" />
+
 
             </StackLayout>
         </StackLayout>

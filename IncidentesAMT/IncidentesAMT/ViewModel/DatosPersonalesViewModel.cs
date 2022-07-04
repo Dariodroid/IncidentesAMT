@@ -133,7 +133,7 @@ namespace IncidentesAMT.ViewModel
                 {
                     UserDialogs.Instance.ShowLoading("Cargando sus datos...");
                     var request = new HttpRequestMessage();
-                    request.RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/personas/" + _idUser);
                     request.Method = HttpMethod.Get;
                     request.Headers.Add("Accpet", "application/json");
                     var client = new HttpClient();
@@ -180,7 +180,7 @@ namespace IncidentesAMT.ViewModel
                     {
                         fotoCedula = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFoto)
                     };
-                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/personas/" + _idUser);
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(fotoCedula);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -198,7 +198,7 @@ namespace IncidentesAMT.ViewModel
                     {
                        fotoPerfil = ConvertImgBase64.ConvertImgToBase64(fotoViewModel.PathFotoPerfil.ToString())
                     };
-                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/personas/" + _idUser);
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(fotoPerfil);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
@@ -217,7 +217,7 @@ namespace IncidentesAMT.ViewModel
                         telefono = Telefono,
                         direccion = Direccion                    
                     };                    
-                    Uri RequestUri = new Uri("https://incidentes-amt.herokuapp.com/personas/" + _idUser);
+                    Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/personas/" + _idUser);
                     var client = new HttpClient();
                     var json = JsonConvert.SerializeObject(persona2);
                     var contentJson = new StringContent(json, Encoding.UTF8, "application/json");

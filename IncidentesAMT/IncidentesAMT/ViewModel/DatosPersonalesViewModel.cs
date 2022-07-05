@@ -147,8 +147,8 @@ namespace IncidentesAMT.ViewModel
                         Telefono = infoUserModel.telefono;
                         Direccion = infoUserModel.direccion;
                         Correo = infoUserModel.correo;
-                        FotoCedula = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoCedula);
-                        FotoPerfil = ConvertImgBase64.GetImageSourceFromBase64String(infoUserModel.fotoPerfil);
+                        FotoCedula = infoUserModel.fotoCedula;
+                        FotoPerfil = infoUserModel.fotoPerfil;
                         UserDialogs.Instance.HideLoading();
                         tel = Telefono;
                         dir = Direccion;

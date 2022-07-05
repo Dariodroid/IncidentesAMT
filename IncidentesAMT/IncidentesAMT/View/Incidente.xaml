@@ -43,12 +43,12 @@
 
 
                 </Grid>
-                    <Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderColor="Gray" Margin="5,2,5,5" CornerRadius="20" Padding="8" BackgroundColor="Beige">
+                    <Frame Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2" BorderColor="Gray" Margin="5,-10,5,5" CornerRadius="20" Padding="8" BackgroundColor="Beige">
                         <StackLayout >
-                        <Button Text="Añadir foto" TextColor="Black" Margin="0,5,0,0" HeightRequest="40" HorizontalOptions="Center"  TextTransform="None" CornerRadius="50" VerticalOptions="End" BackgroundColor="#2196F3" Command="{Binding CapturarCommand}"></Button>
+                        <Button Text="Añadir foto" TextColor="Black" HeightRequest="40" HorizontalOptions="Center"  TextTransform="None" CornerRadius="50" VerticalOptions="Center" BackgroundColor="#2196F3" Command="{Binding CapturarCommand}"></Button>
                         <!--<Button Text="Registrar"  TextTransform="None" Grid.Row="5" Grid.Column="1" CornerRadius="50" VerticalOptions="End" BackgroundColor="Chocolate" Command="{Binding ReportarIncidente}"></Button>-->
 
-                            <local:SlideToActView HeightRequest="40" SlideCompleted="SlideToActView_SlideCompleted">
+                            <local:SlideToActView HeightRequest="35" SlideCompleted="SlideToActView_SlideCompleted">
                             <local:SlideToActView.Thumb>
                                 <Frame CornerRadius="50" HasShadow="True" BackgroundColor="Red" Padding="0" BorderColor="Silver">
                                     <Image Source="fldoub.png" HorizontalOptions="Center" VerticalOptions="Center" HeightRequest="50" WidthRequest="40" />

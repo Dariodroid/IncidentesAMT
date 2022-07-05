@@ -37,10 +37,11 @@ namespace IncidentesAMT.ViewModel
         public INavigation Navigation { get; set; }
         #endregion
 
-        public IncidenteByUsuarioViewModel(INavigation navigation, string idUser)
+        public IncidenteByUsuarioViewModel(INavigation navigation, ObservableCollection<IncidenteByPersonaModel> incidenteByPersonaModel)
         {
             Navigation = navigation;
-            GetIncidentePersonaById(idUser);
+            IncidenteByUsuarioModel = incidenteByPersonaModel;
+            //GetIncidentePersonaById(idUser);
             DetalleCommand = new Command<IncidenteByPersonaModel>((I) => DetallePage(I));
         }
 
@@ -49,6 +50,7 @@ namespace IncidentesAMT.ViewModel
             await Navigation.PushAsync(new Detalle_incidente(incidenteByPersonaModel));
         }
 
+        //posiblemente eliminar este metodo
         public async void GetIncidentePersonaById(string idUser)
         {
             try

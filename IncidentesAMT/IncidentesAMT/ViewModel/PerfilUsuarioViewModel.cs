@@ -1,10 +1,12 @@
 ﻿using Acr.UserDialogs;
 using IncidentesAMT.Model;
+using IncidentesAMT.Modelo;
 using IncidentesAMT.View;
 using IncidentesAMT.Vista;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -15,6 +17,7 @@ namespace IncidentesAMT.ViewModel
 {
     public class PerfilUsuarioViewModel : BaseViewModel
     {
+        ObservableCollection<IncidenteByPersonaModel> _incidenteByPersonaModel;
         #region VARIABLES
         string _idUser;
         private InfoUserByIdModel _infoUserModel;
@@ -65,7 +68,7 @@ namespace IncidentesAMT.ViewModel
         public Command CerrarSesionCommand { get; set; }
         #endregion
 
-        public PerfilUsuarioViewModel(INavigation navigation, string idUser)
+        public PerfilUsuarioViewModel(INavigation navigation, string idUser,ObservableCollection<IncidenteByPersonaModel> IncidenteByPersonaModel)
         {
             RefreshCommand = new Command(() => GetPersonaById());
             IncidentesCommand = new Command(() => InicidentesPage());
@@ -74,6 +77,7 @@ namespace IncidentesAMT.ViewModel
             CerrarSesionCommand = new Command(() => CerrarSesion());
             Navigation = navigation;
             _idUser = idUser;
+            _incidenteByPersonaModel = IncidenteByPersonaModel;
             GetPersonaById();
         }
 
@@ -112,7 +116,7 @@ namespace IncidentesAMT.ViewModel
 
         private async void InicidentesPage()
         {
-            await Navigation.PushAsync(new IncidenteByUsuario(_idUser));
+            await Navigation.PushAsync(new IncidenteByUsuario(_incidenteByPersonaModel));
         }
 
         private async void DatosPersonalesPage()

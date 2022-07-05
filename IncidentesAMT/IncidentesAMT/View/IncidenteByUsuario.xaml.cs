@@ -19,11 +19,10 @@ namespace IncidentesAMT.View
     public partial class IncidenteByUsuario : ContentPage
     {
         string _idUser;
-        public IncidenteByUsuario(string idUser)
+        public IncidenteByUsuario(ObservableCollection<IncidenteByPersonaModel> IncidenteByPersonaModel)
         {
-            _idUser = idUser;
             InitializeComponent();
-            BindingContext = new IncidenteByUsuarioViewModel(Navigation,_idUser);
+            BindingContext = new IncidenteByUsuarioViewModel(Navigation,IncidenteByPersonaModel);
         }
     }
 }

@@ -27,7 +27,7 @@
                                     <Frame HeightRequest="60" Padding="0" Margin="-15,0,0,0" CornerRadius="20" HasShadow="True">
                                         <StackLayout>
                                             <Image Grid.RowSpan="2"
-                                           Source="{Binding MyImage}"
+                                           Source="{Binding fotoUno}"
                                            Aspect="Fill"
                                            HeightRequest="60"
                                            WidthRequest="60" />

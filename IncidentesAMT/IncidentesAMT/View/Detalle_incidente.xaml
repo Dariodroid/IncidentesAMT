@@ -28,10 +28,10 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Frame Grid.Column="1" Grid.Row="0" Padding="0,5,0,5" Margin="0,0,0,0" CornerRadius="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HasShadow="True">
-                        <Image x:Name="foto2" Source="{Binding MyImage2}" HorizontalOptions="FillAndExpand"  ></Image>
+                        <Image x:Name="foto2" Source="{Binding fotoUno}" HorizontalOptions="FillAndExpand"  ></Image>
                     </Frame>
                     <Frame Grid.Column="0" Grid.Row="0" Padding="0,5,0,5" Margin="0,0,0,0" CornerRadius="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HasShadow="True">
-                        <Image x:Name="foto1" Source="{Binding MyImage}" HorizontalOptions="FillAndExpand"  ></Image>
+                        <Image x:Name="foto1" Source="{Binding fotoDos}" HorizontalOptions="FillAndExpand"  ></Image>
                     </Frame>
                     <Label Text="Calles de referencia:" TextColor="Black" FontSize="Subtitle" Grid.Row="1" Grid.Column="0"></Label>
                     <Entry x:Name="txtDireccion" TextColor="Black" IsReadOnly="True" Text="{Binding direccion}" Grid.Row="2" Grid.ColumnSpan="2"></Entry>

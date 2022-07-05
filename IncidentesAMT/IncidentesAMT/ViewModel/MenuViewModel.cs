@@ -112,7 +112,7 @@ namespace IncidentesAMT.VistaModelo
         public MenuViewModel(INavigation navigation, string idUser)
         {
             Navigation = navigation;
-            _idUser = idUser;            
+            _idUser = idUser;
             VerifyInternet();
             RefreshCommand = new Command(() => GetIncidentePersonaById());
             IncidenteSelectCommand = new Command<CatalogoXIdModel>((C) => IncidenteSelect(C));
@@ -167,22 +167,25 @@ namespace IncidentesAMT.VistaModelo
         {
             try
             {
-                IsBusy = true;
-                var request = new HttpRequestMessage();
-                request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/incidentes/findByIdPersona/" + _idUser);
-                request.Method = HttpMethod.Get;
-                request.Headers.Add("Accpet", "application/json");
-                var client = new HttpClient();
-                HttpResponseMessage response = await client.SendAsync(request);
-                if (response.StatusCode == HttpStatusCode.OK)
+                if(IncidenteByPersonaModel == null || IsBusy)
                 {
-                    content = await response.Content.ReadAsStringAsync();
-                    IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
-                    UserDialogs.Instance.HideLoading();
-                    IsBusy = false;
-                    VerificarNotif();                    
+                    IsBusy = true;
+                    var request = new HttpRequestMessage();
+                    request.RequestUri = new Uri("http://servicios.amt.gob.ec:5001/incidentes/findByIdPersona/" + _idUser);
+                    request.Method = HttpMethod.Get;
+                    request.Headers.Add("Accpet", "application/json");
+                    var client = new HttpClient();
+                    HttpResponseMessage response = await client.SendAsync(request);
+                    if (response.StatusCode == HttpStatusCode.OK)
+                    {
+                        content = await response.Content.ReadAsStringAsync();
+                        IncidenteByPersonaModel = JsonConvert.DeserializeObject<ObservableCollection<IncidenteByPersonaModel>>(content);
+                        UserDialogs.Instance.HideLoading();
+                        VerificarNotif();                    
+                        IsBusy = false;
+                    }
                 }
-               
+                IsBusy = false;
             }
             catch (Exception ex)
             {
@@ -196,7 +199,7 @@ namespace IncidentesAMT.VistaModelo
         {
             contgen = 0;
             contfal = 0;
-            if (_incidenteByPersonaModel != null)
+            if (_incidenteByPersonaModel != null || IsBusy)
             {
                 for (int i = 0; i < _incidenteByPersonaModel.Count; i++)
                 {
@@ -214,7 +217,7 @@ namespace IncidentesAMT.VistaModelo
                         Lblfalso = $"{contfal} Incidente{(contfal > 1 ? "s" : "")} falso{(contfal > 1 ? "s" : "")}";
                     }
                 }
-                if (_incidenteByPersonaModel.Count == 1)
+                if (_incidenteByPersonaModel != null || IsBusy)
                 {
                     Vibrate();
                     Shakes();
@@ -278,7 +281,7 @@ namespace IncidentesAMT.VistaModelo
 
         private async void PerfilUser()
         {
-            await Navigation.PushAsync(new PerfilUsuario(_idUser));
+            await Navigation.PushAsync(new PerfilUsuario(_idUser, IncidenteByPersonaModel));
         }
 
         private void Vibrate()

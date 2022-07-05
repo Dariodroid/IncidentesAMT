@@ -1,9 +1,11 @@
 ﻿using IncidentesAMT.Model;
+using IncidentesAMT.Modelo;
 using IncidentesAMT.View;
 using IncidentesAMT.ViewModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -19,11 +21,11 @@ namespace IncidentesAMT.Vista
     public partial class PerfilUsuario : ContentPage
     {
         string _idUser;
-        public PerfilUsuario(string idUser)
+        public PerfilUsuario(string idUser, ObservableCollection<IncidenteByPersonaModel> IncidenteByPersonaModel)
         {
             InitializeComponent();
             _idUser = idUser;
-            BindingContext = new PerfilUsuarioViewModel(Navigation,_idUser);
+            BindingContext = new PerfilUsuarioViewModel(Navigation,_idUser, IncidenteByPersonaModel);
         }
 
         private async void sendMail(string subject, string body)

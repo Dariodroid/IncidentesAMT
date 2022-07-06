@@ -19,13 +19,18 @@ namespace IncidentesAMT.ViewModel
 {
     public class RegistrarPersonaViewModel : BaseViewModel
     {
+        #region VARIABLES
         bool verifcado = false;
         DataCiModel.Root dataCiModel;
+        #endregion
+
+        #region COMANDOS
+        public Command NextPageCommand { get; set; }
+        public Command ScannCommand { get; set; }
+        #endregion
 
         #region PROPIEDADES
         INavigation Navigation { get; set; }
-        public Command NextPageCommand { get; set; }
-        public Command ScannCommand { get; set; }
 
         private string identificacion;
         private string nombres;
@@ -38,6 +43,13 @@ namespace IncidentesAMT.ViewModel
             set
             {
                 identificacion = value;
+                if(Identificacion.Length == 10)
+                {
+                    if (Verify_Ci.VerificaIdentificacion(Identificacion))
+                        GetDataCI(Identificacion);
+                    else
+                        DisplayAlert("Error", "Cédula incorrecta", "Ok");
+                }
                 OnPropertyChanged();
             }
         }
@@ -247,6 +259,5 @@ namespace IncidentesAMT.ViewModel
                 await DisplayAlert("Error", ex.Message.ToString(), "ok");
             }
         }
-
     }
 }

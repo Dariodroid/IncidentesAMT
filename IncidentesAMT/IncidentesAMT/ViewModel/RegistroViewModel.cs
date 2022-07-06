@@ -142,13 +142,13 @@ namespace IncidentesAMT.ViewModel
                     else
                     {
                         string content = await response.Content.ReadAsStringAsync();
-                        Root obj = JsonConvert.DeserializeObject<Root>(content);
+                        MessageRegistro obj = JsonConvert.DeserializeObject<MessageRegistro>(content);
                         var messageType = obj;
                         
                         UserDialogs.Instance.HideLoading();
-                        if (messageType.@return.code == 11000)
+                        if (messageType.message != null)
                         {
-                            await DisplayAlert("Ocurrió un error", "Éste número de cédula ya se encuentra registrado", "Cerrar");
+                            await DisplayAlert("Ocurrió un error", messageType.message.ToString(), "Cerrar");
                         }
                         else
                         {

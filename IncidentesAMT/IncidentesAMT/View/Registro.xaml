@@ -17,7 +17,7 @@
                         <RowDefinition Height="80"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="330"/>
                     </Grid.ColumnDefinitions>
 
@@ -26,12 +26,12 @@
                     <Entry x:Name="txtPassword" TextColor="Black" Text="{Binding Password}" IsPassword="True" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"  Placeholder="Contraseña"/>
                     <Entry x:Name="txtConfirmarPassword" TextColor="Black" Text="{Binding ConfirmPass}" IsPassword="True" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Placeholder="Confirmar Contraseña"/>
 
-                    <CheckBox x:Name="chkAcuerdoRespons" IsChecked="{Binding IsAcuerdo}" Grid.Row="4" Grid.Column="0"/>
+                    <CheckBox x:Name="chkAcuerdoRespons" Color="#2196F3" IsChecked="{Binding IsAcuerdo}" Grid.Row="4" Grid.Column="0"/>
                     <Label TextColor="Black" Text="Acuerdos de resposabilidad" VerticalOptions="Center" Grid.Row="4" Grid.Column="1">
 
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Acuerdos de resposabilidad" TextDecorations="Underline" TextColor="Blue">
+                                <Span Text="Acuerdos de resposabilidad" TextDecorations="Underline" TextColor="#2196F3">
                                     <Span.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding AcuerdoCommand}" />
                                     </Span.GestureRecognizers>
@@ -41,12 +41,12 @@
 
                     </Label>
 
-                    <CheckBox x:Name="chkTerminosyCond" IsChecked="{Binding IsTerminos}" Grid.Row="5" Grid.Column="0"/>
+                    <CheckBox x:Name="chkTerminosyCond" Color="#2196F3" IsChecked="{Binding IsTerminos}" Grid.Row="5" Grid.Column="0"/>
                     <Label TextColor="Black" Text="Terminos y condicónes" VerticalOptions="Center" Grid.Row="5" Grid.Column="1">
                         
                         <Label.FormattedText>
                             <FormattedString>
-                                <Span Text="Terminos y condicónes" TextDecorations="Underline" TextColor="Blue">
+                                <Span Text="Terminos y condicónes" TextDecorations="Underline" TextColor="#2196F3">
                                     <Span.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding TerminosCommand}" />
                                     </Span.GestureRecognizers>

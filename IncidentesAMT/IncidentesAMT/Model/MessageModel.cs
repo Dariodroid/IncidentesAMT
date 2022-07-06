@@ -11,10 +11,6 @@ namespace IncidentesAMT.Model
         public string error { get; set; }
 
 
-
-
-    }
-}
         public class MessageRegistroModel
         {
             public MessageRegistro message { get; set; }
@@ -26,15 +22,19 @@ namespace IncidentesAMT.Model
             public string message { get; set; }
         }
 
-public class Return
-{
-    public int code { get; set; }
-    public string message { get; set; }
-}
+        public class Return
+        {
+            public int code { get; set; }
+            public string message { get; set; }
+        }
 
-public class Root
-{
-    public Return @return { get; set; }
+        public class Root
+        {
+            public Return @return { get; set; }
+        }
+
+
+    }
 }
 
 

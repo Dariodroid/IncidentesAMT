@@ -27,6 +27,7 @@ namespace IncidentesAMT.Modelo
         {
             get { return ConvertImgBase64.GetImageSourceFromBase64String(fotoUno); }
         }
+
         public ImageSource MyImage2
         {
             get { return ConvertImgBase64.GetImageSourceFromBase64String(fotoDos); }
@@ -40,6 +41,11 @@ namespace IncidentesAMT.Modelo
                 else
                     return estado = "ACTIVO";
             }
+        }
+
+        public string Direccion
+        {
+            get { return direccion.Substring(0, 30).ToString(); }
         }
     }
 }

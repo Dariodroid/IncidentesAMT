@@ -277,7 +277,7 @@ namespace IncidentesAMT.ViewModel
             var c3 = address[2].Split(',');
             var c4 = address[3].Split(',');
             var c5 = address[4].Split(',');
-            Direccion = $"{c5[0].ToString()} - {c4[0].ToString()} - {c1[0].ToString()} - {c2[0].ToString()} - {c3[0].ToString()}";
+            Direccion = $"{c5[0].ToString()}, {c4[0].ToString()}, {c1[0].ToString()}, {c2[0].ToString()}, {c3[0].ToString()}";
         }
 
     }

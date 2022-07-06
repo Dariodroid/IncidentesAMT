@@ -34,6 +34,7 @@ namespace IncidentesAMT.ViewModel
             get { return _catalogo; }
             set { _catalogo = value; OnPropertyChanged(); }
         }
+        public static bool inPoligon { get; set; }
         public LocationAddress LocationAddress
         {
             get { return _locationAddress; }
@@ -42,7 +43,6 @@ namespace IncidentesAMT.ViewModel
 
         #endregion
         
-        public static bool inPoligon { get; set; }
         public async Task<bool> getLocationGPS()
         {
             try
@@ -55,8 +55,8 @@ namespace IncidentesAMT.ViewModel
                 });
                 if (location != null)
                 {
-                    lat = /*-0.1328905;*/  location.Latitude;
-                    lng = /*-78.4941563;*/ location.Longitude;
+                    lat = location.Latitude;
+                    lng = location.Longitude;
                     await GetAddress();
                     return true;  
                 }

@@ -37,7 +37,7 @@
                                        Grid.ColumnSpan="1"
                                        TextColor="Black"
                                        VerticalOptions="Start"
-                                       Text="{Binding direccion}"
+                                       Text="{Binding Direccion}"
                                        FontAttributes="Bold" />
                                     
                                     <BoxView Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="1" VerticalOptions="End" HorizontalOptions="Fill" Margin="50,25,-5,0" Color="Gray" HeightRequest="1" />

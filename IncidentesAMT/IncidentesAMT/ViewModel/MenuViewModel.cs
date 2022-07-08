@@ -260,6 +260,13 @@ namespace IncidentesAMT.VistaModelo
                     await new GeoLocation().InPoligon();
                     bool limits = GeoLocation.inPoligon;
 
+                    if(contgen == 2)
+                    {
+                        await DisplayAlert("Error", "Tiene 2 incidentes activos en éste momento, espere hasta que sean atendidos para continuar", "Ok");
+                        TestLocation = false;
+                        return;
+                    }
+
                     // verifico si esta en el poligono 
                     if (!limits)
                     {

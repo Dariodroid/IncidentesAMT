@@ -18,5 +18,21 @@ namespace IncidentesAMT.Model
         }
 
 
+        public class ResetPass
+        {
+            public int telefono { get; set; }
+            public string password { get; set; }
+            public string nombresCompletos { get; set; }
+            public string correo { get; set; }
+        }
+
+
+        public class SendWhatsApp
+        {
+            public string celular { get; set; }
+            public string message { get; set; }
+        }
+
+
     }
 }

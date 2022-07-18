@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using static IncidentesAMT.Model.SendMailModel;
 
@@ -13,6 +14,7 @@ namespace IncidentesAMT.ViewModel
 {
     public class RecuperarPasswordViewModel : BaseViewModel
     {
+        ResetPass obj;
         #region COMANDOS
         public Command ResetCommand { get; set; }
 
@@ -64,18 +66,12 @@ namespace IncidentesAMT.ViewModel
                 {
                     UserDialogs.Instance.HideLoading();
                     string content = await response.Content.ReadAsStringAsync();
-                    MessageEmailSendModel obj = JsonConvert.DeserializeObject<MessageEmailSendModel>(content);
-                    var messageType = obj;
-                    if (messageType.message == "Mail send")
+                    obj = JsonConvert.DeserializeObject<ResetPass>(content);
+                    if(await SendWhatsApp())
                     {
-                        await DisplayAlert("Mensaje", "Revise su correo electrónico, se ha enviado su nueva contraseña", "Ok");
+                        await DisplayAlert("Mensaje", "Se ha reestablecido su contraseña, revise su correo electrónico o WhatsApp", "Ok");
                         Application.Current.MainPage = new NavigationPage(new Login());
                     }
-                    else
-                    {
-                        await DisplayAlert("Error", "No se pudo enviar el email con su nueva contraseña", "Cerrar");
-                    }
-
                 }
                 else
                 {
@@ -89,6 +85,37 @@ namespace IncidentesAMT.ViewModel
                 UserDialogs.Instance.HideLoading();
                 await DisplayAlert("Error", $"Ocurrión un error,{ex.Message}", "Cerrar");
             }
+        }
+
+        private async Task<bool> SendWhatsApp()
+        {
+            try
+            {
+                SendWhatsApp sendWhatsApp = new SendWhatsApp
+                {
+                    celular = Convert.ToString(obj.telefono),
+                    message = $"Estimad@ {obj.nombresCompletos} su nueva contraseña es {obj.password}, por favor actualice su contraseña lo antes posible"
+                };
+                Uri RequestUri = new Uri("http://servicios.amt.gob.ec:5001/personas/enviarSMS");
+                var client = new HttpClient();
+                var json = JsonConvert.SerializeObject(sendWhatsApp);
+                var contentJson = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(RequestUri, contentJson);
+                if (response.StatusCode == HttpStatusCode.Created)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                await DisplayAlert("Error", "Ocurrión un error al enviar su contraseña por WhatsApp", "Cerrar");
+                return false;
+            }
+           
         }
     }
 }

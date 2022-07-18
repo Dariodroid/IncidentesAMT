@@ -36,10 +36,14 @@ namespace IncidentesAMT.Modelo
         public string Estado
         {
             get { 
-                if(estado== "GEN")
-                    return estado = "GENERADO";
-                else
-                    return estado = "ACTIVO";
+                if(estado == "GEN")
+                    return "ACTIVO";
+                if( estado == "CHG")
+                    return "EN PROCESO";
+                if(estado == "CAN")
+                    return "FALSO";
+                else /*if(estado == "AFE")*/
+                    return "ATENDIDO";
             }
         }
 

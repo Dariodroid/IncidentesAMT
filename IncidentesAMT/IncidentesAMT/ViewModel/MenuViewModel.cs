@@ -2,6 +2,7 @@
 using IncidentesAMT.Helpers;
 using IncidentesAMT.Model;
 using IncidentesAMT.Modelo;
+using IncidentesAMT.View;
 using IncidentesAMT.ViewModel;
 using IncidentesAMT.Vista;
 using Newtonsoft.Json;
@@ -24,6 +25,7 @@ namespace IncidentesAMT.VistaModelo
         public Command RefreshCommand { get; set; }
         public Command IncidenteSelectCommand { get; set; }
         public Command PerfilUserCommand { get; set; }
+        public Command IncidentesCommand { get; set; }
 
         #endregion
 
@@ -116,7 +118,8 @@ namespace IncidentesAMT.VistaModelo
             VerifyInternet();
             RefreshCommand = new Command(() => GetIncidentePersonaById());
             IncidenteSelectCommand = new Command<CatalogoXIdModel>((C) => IncidenteSelect(C));
-            PerfilUserCommand = new Command(() => PerfilUser());  
+            PerfilUserCommand = new Command(() => PerfilUser());
+            IncidentesCommand = new Command(() => InicidentesPage());
         }
 
         private void VerifyInternet()
@@ -289,6 +292,11 @@ namespace IncidentesAMT.VistaModelo
         private async void PerfilUser()
         {
             await Navigation.PushAsync(new PerfilUsuario(_idUser, IncidenteByPersonaModel));
+        }
+
+        private async void InicidentesPage()
+        {
+            await Navigation.PushAsync(new IncidenteByUsuario(_incidenteByPersonaModel));
         }
 
         private void Vibrate()

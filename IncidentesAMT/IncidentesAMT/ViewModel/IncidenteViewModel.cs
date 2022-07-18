@@ -104,19 +104,19 @@ namespace IncidentesAMT.ViewModel
                 if (await VerifyIncidente())
                 {
                     bool cancelReport = false;
-                    Time = 10;
+                    Time = 5;
                     var message = $"Tiene {Time} segundos para cancelar su reporte";
                     using (var dialog = UserDialogs.Instance.Loading(message, () =>
                     cancelReport = true, "CANCELAR"))
                     {
                         Time--;
-                        for (int i = 0; i <= 10; i++)
+                        for (int i = 0; i <= 5; i++)
                         {
                             await Task.Delay(1000);
                             if (!cancelReport)
                             {
                                 dialog.Title = $"Tiene {Time--} segundos para cancelar su reporte";
-                                if (i == 10)
+                                if (i == 5)
                                 {
                                     await Reportar();
                                 }

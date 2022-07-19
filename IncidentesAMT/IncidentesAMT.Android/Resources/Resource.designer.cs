@@ -29332,7 +29332,7 @@ namespace IncidentesAMT.Droid
 			public const int icon_round = 2131492866;
 			
 			// aapt resource value: 0x7F0C0000
-			public const int ic_amt = 2131492864;
+			public const int ic_launcher_adaptive_fore = 2131492864;
 			
 			// aapt resource value: 0x7F0C0003
 			public const int launcher_foreground = 2131492867;

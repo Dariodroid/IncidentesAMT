@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.incidentesamt" android:installLocation="auto">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="31" />
-	<application android:label="IncidentesAMT.Android" android:usesCleartextTraffic="true" android:theme="@style/MainTheme" android:icon="@mipmap/ic_amt">
+	<application android:label="IncidentesAMT.Android" android:usesCleartextTraffic="true" android:theme="@style/MainTheme" android:icon="@mipmap/ic_launcher_adaptive_fore">
 		<meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBnjUUNvJ3_lAmyyvlY8xnoABadoyxEVV4"></meta-data>
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 		<provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.fileprovider" android:exported="false" android:grantUriPermissions="true">
